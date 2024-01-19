@@ -21,8 +21,8 @@ const Banner = () => {
             <div className="max-w-7xl mx-auto px-4 md:px-20 flex justify-start w-full">
               <div className="text-white space-y-5 w-full">
                 <h2 className="text-3xl md:text-5xl font-bold">
-                  <span className="text-[#fca129]"> Good </span>Service is{" "}
-                  <br /> our passion
+                  <span className="text-[#fca129] text-base"> Good </span>
+                  Service is <br /> our passion
                 </h2>
                 <p>
                   No matter what the weather, no matter what the situation we

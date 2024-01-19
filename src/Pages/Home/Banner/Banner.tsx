@@ -10,9 +10,9 @@ import banner from "../../../assets/images/banner.jpg";
 const Banner = () => {
   return (
     <div>
-      <div className="carousel w-full h-[540px] my-6">
+      <div className="carousel w-full h-[1540px] mb-6">
         <div id="slide1" className="carousel-item relative w-full">
-          <img src={banner} className="w-full rounded-xl" />
+          <img src={banner} className="w-full" />
           <div className="absolute flex items-center h-full gap-6 rounded-xl  left-0 right-0 bottom-0  bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)]">
             <div className="text-white space-y-5 pl-12 w-1/2">
               <h2 className="text-3xl md:text-5xl font-bold">

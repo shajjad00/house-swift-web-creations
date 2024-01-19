@@ -32,7 +32,7 @@ const Header = () => {
 
     const [open, setOpen] = useState(false)
 
-    const isHome = location.pathname === '/'
+    const isHome = location.pathname === '/' || location.pathname === '/about'
 
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
@@ -55,12 +55,12 @@ const Header = () => {
                 </div>
                 <div onClick={() => setOpen(!open)} className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden">
                     {
-                        color ? isHome ? <CgMenuLeftAlt className="text-black"/> : <CgMenuLeftAlt className="text-black"/> : isHome ? <CgMenuLeftAlt className="text-white"/> : <CgMenuLeftAlt className="text-black"/>
+                        color ? isHome ? <CgMenuLeftAlt className="text-black"/> : <CgMenuLeftAlt className="text-black"/> : isHome ? <CgMenuLeftAlt className="text-white sm:text-black"/> : <CgMenuLeftAlt className="text-black"/>
                     }
                     
                     
                 </div>
-                <ul className={`absolute md:flex text-black md:items-center w-full md:w-auto md:pb-0 pb-12 md:static bg-transparent md:z-auto z-[-1] md:pl-0 px-8 transition-all duration-500 ease-in ${open ? 'right-[0px] top-0 bg-white md:bg-transparent z-40' : '-right-[500px] top-0'} pt-8 md:pt-0`}>
+                <ul className={`absolute md:flex text-black md:items-center w-full md:w-auto md:pb-0 pb-12 md:static bg-transparent md:z-auto z-[-1] md:pl-0 px-8 transition-all duration-500 ease-in ${open ? 'right-[0px] top-0 bg-white md:bg-transparent z-50' : '-right-[800px] top-0'} pt-8 md:pt-0`}>
                     {contents.map((content) => (
                         <li onClick={() => setOpen(!open)} key={content.link} className={`md:ml-8 text-xl md:my-0 my-5 ${color ? 'text-black' : isHome ? 'md:text-white' : 'text-black'}`}>
                             <NavLink className="hover:text-slate-500 duration-400" to={content.link}>{content.name}</NavLink>

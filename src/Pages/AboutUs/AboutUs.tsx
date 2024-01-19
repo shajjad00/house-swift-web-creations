@@ -36,14 +36,7 @@ const AboutUs = () => {
               Why Choose <span className="text-[#08B54D]">Our Company</span>
             </h2>
             <p className="text-gray-700">
-              Sed pellentesque pulvinar arcu ac congue. Sed sed est nec justo
-              maximus blandit. Curabitur lacinia, eros sit amet maximus
-              suscipit, magna sapien veneuynatis eros, et gravida urna massa ut
-              lectus. Quisque lacinia laciunia viverra. Nullram nec est et lorem
-              sodales ornare a in sapien. In trtset urna marximus, conse ctetur
-              iligula in, gravida erat. Nullam digniifssrim hendrerit auctor.
-              Sed varius, dolor vitae iaculis condim rtweentum, massa nisl
-              cursus sapien, gravida ultrices nisi dolor non erat.
+            House Swift offers a seamless house renting experience with a user-friendly interface, extensive property listings, and advanced search options. Providing transparent property details, real-time availability updates, and secure booking systems, we prioritize user satisfaction. Responsive customer support, user reviews, and mobile compatibility enhance reliability. Exclusive promotions and community features foster a sense of belonging. Choose House Swift for convenience, security, and a diverse
             </p>
           </div>
         </div>

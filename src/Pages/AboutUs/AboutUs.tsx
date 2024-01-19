@@ -1,3 +1,5 @@
+import { Helmet } from "react-helmet-async";
+
 const AboutUs = () => {
   const sectionStyle = {
     backgroundImage: `url(https://d1pnnwteuly8z3.cloudfront.net/images/dafc1e05-b0e8-4c6d-b375-4a62333bbd5a/71fe09e2-9320-4f61-8eca-067243e2ef68.jpeg)`,
@@ -5,7 +7,10 @@ const AboutUs = () => {
 
   return (
     <div>
-      <section className="pt-24 pb-32 relative">
+        <Helmet>
+            <title>House Swift | About Us</title>
+        </Helmet>
+      <section className="pt-32 pb-32 relative">
         <div
           className="absolute w-full h-full top-0 left-0 bg-cover bg-center bg-no-repeat opacity-80 bg-fixed"
           style={sectionStyle}
@@ -19,7 +24,7 @@ const AboutUs = () => {
           Home | <span className="text-[#08B54D]">About Us</span>
         </h1>
       </section>
-      <div className="sm:flex items-center max-w-screen-xl">
+      <div className="sm:flex items-center max-w-7xl mx-auto px-4 md:px-8">
         <div className="sm:w-1/2 p-10">
           <div className="image object-center text-center">
             <img src="http://themeearth.com/tf/html/rentalplace/img/about.jpg" />
@@ -47,7 +52,7 @@ const AboutUs = () => {
 
 {/* team section  */}
 <section className="bg-white dark:bg-gray-900">
-  <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
+  <div className="py-8 px-4 mx-auto max-w-7xl lg:py-16 md:px-16 ">
       <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Our <span className="text-[#08B54D]">Agents</span></h2>
           <p className="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">Explore the whole collection of open-source web components and elements built with the utility classes from Tailwind</p>

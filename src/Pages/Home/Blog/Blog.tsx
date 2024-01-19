@@ -1,13 +1,14 @@
+import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import imageNeighborhood from "../../../assets/images/Neighborhood Spotlight .jpg";
 import imageMarket from "../../../assets/images/market tending.jpg";
 import imageMove from "../../../assets/images/moving and checklist.jpg";
 
 const Blog = () => {
   return (
-    <div>
-      <h2 className="border-b-2  my-12 p-2 text-2xl md:text-4xl  font-bold text-center">
-        House Swift Blog
-      </h2>
+    <div className="max-w-7xl mx-auto px-4 mt-8 md:px-20">
+      <div>
+        <SectionTitle first="House" second="Swift Blog"></SectionTitle>
+      </div>
       <div className="my-6 ">
         {/* first blog Neighborhood */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 px-4">
@@ -30,9 +31,9 @@ const Blog = () => {
               city...
             </p>
             <div className="card-actions justify-end">
-              <button className="btn mr-5 bg-[#82b440] text-white">
-                Read More
-              </button>
+            <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-md px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                    Read More
+                  </button>
             </div>
           </div>
         </div>
@@ -58,9 +59,9 @@ const Blog = () => {
               analysis...
             </p>
             <div className="card-actions justify-end">
-              <button className="btn mr-5 bg-[#82b440] text-white">
-                Read More
-              </button>
+            <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-md px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                    Read More
+                  </button>
             </div>
           </div>
         </div>
@@ -87,9 +88,9 @@ const Blog = () => {
               relocation process...
             </p>
             <div className="card-actions justify-end">
-              <button className="btn mr-5 bg-[#82b440] text-white">
-                Read More
-              </button>
+            <button className="uppercase mt-3 border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                    Read More
+                  </button>
             </div>
           </div>
         </div>

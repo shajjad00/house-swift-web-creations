@@ -1,10 +1,10 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-[#12371845]">
+      <div className="bg-[#82A4B8]">
         {/*  first column start  */}
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6  text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between">
-          <div className="p-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 py-4 sm:px-6  text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between">
+        <div className="p-4 md:px-4 md:py-6">
             <p>
               59 Bervely Hill Ave, Brooklyn Town, <br /> New York, NY 5630, CA,
               US
@@ -102,7 +102,7 @@ const Footer = () => {
           </div>
           {/* first column close  */}
           {/* 2nd Column start */}
-          <div className="p-12">
+          <div className="p-4 md:px-4 md:py-6">
             <a
               className=" block"
               href=""
@@ -139,7 +139,7 @@ const Footer = () => {
 
           {/* 3rd Column start */}
 
-          <div className="p-12">
+          <div className="p-4 md:px-4 md:py-6">
             <a
               className=" block"
               href=""
@@ -173,7 +173,7 @@ const Footer = () => {
           </div>
           {/* 3rd Column end */}
           {/* 4th Column start */}
-          <div className="px-12">
+          <div className="p-4 md:px-4 md:py-6">
             <p>
               Be the first to get the latest news about market, <br />{" "}
               promotions and much more!
@@ -200,11 +200,11 @@ const Footer = () => {
               <div className="mt-4 rounded-md sm:mt-0 sm:ml-4 sm:flex-shrink-0">
                 <div className="flex justify-end">
                   <button
-                    className="inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none ring-2 ring-offset-2 ring-transparent ring-offset-transparent disabled:bg-gray-400 dark:disabled:bg-slate-700 appearance-none text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-white w-full"
+                    className="inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none ring-2 ring-offset-2 ring-transparent ring-offset-transparent disabled:bg-gray-400 dark:disabled:bg-slate-700 appearance-none text-white bg-[#09BE51] hover:bg-[#09BE51] focus:ring-[#09BE51] focus:ring-offset-white w-full"
                     type="submit"
                   >
                     <div className="relative">
-                      <div className="">Subscribe</div>
+                      <div className="bg-[#09BE51]">Subscribe</div>
                     </div>
                   </button>
                 </div>

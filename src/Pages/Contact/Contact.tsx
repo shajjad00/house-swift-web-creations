@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 
 export default function Contact() {
     return (
@@ -8,7 +9,7 @@ export default function Contact() {
             </Helmet>
             {/* Title */}
             <div>
-                <h2 className="text-center text-4xl my-4">Contact Us</h2>
+                <SectionTitle first="Contact" second="Us"></SectionTitle>
             </div>
             {/* section's main body */}
             <div>

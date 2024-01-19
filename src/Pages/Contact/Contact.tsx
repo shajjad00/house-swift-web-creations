@@ -1,7 +1,11 @@
+import { Helmet } from "react-helmet-async";
 
 export default function Contact() {
     return (
-        <div className="max-w-7xl mx-auto px-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 mt-24">
+            <Helmet>
+                <title>House Swift | Contact</title>
+            </Helmet>
             {/* Title */}
             <div>
                 <h2 className="text-center text-4xl my-4">Contact Us</h2>

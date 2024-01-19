@@ -9,21 +9,20 @@ const MyRoute = createBrowserRouter([
   {
     path: "/",
     element: <Layout></Layout>,
-    errorElement : <ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
         element: <Home></Home>,
       },
       {
-path:"/about",
-element:<AboutUs></AboutUs>
-
+        path: "/about",
+        element: <AboutUs></AboutUs>,
       },
       {
-        path : "/contact",
-        element : <Contact></Contact>
-      }
+        path: "/contact",
+        element: <Contact></Contact>,
+      },
     ],
   },
 ]);

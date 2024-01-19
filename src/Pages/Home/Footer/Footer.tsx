@@ -1,9 +1,9 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-[#fca129]">
+      <div className="bg-[#12371845]">
         {/*  first column start  */}
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6  text-white flex-wrap  flex justify-between">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6  text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between">
           <div className="p-12">
             <p>
               59 Bervely Hill Ave, Brooklyn Town, <br /> New York, NY 5630, CA,

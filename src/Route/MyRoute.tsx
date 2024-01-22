@@ -4,6 +4,7 @@ import Home from "../Pages/Home/Home/Home";
 import Contact from "../Pages/Contact/Contact";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import SignIn from "../Pages/SignIn/SignIn";
 
 const MyRoute = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ const MyRoute = createBrowserRouter([
         element: <Contact></Contact>,
       },
     ],
+    
+  },
+  {
+    path: "/login",
+    element: <SignIn></SignIn>,
   },
 ]);
 export default MyRoute;

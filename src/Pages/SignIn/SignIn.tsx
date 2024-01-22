@@ -1,7 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
-const LoginDemo2 = () => {
+const SignIn = () => {
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 gap-6">
@@ -78,4 +78,4 @@ const LoginDemo2 = () => {
   );
 };
 
-export default LoginDemo2;
+export default SignIn;

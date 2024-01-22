@@ -17,7 +17,7 @@ const Banner = () => {
             src={banner}
             className="w-full"
           />
-          <div className="absolute flex items-center h-full gap-6 left-0 right-0 bottom-0  bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)]">
+          <div className="absolute flex items-center h-full gap-6 left-0 right-0 bottom-0  bg-gradient-to-r from-black to-gray opacity-80">
             <div className="max-w-7xl mx-auto px-4 md:px-20 flex justify-start w-full">
               <div className="text-white space-y-5 w-full">
                 <h2 className="text-3xl md:text-5xl font-bold">

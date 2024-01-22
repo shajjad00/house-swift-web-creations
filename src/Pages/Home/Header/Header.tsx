@@ -67,7 +67,9 @@ const Header = () => {
                         </li>
                     ))}
                     <Button>
+                        <Link to='/login'>
                         login
+                        </Link>
                     </Button>
                     <div onClick={() => setOpen(!open)} className="">
                         <RxCross2 className="absolute top-5 right-5 md:hidden text-3xl"/>

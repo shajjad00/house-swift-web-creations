@@ -1,5 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import loginAnimation from '../../assets/animation/login-animation.json'
+import Lottie from "lottie-react";
 
 const SignIn = () => {
   return (
@@ -67,11 +69,12 @@ const SignIn = () => {
         </div>
         {/* banner/logo  */}
         <div className="sm:block hidden w-1/2 md:flex items-center justify-center">
-          <img
+          {/* <img
             className="sm: rounded-2xl"
             src="https://i.ibb.co/5rmF67F/12469785-Wavy-REst-03-Single-01.jpg"
             alt="logo"
-          />
+          /> */}
+          <Lottie animationData={loginAnimation} loop={true} />
         </div>
       </div>
     </section>

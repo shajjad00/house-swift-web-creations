@@ -50,7 +50,7 @@ const Property = ({ property }: PopularProps) => {
                             <h2>
                                 <span className="text-sm"><span className="font-semibold">Quantity:</span></span> {available_quantity}
                             </h2>
-                            <h2 className="text-orange-500 font-semibold">
+                            <h2 className="text-[#FCA129] font-semibold">
                                 <span className="text-sm"><span className="font-semibold">Price:</span></span> {rent_price}/day
                             </h2>
                         </div>

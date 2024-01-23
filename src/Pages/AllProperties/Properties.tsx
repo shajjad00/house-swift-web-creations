@@ -4,14 +4,31 @@ import { useEffect, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { GrFormSearch } from 'react-icons/gr';
 import Property from "./Property";
+import './properties.css'
 
 const Properties = () => {
-  const [allProperties, setAllProperties] = useState([])
+    const [currentPage , setCurrentPage] = useState(0)
+    // TODO : modify the value of count from backend
+    const [allProperties, setAllProperties] = useState([])
+    const count = allProperties.length;
+    const foodPerPage = 9;
+    const totalPage = Math.ceil(count / foodPerPage);
+    const pages = [...Array(totalPage).keys()]
   useEffect(() => {
     fetch("./allproperties.json")
       .then((res) => res.json())
       .then(data => setAllProperties(data))
   }, [])
+  const handlePrev = () => {
+    if(currentPage > 0){
+        setCurrentPage(currentPage - 1)
+    }
+}
+const handleNext = () => {
+    if(currentPage < totalPage - 1){
+        setCurrentPage(currentPage + 1)
+    }
+}
   return (
     <div className="py-24">
       <div>
@@ -36,6 +53,14 @@ const Properties = () => {
             See All
           </button>
         </div> */}
+        <div className="text-center pt-2">
+                
+                <button onClick={handlePrev} className="px-4 py-2 rounded-sm mr-2 bg-[#fca1296b] hover:text-white hover:bg-[#FCA129] duration-300">Prev</button>
+                {
+                    pages?.map(page => <button onClick={() => setCurrentPage(page)} className={`px-4 py-2 rounded-sm mr-2 my-1 bg-orange-100 hover:bg-[#FCA129] duration-300 ${currentPage === page ? 'selected' : undefined}`} key={page}>{page + 1}</button>)
+                }
+                <button onClick={handleNext} className="px-4 py-2 rounded-sm mr-2 bg-[#fca1296b] hover:text-white hover:bg-[#FCA129] duration-300">Next</button>
+            </div>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const SignIn = () => {
               className="w-full text-[#060606] py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
             />
             {/* forget password and remind me */}
-            <div className="flex items-center justify-between ">
+            <div className="flex items-center justify-between space-y-3">
               <div className="flex items-center justify-between ">
                 <input
                   type="checkbox"
@@ -39,7 +39,7 @@ const SignIn = () => {
             </div>
             {/* login btn  */}
 
-            <button className="w-full font-semibold text-white bg-[#060606] my-2 p-2 text-center ">
+            <button className="w-full my-3 font-semibold text-white  p-2 text-center bg-[#09BE51] hover:bg-transparent  py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
               Login
             </button>
             {/* divider  */}
@@ -52,12 +52,12 @@ const SignIn = () => {
               <FcGoogle className="h-6 mr-2" />
               Sign In With Google
             </div>
-            <div className="w-full font-semibold text-[#060606] my-2 bg-white   border-2 border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+            <div className="w-full my-3 font-semibold text-[#060606] my-2 bg-white   border-2 border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
               <FaFacebook className="h-6 mr-2" />
               Sign In With Facebook
             </div>
             {/* exist account  */}
-            <div className="w-full flex  items-center justify-center">
+            <div className="w-full mt-3 flex  items-center justify-center">
               <p className="text-[#060606] text-sm font-normal ">
                 Dont have a account?
                 <span className="font-semibold underline underline-offset-2 cursor-pointer">

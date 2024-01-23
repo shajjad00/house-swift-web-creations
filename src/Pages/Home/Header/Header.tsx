@@ -13,6 +13,7 @@ const Header = () => {
     console.log(location)
     const contents = [
         { name: "HOME", link: "/" },
+        { name: "ALL PROPERTIES", link: "/allProperties" },
         { name: "ABOUT", link: "/about" },
         { name: "SERVICES", link: "/services" },
         { name: "CONTACT", link: "/contact" },

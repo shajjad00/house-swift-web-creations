@@ -34,6 +34,11 @@ const MyRoute = createBrowserRouter([
         element: <AddProperty></AddProperty>,
       },
     ],
+    
+  },
+  {
+    path: "/login",
+    element: <SignIn></SignIn>,
   },
 ]);
 export default MyRoute;

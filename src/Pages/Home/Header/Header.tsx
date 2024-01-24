@@ -9,14 +9,16 @@ import { RxCross2 } from "react-icons/rx";
 import "./header.css";
 
 const Header = () => {
-  const location = useLocation();
-  console.log(location);
-  const contents = [
-    { name: "HOME", link: "/" },
-    { name: "ABOUT", link: "/about" },
-    { name: "SERVICES", link: "/services" },
-    { name: "CONTACT", link: "/contact" },
-  ];
+    const location = useLocation()
+    console.log(location)
+    const contents = [
+        { name: "HOME", link: "/" },
+        { name: "ALL PROPERTIES", link: "/allProperties" },
+        { name: "ABOUT", link: "/about" },
+        { name: "SERVICES", link: "/services" },
+        { name: "CONTACT", link: "/contact" },
+    ];
+
 
   const [color, setColor] = useState(false);
   const changeColor = () => {

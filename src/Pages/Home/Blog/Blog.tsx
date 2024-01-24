@@ -1,4 +1,5 @@
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
+import TransitionEffect from "../../../Component/TransitionEffect/TransitionEffect";
 import imageNeighborhood from "../../../assets/images/Neighborhood Spotlight .jpg";
 import imageMarket from "../../../assets/images/market tending.jpg";
 import imageMove from "../../../assets/images/moving and checklist.jpg";
@@ -9,6 +10,7 @@ const Blog = () => {
       <div>
         <SectionTitle first="House" second="Swift Blog"></SectionTitle>
       </div>
+      <TransitionEffect></TransitionEffect>
       <div className="my-6 ">
         {/* first blog Neighborhood */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 px-4">

@@ -10,7 +10,8 @@ const Properties = () => {
     const [currentPage , setCurrentPage] = useState(0)
     // TODO : modify the value of count from backend
     const [allProperties, setAllProperties] = useState([])
-    const count = allProperties.length;
+    // const count = allProperties.length;
+    const count = 50;
     const foodPerPage = 9;
     const totalPage = Math.ceil(count / foodPerPage);
     const pages = [...Array(totalPage).keys()]

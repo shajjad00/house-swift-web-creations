@@ -1,7 +1,8 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import loginAnimation from '../../assets/animation/login-animation.json'
+import loginAnimation from "../../assets/animation/login-animation.json";
 import Lottie from "lottie-react";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   return (
@@ -61,7 +62,7 @@ const SignIn = () => {
               <p className="text-[#060606] text-sm font-normal ">
                 Dont have a account?
                 <span className="font-semibold underline underline-offset-2 cursor-pointer">
-                  Sign Up free
+                  <Link to={"/signUp"}>Sign Up free</Link>
                 </span>
               </p>
             </div>

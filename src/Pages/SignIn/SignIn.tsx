@@ -39,8 +39,8 @@ const SignIn = () => {
               </div>
             </div>
             {/* login btn  */}
-
             <button className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
+
               Login
             </button>
             {/* divider  */}
@@ -52,11 +52,13 @@ const SignIn = () => {
               Sign In With Google
             </div>
             <div className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+
               <FaFacebook className="h-6 mr-2" />
               Sign In With Facebook
             </div>
             {/* exist account  */}
             <div className="w-full flex items-center justify-center my-4">
+
               <p className="text-[#060606] text-sm font-normal ">
                 Dont have any account ? &nbsp;
                 <Link to="/register"><span className="font-semibold text-blue-500 underline cursor-pointer">

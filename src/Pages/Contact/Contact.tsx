@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { useEffect } from "react";
+import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 
 export default function Contact() {
     useEffect(()=>{
@@ -12,6 +13,7 @@ export default function Contact() {
                 <title>House Swift | Contact</title>
             </Helmet>
             {/* Title */}
+            <TransitionEffect/>
             <div>
                 <SectionTitle first="Contact" second="Us"></SectionTitle>
             </div>

@@ -6,7 +6,9 @@ import MyRoute from "./Route/MyRoute.tsx";
 
 import { HelmetProvider } from 'react-helmet-async'
 import { AnimatePresence } from "framer-motion";
-import { AuthProvider } from "./Providers/AuthProvider.tsx";
+import AuthProvider from "./Providers/AuthProvider/AuthProvider.tsx";
+// import AuthProvider from "./Providers/AuthProvider.tsx";
+// import { AuthProvider } from "./Providers/AuthProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

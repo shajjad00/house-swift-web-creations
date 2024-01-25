@@ -9,30 +9,28 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link } from "react-router-dom";
-import { AuthContext, AuthContextType } from "../../AuthProvider/Provider";
-import Swal from "sweetalert2";
+import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+
 type FormData = {
-  // data : {
-    email : string;
-    password : string;
-    firstName : string;
-    lastName : string;
-    photoURL : string;
-    phone : number;
-    termsAccepted : boolean;
-  // }
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  photoURL: string;
+  phone: number;
+  termsAccepted: boolean;
 }
+
+// type AuthProps = {
+//   createUser : any;
+// }
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const { createUser }: any = useContext(AuthContext);
 
-  if (!authContext) {
-    // Handle the case when context is null
-    return <div>Loading...</div>;
-  }
 
-  const { createUser, handleUpdateProfile } = authContext as AuthContextType;
+  // const { createUser } = useContext(AuthContext)
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -44,50 +42,29 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Form submitted:", data);
+
     createUser(data.email, data.password).then((result: { user: any }) => {
       const loggedUser = result.user;
       console.log(loggedUser);
-      handleUpdateProfile(data.firstName + " " + data.lastName, data.photoURL)
-        .then(() => {
-          console.log("user updated");
-          // reset();
-          Swal.fire({
-            title: "User Register successfully ",
-            showClass: {
-              popup: `
-                animate__animated
-                animate__fadeInUp
-                animate__faster
-              `,
-            },
-            hideClass: {
-              popup: `
-                animate__animated
-                animate__fadeOutDown
-                animate__faster
-              `,
-            },
-          });
-          navigate("/");
-        })
-        .catch((error: any) => {
-          console.error(error);
-        });
-    });
+      navigate("/")
+    }).catch((err: any) => {
+      console.log(err)
+    })
+
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#9F7AEA] to-[#FEE2FE]">
-      <div className="container mx-auto py-14">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto py-24">
         {/* left side logo and animation */}
-        <div className="w-8/12 flex bg-white  mx-auto shadow-lg overflow-hidden ">
+        <div className="w-10/12 flex bg-gray-100 rounded-2xl mx-auto shadow-lg overflow-hidden ">
           <div className="sm:block hidden w-1/2 md:flex items-center justify-center">
             <Lottie animationData={animationLottie} loop={true} />
           </div>
           {/* form header  */}
           <div className=" md:w-1/2 w-full py-16 px-14">
-            <h2 className="text-3xl mb-4">Register</h2>
-            <p className="mb-4">
+            <h2 className="font-bold text-3xl text-center">Register</h2>
+            <p className="text-sm mt-2 mb-5 text-center">
               Create your account. It's free and only takes a minute
             </p>
             {/* form start here*/}
@@ -167,21 +144,21 @@ const SignUp = () => {
                   className="w-full text-[#060606] py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
                 />
               </div> */}
-              <div className="mt-5">
+              <div className="mt-5 flex items-center gap-2">
                 <input
                   type="checkbox"
                   {...register("termsAccepted")}
                   className="text-[#060606] py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
                 />
                 <span>
-                  I accept the
+                  I accept the &nbsp;
                   <a
                     href="#"
                     className="font-semibold underline underline-offset-2 cursor-pointer"
                   >
                     terms of Use
                   </a>
-                  &{" "}
+                  &nbsp;&{" "}
                   <a
                     href="#"
                     className="font-semibold underline underline-offset-2 cursor-pointer"
@@ -191,16 +168,15 @@ const SignUp = () => {
                 </span>
               </div>
               <div className="mt-5">
-                <input
-                  type="submit"
-                  className="w-full font-semibold text-[#060606] my-2 bg-white rounded-md  border-2 border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
-                />
+                <button type="submit" className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
+                  Register
+                </button>
               </div>
               <div className="mt-5">
-                <p className="py-1 px-2 w-full">
+                <p className="py-1 px-2 w-full text-center">
                   Already have a account?
-                  <Link to="/login"><span className="font-semibold underline underline-offset-2 cursor-pointer">
-                    Please Sign In
+                  <Link to="/login"><span className="font-semibold text-blue-500 underline underline-offset-2 cursor-pointer">
+                    &nbsp;Please Sign In
                   </span></Link>
                 </p>
               </div>

@@ -41,7 +41,7 @@ const AddProperty = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative z-0 w-full mb-5 group">
                     <input {...register("name")} type="text" name="title" id="title" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer" placeholder=" " required />
-                    <label htmlFor="Property Title" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Property Title</label>
+                    <label htmlFor="Property Title" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Property Name</label>
                 </div>
                 <div className="relative z-0 w-full mb-5 group">
                     <input {...register("location")} type="text" name="location" id="location" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer" placeholder=" " required />
@@ -77,8 +77,10 @@ const AddProperty = () => {
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="property_Image">Property Image</label>
                     <input  {...register("image")} name="image" className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="default_size" type="file" />
                 </div>
-
-                <button type="submit" className="text-white bg-[#09BE51] hover:bg-[#09BE51] focus:ring-4 focus:outline-none focus:ring-[#09BE51] font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-[#09BE51] dark:hover:bg-[#09BE51] dark:focus:ring-[#09BE51]">Add Property</button>
+                <button type="submit" className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
+              Add Property
+            </button>
+                
             </form>
             <p>{ }</p>
 

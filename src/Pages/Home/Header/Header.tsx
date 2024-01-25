@@ -1,19 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Button from "../../../Component/Button/Button";
 import { useContext, useState } from "react";
-// import { GiSpookyHouse } from "react-icons/gi";
 import logo from "../../../assets/images/logo.png";
 import logoWhite from "../../../assets/images/logo-white.png";
 import { CgMenuLeftAlt } from "react-icons/cg";
 import { RxCross2 } from "react-icons/rx";
 import './header.css'
-import { AuthContext } from "../../../Providers/AuthProvider";
+import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 
 
 const Header = () => {
-    const user = useContext(AuthContext)
+    const {user , logOut} : any = useContext(AuthContext)
     const location = useLocation()
-    console.log(location)
     const contents = [
         { name: "HOME", link: "/" },
         { name: "ALL PROPERTIES", link: "/allProperties" },
@@ -34,20 +33,21 @@ const Header = () => {
     window.addEventListener('scroll', changeColor)
 
 
-  window.addEventListener("scroll", changeColor);
+    window.addEventListener("scroll", changeColor);
 
-  const [open, setOpen] = useState(false);
-  const isHome = location.pathname === "/" || location.pathname === "/about";
+    const [open, setOpen] = useState(false);
+    const handleLogOut = () => {
+        logOut().then().catch();
+    }
+    const isHome = location.pathname === "/" || location.pathname === "/about";
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
-            <div className={color ? "bg-white shadow-xl md:border-b-[1px] border-black" : "bg-transparent"}>
+            <div className={color ? "bg-white shadow-xl" : "bg-transparent"}>
                 <div className={color ? "md:flex items-center justify-between py-3 md:px-10  max-w-7xl mx-auto" : "md:flex items-center justify-between py-3 md:px-10 max-w-7xl mx-auto"}>
                     <div className="font-bold text-2xl uppercase cursor-pointer text-rose-900 flex">
                         <span className="mr-2">
-                            {/* <GiSpookyHouse></GiSpookyHouse> */}
                         </span>
                         <Link to="/">
-                            {/* house-swift */}
                             {
                                 isHome ? (
                                     color ? <img className="w-44" src={logo} alt="" /> : <img className="w-44" src={logoWhite} alt="" />
@@ -80,11 +80,11 @@ const Header = () => {
                                     </Button>
                                 </Link>
                             ) : (
-                                <Button>
-
-                                    logout
-
-                                </Button>
+                                <div onClick={handleLogOut}>
+                                    <Button>
+                                        logout
+                                    </Button>
+                                </div>
                             )
                         }
                         <div onClick={() => setOpen(!open)} className="">
@@ -93,11 +93,8 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
-          </ul>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Header;

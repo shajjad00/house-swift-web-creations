@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
+import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 
 export default function Contact() {
     return (
@@ -8,6 +9,7 @@ export default function Contact() {
                 <title>House Swift | Contact</title>
             </Helmet>
             {/* Title */}
+            <TransitionEffect/>
             <div>
                 <SectionTitle first="Contact" second="Us"></SectionTitle>
             </div>

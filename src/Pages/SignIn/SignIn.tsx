@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const SignIn = () => {
   return (
-    <section className="bg-gray-50 min-h-screen flex items-center justify-center">
+    <section className="bg-gray-50 min-h-screen flex items-center justify-center my-24">
       <div className="max-w-7xl mx-auto bg-gray-100 flex rounded-2xl shadow-lg p-5 gap-6">
         <div className="md:w-1/2">
           <h2 className="font-bold text-3xl text-center">Login</h2>

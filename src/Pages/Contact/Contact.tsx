@@ -1,7 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
+import { useEffect } from "react";
 
 export default function Contact() {
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[])
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-16 mt-24">
             <Helmet>

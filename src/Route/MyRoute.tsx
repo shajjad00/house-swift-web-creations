@@ -7,6 +7,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import SignIn from "../Pages/SignIn/SignIn";
 import Properties from "../Pages/AllProperties/Properties";
 import AddProperty from "../Pages/AddProperty/AddProperty";
+import SignUp from "../SignUp/SignUp";
 
 const MyRoute = createBrowserRouter([
   {
@@ -29,7 +30,8 @@ const MyRoute = createBrowserRouter([
       {
         path : "/allProperties",
         element : <Properties></Properties>
-      }
+      },
+      {
         path: "/login",
         element: <SignIn></SignIn>,
       },
@@ -37,6 +39,10 @@ const MyRoute = createBrowserRouter([
         path: "/addProperty",
         element: <AddProperty></AddProperty>,
       },
+      {
+        path : "/register",
+        element : <SignUp></SignUp>
+      }
     ],
   }
 ]);

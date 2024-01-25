@@ -6,7 +6,8 @@ import Lottie from "lottie-react";
 import { useForm } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-const SignUpDemo = () => {
+import { Link } from "react-router-dom";
+const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const { register, handleSubmit } = useForm();
 
@@ -119,9 +120,9 @@ const SignUpDemo = () => {
               <div className="mt-5">
                 <p className="py-1 px-2 w-full">
                   Already have a account?
-                  <span className="font-semibold underline underline-offset-2 cursor-pointer">
-                    Sign In Please
-                  </span>
+                  <Link to="/login"><span className="font-semibold underline underline-offset-2 cursor-pointer">
+                    Please Sign In
+                  </span></Link>
                 </p>
               </div>
             </form>
@@ -132,4 +133,4 @@ const SignUpDemo = () => {
   );
 };
 
-export default SignUpDemo;
+export default SignUp;

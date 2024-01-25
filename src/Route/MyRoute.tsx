@@ -4,6 +4,9 @@ import Home from "../Pages/Home/Home/Home";
 import Contact from "../Pages/Contact/Contact";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import SignIn from "../Pages/SignIn/SignIn";
+import Properties from "../Pages/AllProperties/Properties";
+import AddProperty from "../Pages/AddProperty/AddProperty";
 
 const MyRoute = createBrowserRouter([
   {
@@ -23,7 +26,18 @@ const MyRoute = createBrowserRouter([
         path: "/contact",
         element: <Contact></Contact>,
       },
+      {
+        path : "/allProperties",
+        element : <Properties></Properties>
+      }
+        path: "/login",
+        element: <SignIn></SignIn>,
+      },
+      {
+        path: "/addProperty",
+        element: <AddProperty></AddProperty>,
+      },
     ],
-  },
+  }
 ]);
 export default MyRoute;

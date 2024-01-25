@@ -2,12 +2,13 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import Button from "../../../Component/Button/Button";
 import { useContext, useState } from "react";
 // import { GiSpookyHouse } from "react-icons/gi";
-import logo from '../../../assets/images/logo.png'
-import logoWhite from '../../../assets/images/logo-white.png'
+import logo from "../../../assets/images/logo.png";
+import logoWhite from "../../../assets/images/logo-white.png";
 import { CgMenuLeftAlt } from "react-icons/cg";
 import { RxCross2 } from "react-icons/rx";
 import './header.css'
 import { AuthContext } from "../../../Providers/AuthProvider";
+
 
 const Header = () => {
     const user = useContext(AuthContext)
@@ -15,6 +16,7 @@ const Header = () => {
     console.log(location)
     const contents = [
         { name: "HOME", link: "/" },
+        { name: "ALL PROPERTIES", link: "/allProperties" },
         { name: "ABOUT", link: "/about" },
         { name: "SERVICES", link: "/services" },
         { name: "CONTACT", link: "/contact" },
@@ -31,10 +33,11 @@ const Header = () => {
 
     window.addEventListener('scroll', changeColor)
 
-    const [open, setOpen] = useState(false)
 
-    const isHome = location.pathname === '/' || location.pathname === '/about'
+  window.addEventListener("scroll", changeColor);
 
+  const [open, setOpen] = useState(false);
+  const isHome = location.pathname === "/" || location.pathname === "/about";
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
             <div className={color ? "bg-white shadow-lg" : "bg-transparent"}>
@@ -89,10 +92,12 @@ const Header = () => {
                         </div>
                     </ul>
                 </div>
-
             </div>
+          </ul>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Header;

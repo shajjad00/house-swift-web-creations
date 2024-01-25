@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -31,7 +32,7 @@ type ProviderProps = {
 // google provider
 const googleProvider = new GoogleAuthProvider();
 
-const Provider: React.FC<ProviderProps> = ({ children }) => {
+const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   // sign Up user
@@ -103,4 +104,4 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
   );
 };
 
-export default Provider;
+export default AuthProvider;

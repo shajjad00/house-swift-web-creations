@@ -43,6 +43,10 @@ const MyRoute = createBrowserRouter([
         path: "/addProperty",
         element: <AddProperty></AddProperty>,
       },
+      {
+        path : "/register",
+        element : <SignUp></SignUp>
+      }
     ],
   }
 ]);

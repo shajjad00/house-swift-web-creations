@@ -1,31 +1,66 @@
-import React, { useContext, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import  { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 import Lottie from "lottie-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Providers/AuthProvider";
+// import { AuthContext } from "../../Providers/AuthProvider";
 import loginAnimation from "../../assets/animation/login-animation.json";
-const SignIn: React.FC = () => {
+import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+const SignIn = () => {
 
-  const authContext = useContext(AuthContext)!; // Non-Nullable Assertion
+  const { googleLogin , login , githubLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleGoogleSignIn = async () => {
     try {
-       await authContext.googleLogin();
+      await googleLogin().then((result: { user: any; }) => {
+        console.log(result.user)
         navigate("/");
+      })
+        .catch((err: any) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error("Error during Google Sign-In:", error);
+    }
+  };
+  const handleGithubLogin = async () => {
+    try {
+      await githubLogin().then((result: { user: any; }) => {
+        console.log(result.user)
+        navigate("/");
+      })
+        .catch((err: any) => {
+          console.log(err)
+        })
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
   };
 
+  const handleLogin = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    login(email , password)
+    .then((result: { user: any; }) => {
+      console.log(result.user)
+      navigate('/')
+      setEmail("");
+      setPassword("");
+    }).catch((err: any) => {
+      console.log(err)
+    })
+  }
+
+  
+
 
   return (
-    <section className="bg-gray-50 min-h-screen flex items-center justify-center">
+    <section className="bg-gray-50 min-h-screen flex items-center justify-center py-24">
       <div className="max-w-7xl mx-auto bg-gray-100 flex rounded-2xl shadow-lg p-5 gap-6">
         <div className="md:w-1/2">
 
@@ -65,8 +100,7 @@ const SignIn: React.FC = () => {
             </div>
 
             {/* login btn  */}
-            <button className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
-
+            <button onClick={handleLogin} className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
               Login
             </button>
             {/* divider  */}
@@ -77,10 +111,10 @@ const SignIn: React.FC = () => {
               <FcGoogle className="h-6 mr-2" />
               Sign In With Google
             </div>
-            <div className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
 
-              <FaFacebook className="h-6 mr-2" />
-              Sign In With Facebook
+              <FaGithub className="h-6 mr-2" />
+              Sign In With Github
             </div>
             {/* exist account  */}
             <div className="w-full flex items-center justify-center my-4">

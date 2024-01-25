@@ -16,6 +16,7 @@ const Properties = () => {
     const totalPage = Math.ceil(count / foodPerPage);
     const pages = [...Array(totalPage).keys()]
   useEffect(() => {
+    window.scrollTo(0,0);
     fetch("./allproperties.json")
       .then((res) => res.json())
       .then(data => setAllProperties(data))

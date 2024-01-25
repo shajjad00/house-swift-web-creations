@@ -40,7 +40,7 @@ const Header = () => {
   const isHome = location.pathname === "/" || location.pathname === "/about";
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
-            <div className={color ? "bg-white shadow-lg" : "bg-transparent"}>
+            <div className={color ? "bg-white shadow-xl md:border-b-[1px] border-black" : "bg-transparent"}>
                 <div className={color ? "md:flex items-center justify-between py-3 md:px-10  max-w-7xl mx-auto" : "md:flex items-center justify-between py-3 md:px-10 max-w-7xl mx-auto"}>
                     <div className="font-bold text-2xl uppercase cursor-pointer text-rose-900 flex">
                         <span className="mr-2">

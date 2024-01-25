@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 
 const AboutUs = () => {
   const sectionStyle = {
@@ -10,6 +11,7 @@ const AboutUs = () => {
         <Helmet>
             <title>House Swift | About Us</title>
         </Helmet>
+        <TransitionEffect/>
       <section className="pt-32 pb-32 relative">
         <div
           className="absolute w-full h-full top-0 left-0 bg-cover bg-center bg-no-repeat opacity-80 bg-fixed"

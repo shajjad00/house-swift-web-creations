@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+
 import Lottie from "lottie-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +22,6 @@ const SignIn: React.FC = () => {
       console.error("Error during Google Sign-In:", error);
     }
   };
-
 
 
   return (

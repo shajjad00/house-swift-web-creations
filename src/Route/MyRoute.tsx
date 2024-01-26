@@ -8,6 +8,7 @@ import SignIn from "../Pages/SignIn/SignIn";
 import Properties from "../Pages/AllProperties/Properties";
 import AddProperty from "../Pages/AddProperty/AddProperty";
 import SignUp from "../Pages/SignUp/SignUp";
+import SearchingHouse from "../Pages/searchingHouse/SearchingHouse";
 
 const MyRoute = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const MyRoute = createBrowserRouter([
       {
         path: "/addProperty",
         element: <AddProperty></AddProperty>,
+      },
+      {
+        path: "/searchingProperty",
+        element: <SearchingHouse></SearchingHouse>,
       },
       {
         path : "/register",

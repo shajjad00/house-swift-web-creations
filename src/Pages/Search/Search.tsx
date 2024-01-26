@@ -12,7 +12,6 @@ const Search = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm<allData>(); 
 
   const onSubmit = (data: allData) => {

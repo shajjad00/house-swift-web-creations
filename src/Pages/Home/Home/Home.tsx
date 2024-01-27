@@ -4,7 +4,7 @@ import Blog from "../Blog/Blog";
 import Populars from "../Popular/Populars";
 import { useEffect } from "react";
 import TransitionEffect from "../../../Component/TransitionEffect/TransitionEffect";
-import Search from "../../Search/Search";
+import { Search } from "../../Search/Search";
 
 const Home = () => {
   useEffect(()=>{window.scrollTo(0,0)},[])

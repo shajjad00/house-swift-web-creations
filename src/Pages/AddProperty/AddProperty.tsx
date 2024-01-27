@@ -33,8 +33,8 @@ const AddProperty = () => {
   const axiosPublic = useAxiosPublic();
   //   const axiosSecure = useAxiosSecure();
   const { user }: any = useContext(AuthContext);
-  const agent_name = user?.displayName;
-  const agent_email = user?.email;
+  // const agent_name = user?.displayName;
+  // const agent_email = user?.email;
   const agent_image = user?.photoURL;
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const handleAddProperty: SubmitHandler<Inputs> = async (data) => {
@@ -52,8 +52,8 @@ const AddProperty = () => {
     const bathroom = data.bathroom;
     const available_date = data.available_date;
     const Closing_date = data.Closing_date;
-    // const agent_email = data.agent_email;
-    // const agent_name = data.agent_name;
+    const agent_email = data.agent_email;
+    const agent_name = data.agent_name;
     const area = data.area;
     const description = data.description;
     const image = res.data.data.display_url;
@@ -76,6 +76,7 @@ const AddProperty = () => {
         description,
         image,
         verification_status: "pending",
+        // verification_status: "verified",
         role: "seller",
       };
       console.log(addPropertyInfo);

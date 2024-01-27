@@ -15,6 +15,7 @@ const Header = () => {
     const location = useLocation()
     const contents = [
         { name: "HOME", link: "/" },
+        { name: "ADD PROPERTY", link: "/addProperty" },
         { name: "ALL PROPERTIES", link: "/allProperties" },
         { name: "ABOUT", link: "/about" },
         { name: "SERVICES", link: "/services" },

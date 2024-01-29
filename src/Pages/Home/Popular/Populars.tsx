@@ -15,9 +15,12 @@ const Populars = () => {
           {allProperty.slice(0, 6).map(
             (
               popular: {
+                _id: string;
                 name: string;
-                location: string;
+                upazila: string;
+                district: string;
                 description: string;
+                available_date: string;
                 rent_price: number;
                 available_quantity: string;
                 image: string;
@@ -25,7 +28,7 @@ const Populars = () => {
                 bathroom: number;
                 area: number;
                 agent_name: string;
-                agent_image: string; // useEffect(() => {
+                agent_image: string;
               },
               idx: Key | null | undefined
             ) => (

@@ -1,44 +1,46 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-
+import { useLoaderData } from "react-router-dom";
+import { motion } from 'framer-motion';
+import SectionTitle from "../../Component/SectionTitle/SectionTitle";
+import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 type PopularProps = {
-  property: {
-    _id: string;
-    name: string;
-    upazila: string;
-    district: string;
-    description: string;
-    available_date: string;
-    rent_price: number;
-    available_quantity: string;
-    image: string;
-    bedroom: number;
-    bathroom: number;
-    area: number;
-    agent_name: string;
-    agent_image: string;
+    property: {
+      name: string;
+      upazila: string;
+      district: string;
+      description: string;
+      available_date: string;
+      rent_price: number;
+      available_quantity: string;
+      image: string;
+      bedroom: number;
+      bathroom: number;
+      area: number;
+      agent_name: string;
+      agent_image: string;
+    };
   };
-};
 
-const Property = ({ property }: PopularProps) => {
-  const {
-    _id,
-    name,
-    upazila,
-    district,
-    image,
-    rent_price,
-    available_quantity,
-    bedroom,
-    bathroom,
-    area,
-    available_date,
-    agent_name,
-    agent_image,
-  } = property || {};
+const PropertyDetails = () => {
+    const propertyDetails = useLoaderData();
+    console.log(propertyDetails)
+    const {
+        name,
+        upazila,
+        district,
+        image,
+        rent_price,
+        available_quantity,
+        bedroom,
+        bathroom,
+        area,
+        available_date,
+        agent_name,
+        agent_image,
+        description
+      } = propertyDetails || {};
 
-  return (
-    <>
+    return (
+        <>
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -46,7 +48,12 @@ const Property = ({ property }: PopularProps) => {
         transition={{ duration: 1 }}
         className="card card-compact shadow-xl"
       >
-        <figure>
+      <div className="mt-24">
+      <SectionTitle first={name} second="Details"></SectionTitle>
+        <TransitionEffect></TransitionEffect>
+       <div className="card w-1/3">
+
+       <figure>
           <img className="w-full h-48" src={image} alt={name} />
         </figure>
         <div className="card-body text-gray-600">
@@ -114,15 +121,15 @@ const Property = ({ property }: PopularProps) => {
                   <p>-{agent_name}</p>
                 </div>
               </div>
-            <Link to={`/addProperty/${_id}`}>  <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
-                Details
-              </button></Link>
+
             </div>
           </div>
         </div>
+       </div>
+      </div>
       </motion.div>
     </>
-  );
+    );
 };
 
-export default Property;
+export default PropertyDetails;

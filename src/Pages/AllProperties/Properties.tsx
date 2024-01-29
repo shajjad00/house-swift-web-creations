@@ -1,11 +1,10 @@
-// import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
-// import Popular from "./Popular";
 import { Key, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { GrFormSearch } from "react-icons/gr";
 import Property from "./Property";
 import "./properties.css";
 import useAllProperty from "../../hook/useAllProperty";
+import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 
 const Properties = () => {
   const [allProperty, refetch] = useAllProperty();
@@ -25,8 +24,8 @@ const Properties = () => {
       setFilterType(verifiedAllProperty);
     } else {
       const filteringProprties = verifiedAllProperty.filter(
-        (property: { location: string }) =>
-          property.location
+        (property: { upazila: string }) =>
+          property.upazila
             .toLowerCase()
             .includes(event.target.value.toLowerCase())
       );
@@ -54,6 +53,7 @@ const Properties = () => {
     <div className="py-24">
       <div>
         <SectionTitle first="All" second="Properties"></SectionTitle>
+        <TransitionEffect></TransitionEffect>
         <div className="md:px-20 py-3 flex justify-end items-center max-w-7xl mx-auto">
           {/* <div>
                     <p className="text-sm text-gray-500 py-2">Price</p>
@@ -65,7 +65,7 @@ const Properties = () => {
               type="text"
               name="item"
               id="item"
-              placeholder="Search Location..."
+              placeholder="Search Upazila..."
               onChange={handleSearch}
               value={selectedType}
             />
@@ -78,8 +78,11 @@ const Properties = () => {
           {filterType.map(
             (
               property: {
+                _id: string;
                 name: string;
-                location: string;
+                upazila: string;
+                district: string;
+                available_date: string;
                 description: string;
                 rent_price: number;
                 available_quantity: string;

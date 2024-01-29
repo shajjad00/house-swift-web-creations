@@ -5,16 +5,20 @@ import useAxiosPublic from "../../hook/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
 import useAllProperty from "../../hook/useAllProperty";
 import { useState } from "react";
+import useDistrict from "../../hook/useDistrict";
+import useUpazila from "../../hook/useUpazila";
 
 type allData = {
   arrivalDate: string;
-  outgoingDate: string;
-  bedroom: string;
-  location: string;
+  bedroom: number;
+  district: string;
+  upazila: string;
 };
 
 export const Search = () => {
   const [allProperty] = useAllProperty();
+  const [propertyDistrict] = useDistrict();
+  const [propertyUpazila] = useUpazila();
   console.log(allProperty);
   const [searching, setSearching] = useState([]);
   const naviGtae = useNavigate();
@@ -23,15 +27,25 @@ export const Search = () => {
   console.log(searching);
 
   const onSubmit = (data: allData) => {
-    const filterLoaction = allProperty?.filter((item: { location: string }) =>
-      item?.location?.toLowerCase().includes(data?.location.toLowerCase())
+    console.log(data)
+    const filterDistrict = allProperty?.filter((item: { district: string }) =>
+      item?.district?.toLowerCase().includes(data?.district.toLowerCase())
     );
-    if (filterLoaction?.length <= 0) {
-      toast("No room available in this loaction");
+    if (filterDistrict?.length <= 0) {
+      toast("No room available in this District");
       return;
     }
-    const roomFilter = filterLoaction?.filter(
-      (item: { bedroom: number }) => item?.bedroom === Number(data?.bedroom)
+    console.log(filterDistrict)
+    const filterUpazila = filterDistrict?.filter((item: { upazila: string }) =>
+      item?.upazila?.toLowerCase().includes(data?.upazila.toLowerCase())
+    );
+    console.log(filterUpazila)
+    if (filterUpazila?.length <= 0) {
+      toast("No room available in this upazila");
+      return;
+    }
+    const roomFilter = filterUpazila?.filter(
+      (item: { bedroom: number }) => item?.bedroom == data?.bedroom
     );
 
     if (roomFilter?.length <= 0) {
@@ -41,14 +55,14 @@ export const Search = () => {
     setSearching(roomFilter);
 
     const arrivalDate = data.arrivalDate;
-    const outgoingDate = data.outgoingDate;
     const bedroom = data.bedroom;
-    const location = data.location;
+    const district = data.district;
+    const upazila = data.upazila;
     const addAvailableProperty = {
       arrivalDate,
-      outgoingDate,
       bedroom,
-      location,
+      district,
+      upazila,
     };
     console.log(addAvailableProperty);
     axiosPublic.post("/availableProperty", addAvailableProperty).then((res) => {
@@ -97,18 +111,6 @@ export const Search = () => {
                     focus:border-blue-300"
                           />
                         </div>
-                        <div>
-                          <p className="md:text-left text-center uppercase">
-                            Outgoing Date
-                          </p>
-                          <input
-                            type="date"
-                            {...register("outgoingDate", { required: true })}
-                            className="p-4 w-full bg-white text-gray-600 border
-                     border-gray-300  focus:outline-none focus:ring 
-                    focus:border-blue-300"
-                          />
-                        </div>
                         <div className="text-center md:text-left">
                           <label
                             htmlFor="roomSelector"
@@ -128,10 +130,60 @@ export const Search = () => {
                             <option value="5">5 Rooms</option>
                           </select>
                         </div>
+                        <div className="text-center md:text-left">
+                          <label
+                            htmlFor="roomSelector"
+                            className="uppercase block"
+                          >
+                            DISTRICT
+                          </label>
+                          <select
+                            defaultValue="default"
+                            {...register("district", { required: true })}
+                            name="district"
+                            id="district"
+                            className="p-4 w-full bg-white text-gray-600 border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+                          >
+                            <option disabled value="default">
+                              select a district
+                            </option>
 
-                        <div>
+                            {propertyDistrict.map((district) => (
+                              <option key={district._id} value={district.name}>
+                                {district.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="text-center md:text-left">
+                          <label
+                            htmlFor="roomSelector"
+                            className="uppercase block"
+                          >
+                            UPAZILA
+                          </label>
+                          <select
+                            defaultValue="default"
+                            {...register("upazila", { required: true })}
+                            name="upazila"
+                            id="upazila"
+                            className="p-4 w-full bg-white text-gray-600 border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+                          >
+                            <option disabled value="default">
+                              select a upazila
+                            </option>
+
+                            {propertyUpazila.map((upazila) => (
+                              <option key={upazila._id} value={upazila.name}>
+                                {upazila.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* <div>
                           <p className="md:text-left text-center uppercase">
-                            location
+                            UPAZILA
                           </p>
                           <input
                             type="text"
@@ -141,13 +193,13 @@ export const Search = () => {
                      border-gray-300  focus:outline-none focus:ring 
                     focus:border-blue-300"
                           />
-                        </div>
+                        </div> */}
 
                         <div className="md:col-span-1">
                           <button
                             type="submit"
-                            className="p-4 hover:bg-transparent hover:text-[#09BE51] w-full text-white bg-[#09BE51] mt-[23px] border
-                      border-gray-300  focus:outline-none focus:ring 
+                            className="p-4 hover:bg-white hover:text-[#09BE51] w-full text-white text-xl bg-[#09BE51] mt-[23px] border
+                      border-[#09BE51]  focus:outline-white focus:ring 
                      focus:border-blue-300"
                           >
                             Search

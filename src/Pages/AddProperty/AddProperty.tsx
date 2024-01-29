@@ -7,17 +7,20 @@ import SectionTitle from "../../Component/SectionTitle/SectionTitle.js";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider.js";
 import useAxiosPublic from "../../hook/useAxiosPublic.js";
+import useDistrict from "../../hook/useDistrict.js";
+import useUpazila from "../../hook/useUpazila.js";
 // import useAxiosSecure from "../../hook/useAxiosSecure.js";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 type Inputs = {
   name: string;
-  location: string;
+  upazila: string;
+  district: string;
   rent_price: number;
   image: string;
   propertyRent: number;
-  availableQuantity: number;
+  // availableQuantity: number;
   description: string;
   agent_email: string;
   agent_name: string;
@@ -31,11 +34,16 @@ type Inputs = {
 
 const AddProperty = () => {
   const axiosPublic = useAxiosPublic();
+  const [propertyDistrict] = useDistrict();
+  const [propertyUpazila] = useUpazila();
+  // const [filteringUpazila, setFilteringUpazila] = useState(propertyUpazila)
+
   //   const axiosSecure = useAxiosSecure();
   const { user }: any = useContext(AuthContext);
   // const agent_name = user?.displayName;
   // const agent_email = user?.email;
   const agent_image = user?.photoURL;
+
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const handleAddProperty: SubmitHandler<Inputs> = async (data) => {
     const imageFile = { image: data.image[0] };
@@ -45,7 +53,8 @@ const AddProperty = () => {
       },
     });
     const name = data.name;
-    const location = data.location;
+    const upazila = data.upazila;
+    const district = data.district;
     const rent_price = data.rent_price;
     const available_quantity = data.available_quantity;
     const bedroom = data.bedroom;
@@ -65,7 +74,8 @@ const AddProperty = () => {
         agent_name,
         agent_image,
         name,
-        location,
+        upazila,
+        district,
         rent_price,
         available_quantity,
         bedroom,
@@ -95,59 +105,6 @@ const AddProperty = () => {
     }
     console.log(data);
   };
-  // const agent_name = user?.displayName;
-  // const agent_email = user?.email;
-  // const handleAddProperty = async (data) => {
-  //   const imageFile = { image: data.image[0] };
-  //   const res = await axiosPublic.post(image_hosting_api, imageFile, {
-  //     headers: {
-  //       "content-type": "multipart/form-data",
-  //     },
-  //   });
-  //   const name = data.name;
-  //   const location = data.location;
-  //   const price = data.price;
-  //   const quantity = data.quantity;
-  //   const bedrooms = data.bedrooms;
-  //   const bathrooms = data.bathrooms;
-  //   // const agent_email = data.agent_email;
-  //   // const agent_name = data.agent_name;
-  //   const area = data.area;
-  //   const description = data.description;
-  //   const image = res.data.data.display_url;
-
-  //   if (res.data.success) {
-  //     // creat user entry in the database:
-  //     const addPropertyInfo = {
-  //       name,
-  //       location,
-  //       price,
-  //       quantity,
-  //       bedrooms,
-  //       bathrooms,
-  //       agent_email,
-  //       agent_name,
-  //       area,
-  //       description,
-  //       image,
-  //       status: "pending",
-  //       role: "seller",
-  //     };
-  //     console.log(addPropertyInfo);
-  //     axiosPublic.post("/addProperty", addPropertyInfo).then((res) => {
-  //       if (res.data.insertedId) {
-  //         reset();
-  //         Swal.fire({
-  //           position: "top",
-  //           icon: "success",
-  //           title: "Property added successfully",
-  //           showConfirmButton: false,
-  //           timer: 1500,
-  //         });
-  //       }
-  //     });
-  //   }
-  // };
 
   return (
     <div className="py-8 md:px-20 mt-24">
@@ -177,22 +134,74 @@ const AddProperty = () => {
               Property Name
             </label>
           </div>
+          <div className="grid md:grid-cols-1 md:gap-6">
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                {...register("area")}
+                type="number"
+                name="area"
+                id="floating_first_name"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+                placeholder=" "
+                defaultValue=" "
+              />
+              <label
+                htmlFor="agent_email"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Area ( Squre Feet )
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
-            <input
-              {...register("location")}
-              type="text"
-              name="location"
-              id="location"
+            {/* <label className="label">
+              <span className="label-text">District*</span>
+            </label> */}
+            <select
+              defaultValue="default"
+              {...register("district", { required: true })}
+              name="district"
+              id="district"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="Location"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Location
-            </label>
+              <option disabled value="default">
+                select a district
+              </option>
+
+              {propertyDistrict.map((district) => (
+                <option key={district._id} value={district.name}>
+                  {district.name}
+                </option>
+              ))}
+
+              <label
+                htmlFor="Location"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Location
+              </label>
+            </select>
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            {/* <label className="label">
+              <span className="label-text"> Upazila*</span>
+            </label> */}
+            <select
+              defaultValue="default"
+              {...register("upazila", { required: true })}
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+            >
+              <option disabled value="default">
+                select a upazila
+              </option>
+              {propertyUpazila.map((upazila) => (
+                <option key={upazila._id} value={upazila.name}>
+                  {upazila.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-6">
@@ -309,94 +318,56 @@ const AddProperty = () => {
             </label>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
               {...register("available_date")}
-              type="date"
               name="available_date"
-              id="floating_first_name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="agent_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Available DATE
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              {...register("Closing_date")}
               type="date"
-              name="Closing_date"
-              id="floating_last_name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="agent_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Close DATE
-            </label>
-          </div>
-        </div>
-        <div className="grid md:grid-cols-1 md:gap-6">
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              {...register("area")}
-              type="number"
-              name="area"
               id="floating_first_name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               placeholder=" "
-              defaultValue=" "
+              required
             />
             <label
               htmlFor="agent_email"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Area ( Squre Feet )
+              Available From
             </label>
           </div>
-        </div>
-        <div className="grid md:grid-cols-1 md:gap-6">
-          <div className="relative z-0 w-full mb-5 group">
-            <textarea
-              {...register("description")}
-              name="description"
-              id="floating_last_name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
-            />
+          <div>
             <label
-              htmlFor="agent_name"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="property_Image"
             >
-              Description
+              Property Image
             </label>
+            <input
+              {...register("image")}
+              name="image"
+              className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="default_size"
+              type="file"
+            />
           </div>
         </div>
 
-        <div>
-          <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            htmlFor="property_Image"
-          >
-            Property Image
-          </label>
-          <input
-            {...register("image")}
-            name="image"
-            className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            id="default_size"
-            type="file"
+        <div className="relative z-0 w-full mb-5 group">
+          <textarea
+            {...register("description")}
+            name="description"
+            id="floating_first_name"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+            placeholder=" "
+            required
           />
+          <label
+            htmlFor="agent_name"
+            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >
+            Description
+          </label>
         </div>
         <button
           type="submit"

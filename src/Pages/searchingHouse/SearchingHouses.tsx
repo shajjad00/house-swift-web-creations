@@ -23,7 +23,7 @@ const SearchingHouses = () => {
         .includes(lastSearchingProperty?.upazila?.toLowerCase()) &&
       availableProperty?.bedroom == lastSearchingProperty?.bedroom
   );
-console.log(searchingAvailableProperty)
+  console.log(searchingAvailableProperty);
   return (
     <>
       <div>
@@ -33,8 +33,11 @@ console.log(searchingAvailableProperty)
             {searchingAvailableProperty.map(
               (
                 searching: {
+                  _id: string;
                   name: string;
-                  location: string;
+                  upazila: string;
+                  district: string;
+                  available_date: string;
                   description: string;
                   rent_price: number;
                   available_quantity: string;

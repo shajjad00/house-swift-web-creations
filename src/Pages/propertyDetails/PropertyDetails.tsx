@@ -103,7 +103,7 @@ const PropertyDetails = () => {
               <h2 className="text-[#FCA129] font-semibold">
                 <span className="text-sm">
                   <span className="font-semibold">Price:</span>
-                </span>{" "}
+                </span>
                 {rent_price}/day
               </h2>
             </div>

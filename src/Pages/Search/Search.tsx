@@ -19,6 +19,7 @@ export const Search = () => {
   const [allProperty] = useAllProperty();
   const [propertyDistrict] = useDistrict();
   const [propertyUpazila] = useUpazila();
+  const [selectUpazila, setSelectUpazila] = useState(propertyUpazila);
   console.log(allProperty);
   const [searching, setSearching] = useState([]);
   const naviGtae = useNavigate();
@@ -27,7 +28,7 @@ export const Search = () => {
   console.log(searching);
 
   const onSubmit = (data: allData) => {
-    console.log(data)
+    console.log(data);
     const filterDistrict = allProperty?.filter((item: { district: string }) =>
       item?.district?.toLowerCase().includes(data?.district.toLowerCase())
     );
@@ -35,11 +36,11 @@ export const Search = () => {
       toast("No room available in this District");
       return;
     }
-    console.log(filterDistrict)
+    console.log(filterDistrict);
     const filterUpazila = filterDistrict?.filter((item: { upazila: string }) =>
       item?.upazila?.toLowerCase().includes(data?.upazila.toLowerCase())
     );
-    console.log(filterUpazila)
+    console.log(filterUpazila);
     if (filterUpazila?.length <= 0) {
       toast("No room available in this upazila");
       return;
@@ -79,7 +80,23 @@ export const Search = () => {
       console.log(res.data);
     });
   };
-
+  const handleDistrictChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedDistrictName = event.target.value;
+    console.log(`${selectedDistrictName}`);
+    const selectedDistrict = propertyDistrict.find(
+      (district: { _id: string; name: string }) =>
+        district.name === selectedDistrictName
+    );
+    console.log(selectedDistrict);
+    const selectedUpazila = propertyUpazila.filter(
+      (upaZila: { district_id: number }) =>
+        upaZila.district_id == selectedDistrict.id
+    );
+    setSelectUpazila(selectedUpazila);
+    // You can perform actions based on the selected district here
+  };
   return (
     <>
       <div>
@@ -140,6 +157,7 @@ export const Search = () => {
                           <select
                             defaultValue="default"
                             {...register("district", { required: true })}
+                            onChange={(e) => handleDistrictChange(e)}
                             name="district"
                             id="district"
                             className="p-4 w-full bg-white text-gray-600 border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
@@ -148,11 +166,16 @@ export const Search = () => {
                               select a district
                             </option>
 
-                            {propertyDistrict.map((district) => (
-                              <option key={district._id} value={district.name}>
-                                {district.name}
-                              </option>
-                            ))}
+                            {propertyDistrict.map(
+                              (district: { _id: string; name: string }) => (
+                                <option
+                                  key={district._id}
+                                  value={district.name}
+                                >
+                                  {district.name}
+                                </option>
+                              )
+                            )}
                           </select>
                         </div>
                         <div className="text-center md:text-left">
@@ -173,11 +196,13 @@ export const Search = () => {
                               select a upazila
                             </option>
 
-                            {propertyUpazila.map((upazila) => (
-                              <option key={upazila._id} value={upazila.name}>
-                                {upazila.name}
-                              </option>
-                            ))}
+                            {selectUpazila.map(
+                              (upazila: { _id: string; name: string }) => (
+                                <option key={upazila._id} value={upazila.name}>
+                                  {upazila.name}
+                                </option>
+                              )
+                            )}
                           </select>
                         </div>
 

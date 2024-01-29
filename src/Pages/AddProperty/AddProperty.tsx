@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 // import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle.js";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider.js";
 import useAxiosPublic from "../../hook/useAxiosPublic.js";
 import useDistrict from "../../hook/useDistrict.js";
@@ -36,6 +36,7 @@ const AddProperty = () => {
   const axiosPublic = useAxiosPublic();
   const [propertyDistrict] = useDistrict();
   const [propertyUpazila] = useUpazila();
+  const [selectUpazila, setSelectUpazila] = useState(propertyUpazila);
   // const [filteringUpazila, setFilteringUpazila] = useState(propertyUpazila)
 
   //   const axiosSecure = useAxiosSecure();
@@ -105,7 +106,23 @@ const AddProperty = () => {
     }
     console.log(data);
   };
-
+  const handleDistrictChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedDistrictName = event.target.value;
+    console.log(`${selectedDistrictName}`);
+    const selectedDistrict = propertyDistrict.find(
+      (district: { _id: string; name: string }) =>
+        district.name === selectedDistrictName
+    );
+    console.log(selectedDistrict);
+    const selectedUpazila = propertyUpazila.filter(
+      (upaZila: { district_id: number }) =>
+        upaZila.district_id == selectedDistrict.id
+    );
+    setSelectUpazila(selectedUpazila);
+    // You can perform actions based on the selected district here
+  };
   return (
     <div className="py-8 md:px-20 mt-24">
       <Helmet>
@@ -164,24 +181,20 @@ const AddProperty = () => {
               {...register("district", { required: true })}
               name="district"
               id="district"
+              onChange={(e) => handleDistrictChange(e)}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
             >
               <option disabled value="default">
                 select a district
               </option>
 
-              {propertyDistrict.map((district) => (
-                <option key={district._id} value={district.name}>
-                  {district.name}
-                </option>
-              ))}
-
-              <label
-                htmlFor="Location"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Location
-              </label>
+              {propertyDistrict.map(
+                (district: { _id: string; name: string }) => (
+                  <option key={district._id} value={district.name}>
+                    {district.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -196,7 +209,7 @@ const AddProperty = () => {
               <option disabled value="default">
                 select a upazila
               </option>
-              {propertyUpazila.map((upazila) => (
+              {selectUpazila.map((upazila: { _id: string; name: string }) => (
                 <option key={upazila._id} value={upazila.name}>
                   {upazila.name}
                 </option>

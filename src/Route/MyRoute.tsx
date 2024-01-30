@@ -8,6 +8,8 @@ import SignIn from "../Pages/SignIn/SignIn";
 import Properties from "../Pages/AllProperties/Properties";
 import AddProperty from "../Pages/AddProperty/AddProperty";
 import SignUp from "../Pages/SignUp/SignUp";
+import SearchingHouses from "../Pages/searchingHouse/SearchingHouses";
+import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 
 const MyRoute = createBrowserRouter([
   {
@@ -28,8 +30,13 @@ const MyRoute = createBrowserRouter([
         element: <Contact></Contact>,
       },
       {
-        path : "/allProperties",
-        element : <Properties></Properties>
+        path: "/allProperties",
+        element: <Properties></Properties>,
+      },
+      {
+        path: "/addProperty/:id",
+        element: <PropertyDetails></PropertyDetails>,
+        loader: ({params}) => fetch(`https://house-swift-web-creations-server.vercel.app/addProperty/${params.id}`)
       },
       {
         path: "/login",
@@ -44,10 +51,14 @@ const MyRoute = createBrowserRouter([
         element: <AddProperty></AddProperty>,
       },
       {
-        path : "/register",
-        element : <SignUp></SignUp>
-      }
+        path: "/searchingProperty",
+        element: <SearchingHouses></SearchingHouses>,
+      },
+      {
+        path: "/register",
+        element: <SignUp></SignUp>,
+      },
     ],
-  }
+  },
 ]);
 export default MyRoute;

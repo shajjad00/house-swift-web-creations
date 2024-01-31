@@ -1,9 +1,9 @@
-import { Key, useEffect, useState } from "react";
+import { Key, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { GrFormSearch } from "react-icons/gr";
 import Property from "./Property";
 import "./properties.css";
-// import useAllProperty from "../../hook/useAllProperty";
+import useAllProperty from "../../hook/useAllProperty";
 import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 import useAllPropertyPagination from "../../hook/useAllPropertyPagination";
 

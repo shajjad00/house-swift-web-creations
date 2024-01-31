@@ -10,8 +10,8 @@ const useAllProperty = () => {
   } = useQuery({
     queryKey: ["allProperty"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/addProperty");
-      return res.data; // This should be wrapped in a Promise
+      const res = await axiosPublic.get("/properties");
+      return res.data?.allProperty; // This should be wrapped in a Promise
     },
   });
   return [allProperty, refetch, loading];

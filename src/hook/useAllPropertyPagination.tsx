@@ -3,24 +3,26 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useAllPropertyPagination = (
   currentPage: number,
-  itemsPerPage: number
+  itemsPerPage: number,
+  selectedType: string
 ) => {
   const axiosPublic = useAxiosPublic();
   console.log(currentPage);
   const {
     refetch,
-    data: allPropertyPagination = [],
+    data: propertyPerPage = [],
     isPending: loading,
   } = useQuery({
-    queryKey: ["allPropertyPagination", currentPage, itemsPerPage],
+    queryKey: ["propertyPerPage", currentPage, itemsPerPage, selectedType],
     queryFn: async () => {
       const res = await axiosPublic.get(
-        `/addProperty?page=${currentPage}&size=${itemsPerPage}`
+        `/properties?page=${currentPage}&size=${itemsPerPage}&searchData=${selectedType}`
       );
-      return res.data; // This should be wrapped in a Promise
+
+      return res.data?.propertyPerPage; // This should be wrapped in a Promise
     },
   });
-  return [allPropertyPagination, refetch, loading];
+  return [propertyPerPage, refetch, loading];
 };
 
 export default useAllPropertyPagination;

@@ -34,9 +34,9 @@ const MyRoute = createBrowserRouter([
         element: <Properties></Properties>,
       },
       {
-        path: "/addProperty/:id",
+        path: "/details/:id",
         element: <PropertyDetails></PropertyDetails>,
-        loader: ({params}) => fetch(`http://localhost:4000/addProperty/${params.id}`)
+        loader: ({params}) => fetch(`https://house-swift-web-creations-server.vercel.app/properties/${params.id}`)
       },
       {
         path: "/login",

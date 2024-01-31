@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import  { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 
 import Lottie from "lottie-react";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ import loginAnimation from "../../assets/animation/login-animation.json";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 const SignIn = () => {
 
-  const { googleLogin , login , githubLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
+  const { googleLogin , login , facebookLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -29,9 +29,22 @@ const SignIn = () => {
       console.error("Error during Google Sign-In:", error);
     }
   };
-  const handleGithubLogin = async () => {
+  // const handleGithubLogin = async () => {
+  //   try {
+  //     await githubLogin().then((result: { user: any; }) => {
+  //       console.log(result.user)
+  //       navigate("/");
+  //     })
+  //       .catch((err: any) => {
+  //         console.log(err)
+  //       })
+  //   } catch (error) {
+  //     console.error("Error during Google Sign-In:", error);
+  //   }
+  // };
+  const handleFacebookLogin = async () => {
     try {
-      await githubLogin().then((result: { user: any; }) => {
+      await facebookLogin().then((result: { user: any; }) => {
         console.log(result.user)
         navigate("/");
       })
@@ -111,9 +124,14 @@ const SignIn = () => {
               <FcGoogle className="h-6 mr-2" />
               Sign In With Google
             </div>
-            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+{/*            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
 
               <FaGithub className="h-6 mr-2" />
+              Sign In With Github
+            </div> */}
+            <div onClick={handleFacebookLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+
+              <FaFacebook className="h-6 mr-2" />
               Sign In With Github
             </div>
             {/* exist account  */}

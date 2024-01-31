@@ -1,9 +1,9 @@
-import { Key, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { GrFormSearch } from "react-icons/gr";
 import Property from "./Property";
 import "./properties.css";
-import useAllProperty from "../../hook/useAllProperty";
+// import useAllProperty from "../../hook/useAllProperty";
 import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 import useAllPropertyPagination from "../../hook/useAllPropertyPagination";
 
@@ -32,19 +32,27 @@ const Properties = () => {
     setSelectedType(selectedValue);
     refetch();
   };
-
   const count = verifiedAllProperty.length;
   const totalPage = Math.ceil(count / itemsPerPage);
   const pages = [...Array(totalPage).keys()];
+
   const handlePrev = () => {
+    if (currentPage + 1 === 1) {
+      setCurrentPage(totalPage - 1);
+    }
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
+    // refetch();
   };
   const handleNext = () => {
+    if (currentPage + 1 === totalPage) {
+      setCurrentPage(0);
+    }
     if (currentPage < totalPage - 1) {
       setCurrentPage(currentPage + 1);
     }
+    // refetch();
   };
 
   return (

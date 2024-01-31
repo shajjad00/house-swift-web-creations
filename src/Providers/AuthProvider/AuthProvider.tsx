@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useEffect, useState } from "react"
 // import PropTypes from 'prop-types'
-import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 // import auth from "../../Firebase/firebase.config";
 // import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { auth } from "../../firebase/firebase.config";
-export const AuthContext = createContext({});
+export const AuthContext = createContext<any>({});
 type AuthProps = {
     children : React.ReactNode;
 }
 export default function AuthProvider({ children } : AuthProps) {
     // const axiosPublic = useAxiosPublic();
     const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
+    const facebookProvider = new FacebookAuthProvider()
 
     const createUser = (email : string, password : string) => {
         setLoading(true);
@@ -38,6 +39,12 @@ export default function AuthProvider({ children } : AuthProps) {
     const githubLogin = () => {
         setLoading(true);
         return signInWithPopup(auth, githubProvider);
+    }
+    
+    // facebook login
+    const facebookLogin = () => {
+        setLoading(true)
+        return signInWithPopup(auth, facebookProvider)
     }
 
     // const updateUserProfile = (name : string) => {
@@ -64,7 +71,8 @@ export default function AuthProvider({ children } : AuthProps) {
         login,
         logOut,
         googleLogin,
-        githubLogin
+        githubLogin,
+        facebookLogin,
     }
     return (
         <AuthContext.Provider value={authInfo}>

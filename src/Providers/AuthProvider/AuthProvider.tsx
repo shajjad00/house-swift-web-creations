@@ -5,14 +5,14 @@ import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, createUse
 // import auth from "../../Firebase/firebase.config";
 // import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { auth } from "../../firebase/firebase.config";
-export const AuthContext = createContext({});
+export const AuthContext = createContext<any>({});
 type AuthProps = {
     children : React.ReactNode;
 }
 export default function AuthProvider({ children } : AuthProps) {
     // const axiosPublic = useAxiosPublic();
     const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
     const facebookProvider = new FacebookAuthProvider()

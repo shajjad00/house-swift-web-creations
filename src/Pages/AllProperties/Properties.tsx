@@ -34,10 +34,10 @@ const Properties = () => {
     refetch();
   };
 
-  // const count = allProperties.length;
-  const count = 50;
-  const foodPerPage = 9;
-  const totalPage = Math.ceil(count / foodPerPage);
+  const count = allProperty.length;
+  // const count = 50;
+  const propertyPerPage = 9;
+  const totalPage = Math.ceil(count / propertyPerPage);
   const pages = [...Array(totalPage).keys()];
   const handlePrev = () => {
     if (currentPage > 0) {

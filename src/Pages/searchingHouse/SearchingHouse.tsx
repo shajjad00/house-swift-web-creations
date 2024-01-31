@@ -112,7 +112,6 @@ const SearchingHouse = ({ searching }: SearchgingProps) => {
                 </div>
               </div>
               <Link to={`/details/${_id}`}>
-                {" "}
                 <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
                   Details
                 </button>

@@ -1,44 +1,43 @@
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useLoaderData } from "react-router-dom";
+import { motion } from "framer-motion";
 import Button from "../../Component/Button/Button";
-import { useEffect } from "react";
-import { motion } from "framer-motion"
-import { useLoaderData } from "react-router";
 
-type PopularProps = {
-  property: {
-    name: string;
-    upazila: string;
-    district: string;
-    description: string;
-    available_date: string;
-    rent_price: number;
-    available_quantity: string;
-    image: string;
-    bedroom: number;
-    bathroom: number;
-    area: number;
-    agent_name: string;
-    agent_image: string;
-  };
+type PropertyDetailsType = {
+  name: string;
+  upazila: string;
+  district: string;
+  image: string;
+  rent_price: number;
+  bedroom: number;
+  bathroom: number;
+  area: number;
+  available_date: string;
+  agent_name: string;
+  agent_image: string;
+  description: string;
 };
 
-const PropertyDetails = () => {
-  useEffect(()=>{window.scrollTo(0,0)},[])
-  const propertyDetails = useLoaderData();
+const PropertyDetails: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const propertyDetails = useLoaderData() as PropertyDetailsType;
+  console.log(propertyDetails);
+
   const {
     name,
     upazila,
     district,
     image,
     rent_price,
-    available_quantity,
     bedroom,
     bathroom,
     area,
-    available_date,
     agent_name,
     agent_image,
-    description
+    description,
   } = propertyDetails || {};
 
   return (

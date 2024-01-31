@@ -1,58 +1,71 @@
-import { Key, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { GrFormSearch } from "react-icons/gr";
 import Property from "./Property";
 import "./properties.css";
-import useAllProperty from "../../hook/useAllProperty";
+// import useAllProperty from "../../hook/useAllProperty";
 import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 
 const Properties = () => {
-  const [allProperty, refetch] = useAllProperty();
-  const verifiedAllProperty = allProperty.filter(
-    (verifiedProperty: { verification_status: string }) =>
-      verifiedProperty.verification_status === "verified"
-  );
-  const [filterType, setFilterType] = useState(verifiedAllProperty);
+  const reqPropertyPerPage = 9;
   const [currentPage, setCurrentPage] = useState(0);
+  const [allProperty, setAllProperty] = useState([]);
+  const [propertyPerPage, setPropertyPerPage] = useState([]);
+  const axiosPublic = useAxiosPublic();
+
   // TODO : modify the value of count from backend
   const [selectedType, setSelectedType] = useState("");
   const handleSearch = (event: { target: { value: string } }) => {
     const selectedValue = event.target.value;
     setSelectedType(selectedValue);
-
-    if (selectedValue === "") {
-      setFilterType(verifiedAllProperty);
-    } else {
-      const filteringProprties = verifiedAllProperty.filter(
-        (property: { upazila: string }) =>
-          property.upazila
-            .toLowerCase()
-            .includes(event.target.value.toLowerCase())
-      );
-      setFilterType(filteringProprties);
-    }
-    refetch();
   };
+  console.log(selectedType);
 
-  // const count = allProperties.length;
-  const count = 50;
-  const foodPerPage = 9;
-  const totalPage = Math.ceil(count / foodPerPage);
+  useEffect(() => {
+    axiosPublic
+      .get(
+        `http://localhost:4000/addProperty?page=${currentPage}&size=${reqPropertyPerPage}&searchData=${selectedType}`
+      )
+      .then((data) => {
+        setAllProperty(data.data.allProperty);
+        setPropertyPerPage(data.data.propertyPerPage);
+      })
+      .catch((error) => console.error("Fetch error:", error));
+  }, [reqPropertyPerPage, currentPage, axiosPublic, selectedType]);
+
+  const count = allProperty.length;
+  console.log(count);
+
+  const totalPage = Math.ceil(count / reqPropertyPerPage);
   const pages = [...Array(totalPage).keys()];
+
   const handlePrev = () => {
+    if (currentPage + 1 === 1) {
+      setCurrentPage(totalPage - 1);
+    }
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
+    // refetch();
   };
   const handleNext = () => {
+    if (currentPage + 1 === totalPage) {
+      setCurrentPage(0);
+    }
     if (currentPage < totalPage - 1) {
       setCurrentPage(currentPage + 1);
     }
+    // refetch();
   };
+
   return (
     <div className="py-24">
       <div>
-        <SectionTitle first="All" second="Properties"></SectionTitle>
+        <SectionTitle
+          first="All"
+          second="Properties"
+        ></SectionTitle>
         <TransitionEffect></TransitionEffect>
         <div className="md:px-20 py-3 flex justify-end items-center max-w-7xl mx-auto">
           {/* <div>
@@ -75,7 +88,7 @@ const Properties = () => {
           </div>
         </div>
         <div className="max-w-7xl mx-auto p-4 md:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8">
-          {filterType.map(
+          {propertyPerPage?.map(
             (
               property: {
                 _id: string;
@@ -95,7 +108,10 @@ const Properties = () => {
               },
               idx: Key | null | undefined
             ) => (
-              <Property key={idx} property={property}></Property>
+              <Property
+                key={idx}
+                property={property}
+              ></Property>
             )
           )}
         </div>
@@ -113,7 +129,10 @@ const Properties = () => {
           </button>
           {pages?.map((page) => (
             <button
-              onClick={() => setCurrentPage(page)}
+              onClick={() => {
+                setCurrentPage(page);
+                // refetch();
+              }}
               className={`px-4 py-2 rounded-sm mr-2 my-1 bg-orange-100 hover:bg-[#FCA129] duration-300 ${
                 currentPage === page ? "selected" : undefined
               }`}

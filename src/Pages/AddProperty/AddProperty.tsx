@@ -37,10 +37,9 @@ const AddProperty = () => {
   const [propertyDistrict] = useDistrict();
   const [propertyUpazila] = useUpazila();
   const [selectUpazila, setSelectUpazila] = useState(propertyUpazila);
-  // const [filteringUpazila, setFilteringUpazila] = useState(propertyUpazila)
+  const { user }: any = useContext(AuthContext);
 
   //   const axiosSecure = useAxiosSecure();
-  const { user }: any = useContext(AuthContext);
   // const agent_name = user?.displayName;
   // const agent_email = user?.email;
   const agent_image = user?.photoURL;

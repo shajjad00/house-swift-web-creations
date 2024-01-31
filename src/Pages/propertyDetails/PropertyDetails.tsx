@@ -23,7 +23,6 @@ const PropertyDetails: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   const propertyDetails = useLoaderData() as PropertyDetailsType;
   console.log(propertyDetails);
 

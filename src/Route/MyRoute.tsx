@@ -38,7 +38,10 @@ const MyRoute = createBrowserRouter([
       {
         path: "/details/:id",
         element: <PropertyDetails></PropertyDetails>,
-        loader: ({params}) => fetch(`https://house-swift-web-creations-server.vercel.app/properties/${params.id}`)
+        loader: ({ params }) =>
+          fetch(
+            `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
+          ),
       },
       {
         path: "/login",
@@ -68,9 +71,9 @@ const MyRoute = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Profile></Profile>            
-      }
-    ]
-  }
+        element: <Profile></Profile>,
+      },
+    ],
+  },
 ]);
 export default MyRoute;

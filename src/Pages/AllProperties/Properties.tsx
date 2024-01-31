@@ -32,19 +32,27 @@ const Properties = () => {
     setSelectedType(selectedValue);
     refetch();
   };
-
   const count = verifiedAllProperty.length;
   const totalPage = Math.ceil(count / itemsPerPage);
   const pages = [...Array(totalPage).keys()];
+
   const handlePrev = () => {
+    if (currentPage + 1 === 1) {
+      setCurrentPage(totalPage - 1);
+    }
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
+    // refetch();
   };
   const handleNext = () => {
+    if (currentPage + 1 === totalPage) {
+      setCurrentPage(0);
+    }
     if (currentPage < totalPage - 1) {
       setCurrentPage(currentPage + 1);
     }
+    // refetch();
   };
 
   return (

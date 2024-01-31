@@ -34,7 +34,7 @@ const Properties = () => {
       .catch((error) => console.error("Fetch error:", error));
   }, [reqPropertyPerPage, currentPage, axiosPublic, selectedType]);
 
-  const count = allProperty.length;
+  const count = allProperty?.length;
   console.log(count);
 
   const totalPage = Math.ceil(count / reqPropertyPerPage);

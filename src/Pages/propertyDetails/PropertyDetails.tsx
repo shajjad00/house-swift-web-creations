@@ -1,7 +1,9 @@
-import { useLoaderData } from "react-router-dom";
-import { motion } from "framer-motion";
-import SectionTitle from "../../Component/SectionTitle/SectionTitle";
-import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
+import { Helmet } from "react-helmet-async";
+import Button from "../../Component/Button/Button";
+import { useEffect } from "react";
+import { motion } from "framer-motion"
+import { useLoaderData } from "react-router";
+
 type PopularProps = {
   property: {
     name: string;
@@ -23,7 +25,6 @@ type PopularProps = {
 const PropertyDetails = () => {
   useEffect(()=>{window.scrollTo(0,0)},[])
   const propertyDetails = useLoaderData();
-  console.log(propertyDetails)
   const {
     name,
     upazila,

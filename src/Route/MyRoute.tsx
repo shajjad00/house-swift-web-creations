@@ -36,7 +36,7 @@ const MyRoute = createBrowserRouter([
         element: <Properties></Properties>,
       },
       {
-        path: "/addProperty/:id",
+        path: "/property/:id",
         element: <PropertyDetails></PropertyDetails>,
         loader: ({params}) => fetch(`https://house-swift-web-creations-server.vercel.app/addProperty/${params.id}`)
       },

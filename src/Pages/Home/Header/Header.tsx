@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, NavLink, useLocation } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 import Button from "../../../Component/Button/Button";
-import { useContext, useState } from "react";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import React, { useContext, useState } from "react";
 import logo from "../../../assets/images/logo.png";
 import logoWhite from "../../../assets/images/logo-white.png";
 import { CgMenuLeftAlt } from "react-icons/cg";
@@ -12,10 +18,11 @@ import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 
 const Header = () => {
     const {user , logOut} : any = useContext(AuthContext)
+    // const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
     const location = useLocation()
     const contents = [
         { name: "HOME", link: "/" },
-        { name: "ADD PROPERTY", link: "/addProperty" },
         { name: "ALL PROPERTIES", link: "/allProperties" },
         { name: "ABOUT", link: "/about" },
         { name: "SERVICES", link: "/services" },
@@ -37,10 +44,25 @@ const Header = () => {
     window.addEventListener("scroll", changeColor);
 
     const [open, setOpen] = useState(false);
-    const handleLogOut = () => {
-        logOut().then().catch();
+    // const handleOpenNavMenu = (event) => {
+    //     setAnchorElNav(event.currentTarget);
+    // };
+    const handleOpenUserMenu = (event: { currentTarget: any; }) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    // const handleCloseNavMenu = () => {
+    //     setAnchorElNav(null);
+    // };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+    const handleLogout = () => {
+        logOut().then().catch((err: any) => console.log(err))
     }
     const isHome = location.pathname === "/" || location.pathname === "/about";
+    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/")
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
             <div className={color ? "bg-white shadow-xl" : "bg-transparent"}>
@@ -71,23 +93,50 @@ const Header = () => {
                                 <NavLink className="hover:text-slate-500 duration-400" to={content.link}>{content.name}</NavLink>
                             </li>
                         ))}
-                        {
-                            !user ? (
-                                <Link to='/login'>
-                                    <Button>
+                        {user ? <Box sx={{ flexGrow: 0, marginLeft: "30px" }}>
+                            <div className="flex justify-center items-center">
+                            <h2 className={`${color ? 'text-black' : forName ? 'text-black' : 'text-white'} inline mr-4 font-semibold`}>{user?.displayName}</h2>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    {/* <Avatar alt="Remy Sharp" src={user?.photoURL} /> */}
+                                    <img className='w-10 h-10 rounded-full z-20' src={user?.photoURL} alt="" />
+                                </IconButton>
+                            </Tooltip>
+                            </div>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {/* {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))} */}
 
-                                        login
+                                <Link to="/dashboard"><MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Dashboard</Typography>
+                                </MenuItem></Link>
+                                <Link to="/addProperty"><MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Add Property</Typography>
+                                </MenuItem></Link>
+                                <MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography onClick={handleLogout} textAlign="center">Logout</Typography>
+                                </MenuItem>
 
-                                    </Button>
-                                </Link>
-                            ) : (
-                                <div onClick={handleLogOut}>
-                                    <Button>
-                                        logout
-                                    </Button>
-                                </div>
-                            )
-                        }
+                            </Menu>
+                        </Box> : <Link to="/login"><Button>Login</Button></Link>}
                         <div onClick={() => setOpen(!open)} className="">
                             <RxCross2 className="absolute top-5 right-5 md:hidden text-3xl" />
                         </div>

@@ -113,7 +113,7 @@ const Popular = ({ popular }: PopularProps) => {
                   <p>-{agent_name}</p>
                 </div>
               </div>
-              <Link to={`/addProperty/${_id}`}>
+              <Link to={`/property/${_id}`}>
                 {" "}
                 <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
                   Details

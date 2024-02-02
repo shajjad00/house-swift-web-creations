@@ -12,6 +12,7 @@ import SearchingHouses from "../Pages/searchingHouse/SearchingHouses";
 import Dashboard from "../Layout/Dashboard";
 import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
+import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const MyRoute = createBrowserRouter([
       {
         path: "/register",
         element: <SignUp></SignUp>,
+      },
+      {
+        path: "/blogDetails/:id",
+        element: <BlogDetails></BlogDetails>,
       },
     ],
   },

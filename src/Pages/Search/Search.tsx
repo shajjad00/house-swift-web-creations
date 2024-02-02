@@ -3,10 +3,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAxiosPublic from "../../hook/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
-import useAllProperty from "../../hook/useAllProperty";
 import { useState } from "react";
 import useDistrict from "../../hook/useDistrict";
 import useUpazila from "../../hook/useUpazila";
+import useAllProperty from "../../hook/useAllProperty";
 
 type allData = {
   arrivalDate: string;
@@ -99,7 +99,7 @@ export const Search = () => {
   };
   return (
     <>
-      <div>
+      <div className="mb-8">
         <section className="-mt-2">
           <div className="bg-teal-500 text-white">
             <div className=" max-w-7xl mx-auto px-16">

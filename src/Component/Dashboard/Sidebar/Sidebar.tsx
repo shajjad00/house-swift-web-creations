@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProvider/AuthProvider';
 
 const Sidebar: React.FC = () => {
-  const [isActive, setActive] = useState(true);
+  const [isActive, setActive] = useState(!true);
   const { logOut }: { logOut: () => Promise<void> } = useContext(AuthContext);
   const navigate = useNavigate();
 

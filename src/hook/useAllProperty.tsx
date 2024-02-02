@@ -2,7 +2,6 @@ import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 
 const useAllProperty = () => {
-  //   const axiosSecure = UseAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const {
     refetch,

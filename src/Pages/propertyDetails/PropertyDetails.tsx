@@ -1,29 +1,31 @@
-import { useLoaderData } from "react-router-dom";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useLoaderData } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import Button from "../../Component/Button/Button";
-import { useEffect } from "react";
-type PopularProps = {
-  propertyDetails: {
-    name: string;
-    upazila: string;
-    district: string;
-    description: string;
-    available_date: string;
-    rent_price: number;
-    available_quantity: number;
-    image: string;
-    bedroom: number;
-    bathroom: number;
-    area: number;
-    agent_name: string;
-    agent_image: string;
-  };
+
+type PropertyDetailsType = {
+  name: string;
+  upazila: string;
+  district: string;
+  image: string;
+  rent_price: number;
+  bedroom: number;
+  bathroom: number;
+  area: number;
+  available_date: string;
+  agent_name: string;
+  agent_image: string;
+  description: string;
 };
 
-const PropertyDetails = () => {
-  useEffect(()=>{window.scrollTo(0,0)},[])
-  const propertyDetails = useLoaderData();
-  console.log(propertyDetails)
+const PropertyDetails: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const propertyDetails = useLoaderData() as PropertyDetailsType;
+  console.log(propertyDetails);
   const {
     name,
     upazila,
@@ -37,11 +39,19 @@ const PropertyDetails = () => {
     available_date,
     agent_name,
     agent_image,
-    description
+    description,
   } = propertyDetails || {};
 
   return (
     <>
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        transition={{ duration: 1 }}
+        className="card card-compact shadow-xl"
+      >
+
       <div className="max-w-7xl mx-auto mt-20 my-8 md:px-20 py-8">
             <Helmet>
                 <title>House Swift | Property Details</title>
@@ -93,13 +103,8 @@ const PropertyDetails = () => {
                         <div className="flex justify-between items-center">
                             <h3 className="text-2xl font-bold">Reviews (9+)</h3>
                             <Button>Review</Button>
-
-
-
-
                             {/* <!-- Modal toggle --> */}
                             
-
                         </div>
                         <div>
                             {/* each */}
@@ -123,8 +128,6 @@ const PropertyDetails = () => {
                         </div>
                     </div>
                 </div>
-
-
                 {/* Right Side Menu */}
                 <div className="w-2/6">
                     <div className="bg-white shadow px-4 py-5 rounded-lg">
@@ -147,6 +150,7 @@ const PropertyDetails = () => {
                 </div>
             </div>
         </div>
+      </motion.div>
     </>
   );
 };

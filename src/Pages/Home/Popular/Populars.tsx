@@ -2,17 +2,35 @@ import { Link } from "react-router-dom";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import Popular from "./Popular";
 // import { useEffect, useState } from "react";
-import useAllProperty from "../../../hook/useAllProperty";
+// import useAllProperty from "../../../hook/useAllProperty";
 import { Key } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../hook/useAxiosPublic";
 
 const Populars = () => {
-  const [allProperty] = useAllProperty();
+  // const [allProperty] = useAllProperty();
+  const axiosPublic = useAxiosPublic();
+  const { data: popular = [], isPending: loading } = useQuery({
+    queryKey: ["popularItem"],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/popularItem`);
+      return res.data;
+    },
+  });
+  console.log(popular);
+
+  if (loading) {
+    return <p>loading</p>;
+  }
   return (
     <div>
       <div>
-        <SectionTitle first="Best" second="Selling"></SectionTitle>
+        <SectionTitle
+          first="Best"
+          second="Selling"
+        ></SectionTitle>
         <div className="max-w-7xl mx-auto p-4 md:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8">
-          {allProperty.slice(0, 6).map(
+          {popular?.map(
             (
               popular: {
                 _id: string;
@@ -32,7 +50,10 @@ const Populars = () => {
               },
               idx: Key | null | undefined
             ) => (
-              <Popular key={idx} popular={popular}></Popular>
+              <Popular
+                key={idx}
+                popular={popular}
+              ></Popular>
             )
           )}
         </div>

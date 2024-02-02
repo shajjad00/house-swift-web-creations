@@ -2,7 +2,6 @@ import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 
 const useAllProperty = () => {
-  //   const axiosSecure = UseAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const {
     refetch,
@@ -11,8 +10,8 @@ const useAllProperty = () => {
   } = useQuery({
     queryKey: ["allProperty"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/addProperty");
-      return res.data;
+      const res = await axiosPublic.get("/properties");
+      return res.data?.allProperty; // This should be wrapped in a Promise
     },
   });
   return [allProperty, refetch, loading];

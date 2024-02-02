@@ -23,7 +23,7 @@ const Home = () => {
         // generate token
         const token = await getToken(messaging, {
           vapidKey:
-            "BOIP33QZJJEzn7SZfHKbEO7a8Ts4d7oKcbfJX8EJJ0nTspmMvsV9yOd9X9KeIjwUvtH8EVJ33F9nFpUu0mNt3FM",
+            "BOlYcT3OsqUVbhhm8QoJiX8eldrUriBqhz2C1pwhluqO8uhCHUoNvWXZnMsrQX8ZQACpUZbeHS-syi-hdn0Td7M",
         });
         // console.log("this is token =====>", token);
 

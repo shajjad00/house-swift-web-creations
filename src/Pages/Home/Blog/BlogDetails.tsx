@@ -27,7 +27,7 @@ const BlogDetails: React.FC = () => {
   } = blogDetails || {};
 
   return (
-    <div className="max-w-7xl mx-auto px-4 mt-8 md:px-20">
+    <div className="max-w-7xl mx-auto px-4 my-8 py-8 md:px-20">
       {/* Display the details of the blog post */}
       <div>
         <SectionTitle first="House" second="Swift Blog"></SectionTitle>

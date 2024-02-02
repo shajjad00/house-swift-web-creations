@@ -35,7 +35,7 @@ const SearchingHouse = ({ searching }: SearchgingProps) => {
     agent_image,
   } = searching || {};
   return (
-    <>
+    <div className="">
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -120,7 +120,7 @@ const SearchingHouse = ({ searching }: SearchgingProps) => {
           </div>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 };
 

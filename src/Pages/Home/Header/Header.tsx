@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import Button from "../../../Component/Button/Button";
@@ -17,7 +17,8 @@ import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 
 
 const Header = () => {
-    const {user , logOut} : any = useContext(AuthContext)
+    const navigate = useNavigate();
+    const { user, logOut }: any = useContext(AuthContext)
     // const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const location = useLocation()
@@ -59,10 +60,10 @@ const Header = () => {
         setAnchorElUser(null);
     };
     const handleLogout = () => {
-        logOut().then().catch((err: any) => console.log(err))
+        logOut().then(()=>{navigate("/")}).catch((err: any) => console.log(err))
     }
     const isHome = location.pathname === "/" || location.pathname === "/about";
-    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/")
+    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/") || location.pathname === "/addProperty"
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
             <div className={color ? "bg-white shadow-xl" : "bg-transparent"}>
@@ -76,8 +77,6 @@ const Header = () => {
                                     color ? <img className="w-44" src={logo} alt="" /> : <img className="w-44" src={logoWhite} alt="" />
                                 ) : (<img className="w-44" src={logo} alt="" />)
                             }
-
-
                         </Link>
                     </div>
                     <div onClick={() => setOpen(!open)} className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden">
@@ -95,13 +94,13 @@ const Header = () => {
                         ))}
                         {user ? <Box sx={{ flexGrow: 0, marginLeft: "30px" }}>
                             <div className="flex justify-center items-center">
-                            <h2 className={`${color ? 'text-black' : forName ? 'text-black' : 'text-white'} inline mr-4 font-semibold`}>{user?.displayName}</h2>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    {/* <Avatar alt="Remy Sharp" src={user?.photoURL} /> */}
-                                    <img className='w-10 h-10 rounded-full z-20' src={user?.photoURL} alt="" />
-                                </IconButton>
-                            </Tooltip>
+                                <h2 className={`${color ? 'text-black' : forName ? 'text-black' : 'text-white'} inline mr-4 font-semibold`}>{user?.displayName}</h2>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        {/* <Avatar alt="Remy Sharp" src={user?.photoURL} /> */}
+                                        <img className='w-10 h-10 rounded-full z-20' src={user?.photoURL} alt="" />
+                                    </IconButton>
+                                </Tooltip>
                             </div>
                             <Menu
                                 sx={{ mt: '45px' }}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
+
 import Button from "../../Component/Button/Button";
 
 type PropertyDetailsType = {
@@ -25,16 +26,17 @@ const PropertyDetails: React.FC = () => {
   }, []);
   const propertyDetails = useLoaderData() as PropertyDetailsType;
   console.log(propertyDetails);
-
   const {
     name,
     upazila,
     district,
     image,
     rent_price,
+    available_quantity,
     bedroom,
     bathroom,
     area,
+    available_date,
     agent_name,
     agent_image,
     description,
@@ -49,6 +51,7 @@ const PropertyDetails: React.FC = () => {
         transition={{ duration: 1 }}
         className="card card-compact shadow-xl"
       >
+
       <div className="max-w-7xl mx-auto mt-20 my-8 md:px-20 py-8">
             <Helmet>
                 <title>House Swift | Property Details</title>

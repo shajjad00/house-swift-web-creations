@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 // import { AuthContext } from "../../Providers/AuthProvider";
 import loginAnimation from "../../assets/animation/login-animation.json";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 const SignIn = () => {
 
   const { googleLogin , login , facebookLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
@@ -20,6 +21,13 @@ const SignIn = () => {
     try {
       await googleLogin().then((result: { user: any; }) => {
         console.log(result.user)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully LogIn By Google",
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate("/");
       })
         .catch((err: any) => {
@@ -46,6 +54,13 @@ const SignIn = () => {
     try {
       await facebookLogin().then((result: { user: any; }) => {
         console.log(result.user)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully LogIn By Facebook",
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate("/");
       })
         .catch((err: any) => {
@@ -61,6 +76,13 @@ const SignIn = () => {
     login(email , password)
     .then((result: { user: any; }) => {
       console.log(result.user)
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Successfully LogIn By Email & Passaword",
+        showConfirmButton: false,
+        timer: 1500
+      });
       navigate('/')
       setEmail("");
       setPassword("");

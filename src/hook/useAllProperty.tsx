@@ -11,7 +11,7 @@ const useAllProperty = () => {
     queryKey: ["allProperty"],
     queryFn: async () => {
       const res = await axiosPublic.get("/properties");
-      return res.data;
+      return res.data?.allProperty;
     },
   });
   return [allProperty, refetch, loading];

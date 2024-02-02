@@ -13,6 +13,7 @@ import Dashboard from "../Layout/Dashboard";
 import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
+// import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
   {
@@ -39,7 +40,10 @@ const MyRoute = createBrowserRouter([
       {
         path: "/details/:id",
         element: <PropertyDetails></PropertyDetails>,
-        loader: ({params}) => fetch(`https://house-swift-web-creations-server.vercel.app/properties/${params.id}`)
+        loader: ({ params }) =>
+          fetch(
+            `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
+          ),
       },
       {
         path: "/login",
@@ -61,9 +65,17 @@ const MyRoute = createBrowserRouter([
         path: "/register",
         element: <SignUp></SignUp>,
       },
+      // {
+      //   path: "/blogDetails/:id",
+      //   element: <BlogDetails></BlogDetails>,
+      // },
       {
         path: "/blogDetails/:id",
         element: <BlogDetails></BlogDetails>,
+        loader: ({ params }) =>
+          fetch(
+            `https://house-swift-web-creations-server.vercel.app/blogsData/${params.id}`
+          ),
       },
     ],
   },

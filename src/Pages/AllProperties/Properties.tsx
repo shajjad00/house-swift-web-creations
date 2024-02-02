@@ -25,7 +25,7 @@ const Properties = () => {
   useEffect(() => {
     axiosPublic
       .get(
-        `http://localhost:4000/addProperty?page=${currentPage}&size=${reqPropertyPerPage}&searchData=${selectedType}`
+        `/properties?page=${currentPage}&size=${reqPropertyPerPage}&searchData=${selectedType}`
       )
       .then((data) => {
         setAllProperty(data.data.allProperty);

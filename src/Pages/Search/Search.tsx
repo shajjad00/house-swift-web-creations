@@ -99,7 +99,7 @@ export const Search = () => {
   };
   return (
     <>
-      <div>
+      <div className="mb-8">
         <section className="-mt-2">
           <div className="bg-teal-500 text-white">
             <div className=" max-w-7xl mx-auto px-16">

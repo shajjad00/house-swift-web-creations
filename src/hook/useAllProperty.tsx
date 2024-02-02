@@ -11,7 +11,7 @@ const useAllProperty = () => {
   } = useQuery({
     queryKey: ["allProperty"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/addProperty");
+      const res = await axiosPublic.get("/properties");
       return res.data;
     },
   });

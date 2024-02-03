@@ -57,6 +57,7 @@ export default function AuthProvider({ children } : AuthProps) {
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) =>  {
             setUser(currentUser);
+            setLoading(false)
         })
         return () => {
             return unSubscribe();

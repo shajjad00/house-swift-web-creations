@@ -13,6 +13,7 @@ import Dashboard from "../Layout/Dashboard";
 import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
+import PrivateRoute from "./PrivateRoute";
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
@@ -31,7 +32,11 @@ const MyRoute = createBrowserRouter([
       },
       {
         path: "/contact",
-        element: <Contact></Contact>,
+        element: (
+          <PrivateRoute>
+            <Contact></Contact>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/allProperties",
@@ -39,7 +44,11 @@ const MyRoute = createBrowserRouter([
       },
       {
         path: "/details/:id",
-        element: <PropertyDetails></PropertyDetails>,
+        element: (
+          <PrivateRoute>
+            <PropertyDetails></PropertyDetails>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(
             `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
@@ -55,23 +64,31 @@ const MyRoute = createBrowserRouter([
       },
       {
         path: "/addProperty",
-        element: <AddProperty></AddProperty>,
+        element: (
+          <PrivateRoute>
+            <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/searchingProperty",
-        element: <SearchingHouses></SearchingHouses>,
+        element: (
+          <PrivateRoute>
+            <SearchingHouses></SearchingHouses>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/register",
         element: <SignUp></SignUp>,
       },
-      // {
-      //   path: "/blogDetails/:id",
-      //   element: <BlogDetails></BlogDetails>,
-      // },
       {
         path: "/blogDetails/:id",
-        element: <BlogDetails></BlogDetails>,
+        element: (
+          <PrivateRoute>
+            <BlogDetails></BlogDetails>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(
             `https://house-swift-web-creations-server.vercel.app/blogsData/${params.id}`
@@ -81,7 +98,11 @@ const MyRoute = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

@@ -9,6 +9,7 @@ import useAllPropertyPagination from "../../hook/useAllPropertyPagination";
 
 const Properties = () => {
   const [allProperty, refetch] = useAllProperty();
+  console.log(allProperty)
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedType, setSelectedType] = useState("");
@@ -18,21 +19,12 @@ const Properties = () => {
     selectedType
   );
 
-  const verifiedAllProperty = allProperty.filter(
-    (verifiedProperty: { verification_status: string }) =>
-      verifiedProperty.verification_status === "verified"
-  );
-  const verifiedAllPropertyPagination = propertyPerPage.filter(
-    (verifiedProperty: { verification_status: string }) =>
-      verifiedProperty.verification_status === "verified"
-  );
-
   const handleSearch = (event: { target: { value: string } }) => {
     const selectedValue = event.target.value;
     setSelectedType(selectedValue);
     refetch();
   };
-  const count = verifiedAllProperty.length;
+  const count = allProperty.length;
   const totalPage = Math.ceil(count / itemsPerPage);
   const pages = [...Array(totalPage).keys()];
 
@@ -78,7 +70,7 @@ const Properties = () => {
             </div>
           </div>
           <div className="max-w-7xl mx-auto p-4 md:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8">
-            {verifiedAllPropertyPagination.map(
+            {propertyPerPage.map(
               (
                 property: {
                   _id: string;

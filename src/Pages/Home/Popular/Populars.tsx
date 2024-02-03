@@ -4,20 +4,10 @@ import Popular from "./Popular";
 // import { useEffect, useState } from "react";
 // import useAllProperty from "../../../hook/useAllProperty";
 import { Key } from "react";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../hook/useAxiosPublic";
+import usePopularProperty from "../../../hook/usePopularProperty";
 
 const Populars = () => {
-  // const [allProperty] = useAllProperty();
-  const axiosPublic = useAxiosPublic();
-  const { data: popular = [], isPending: loading } = useQuery({
-    queryKey: ["popularItem"],
-    queryFn: async () => {
-      const res = await axiosPublic.get(`/popularItem`);
-      return res.data;
-    },
-  });
-  console.log(popular);
+  const [popularProperty, loading] = usePopularProperty();
 
   if (loading) {
     return <p>loading</p>;
@@ -25,12 +15,9 @@ const Populars = () => {
   return (
     <div>
       <div>
-        <SectionTitle
-          first="Best"
-          second="Selling"
-        ></SectionTitle>
+        <SectionTitle first="Best" second="Selling"></SectionTitle>
         <div className="max-w-7xl mx-auto p-4 md:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8">
-          {popular?.map(
+          {popularProperty?.map(
             (
               popular: {
                 _id: string;
@@ -50,10 +37,7 @@ const Populars = () => {
               },
               idx: Key | null | undefined
             ) => (
-              <Popular
-                key={idx}
-                popular={popular}
-              ></Popular>
+              <Popular key={idx} popular={popular}></Popular>
             )
           )}
         </div>

@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
 import Lottie from "lottie-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import { AuthContext } from "../../Providers/AuthProvider";
 import loginAnimation from "../../assets/animation/login-animation.json";
@@ -14,6 +14,7 @@ const SignIn = () => {
 
   const { googleLogin , login , facebookLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -28,7 +29,7 @@ const SignIn = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate("/");
+        navigate(location?.state ? location.state : "/");
       })
         .catch((err: any) => {
           console.log(err)
@@ -61,7 +62,7 @@ const SignIn = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate("/");
+        navigate(location?.state ? location.state : "/");
       })
         .catch((err: any) => {
           console.log(err)
@@ -83,7 +84,7 @@ const SignIn = () => {
         showConfirmButton: false,
         timer: 1500
       });
-      navigate('/')
+        navigate(location?.state ? location.state : "/");
       setEmail("");
       setPassword("");
     }).catch((err: any) => {

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import SubscribeUs from "./SubscribeUs";
 
-// Assuming you have a BlogPost interface defined
 interface BlogPost {
   id: number;
   blog_category: string;
@@ -17,22 +16,34 @@ interface BlogPost {
 }
 
 const BlogDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id?: string }>();
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
 
-  // Assuming you have a function to fetch the blog data
+
   const fetchBlogData = async () => {
     try {
-      const response = await fetch("/public/blogs.json");
+      if (!id) {
+        console.error("No id provided");
+     // Redirect to home or handle missing id
+        return;
+      }
+
+      const response = await fetch("https://task-management-serverside-ten.vercel.app/alltask");
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data: BlogPost[] = await response.json();
-      const selectedBlogPost = data.find(
-        (post) => post.id === parseInt(id, 10)
-      );
+      const parsedId = parseInt(id, 10);
+
+      if (isNaN(parsedId)) {
+        console.error("Invalid id:", id);
+     
+        return;
+      }
+
+      const selectedBlogPost = data.find((post) => post.id === parsedId);
 
       if (selectedBlogPost) {
         setBlogPost(selectedBlogPost);
@@ -46,7 +57,6 @@ const BlogDetails: React.FC = () => {
 
   useEffect(() => {
     fetchBlogData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (!blogPost) {
@@ -54,15 +64,11 @@ const BlogDetails: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 mt-8 md:px-20">
-      {/* Display the details of the blog post */}
+    <div className="max-w-7xl mx-auto px-4 mt-24 md:px-20">
       <div>
         <SectionTitle first="House" second="Swift Blog"></SectionTitle>
       </div>
-      <div
-        className="max-w-7xl mx-auto px-4 mt-8 
-      border-b-2 ml-4"
-      >
+      <div className="max-w-7xl mx-auto px-4 mt-8 border-b-2 ml-4">
         <p className="pb-4">{blogPost.date}</p>
         <div className="space-y-2">
           <img
@@ -83,7 +89,10 @@ const BlogDetails: React.FC = () => {
             <p className="text-2xl font-bold mb-6">{blogPost.title}</p>
             <p className="text-sm">{blogPost.description}</p>
             <div className="card-actions justify-end">
-              <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300 mt-4">
+              <button
+                className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300 mt-4"
+          
+              >
                 Back
               </button>
             </div>

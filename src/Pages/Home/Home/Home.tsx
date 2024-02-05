@@ -9,12 +9,10 @@ import axios from "axios";
 import { messaging } from "../../../firebase/firebase.config";
 import { getToken } from "firebase/messaging";
 
-
-
 const Home = () => {
-  useEffect(()=>{window.scrollTo(0,0)},[])
-
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   async function requestPermission() {
     try {
@@ -28,9 +26,12 @@ const Home = () => {
         // console.log("this is token =====>", token);
 
         // Make sure to await the axios.post call
-        const res = await axios.post("https://task-management-serverside-ten.vercel.app/allUserToken", {
-          token
-        });
+        const res = await axios.post(
+          "https://task-management-serverside-ten.vercel.app/allUserToken",
+          {
+            token,
+          }
+        );
 
         if (res.data.insertedId) {
           alert("you are allow the notification");

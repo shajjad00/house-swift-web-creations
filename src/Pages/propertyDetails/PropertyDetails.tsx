@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import Button from "../../Component/Button/Button";
 import Modal from "./Modal";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import axios from "axios";
+
 
 type PropertyDetailsType = {
   name: string;
@@ -19,15 +23,25 @@ type PropertyDetailsType = {
   agent_name: string;
   agent_image: string;
   description: string;
+  rating: number;
   available_quantity: string;
+  _id:string;
+  agent_email:string
+  
 };
+type FormData = {
+  description: string;
+  rating: number;
+  _id:string;
+
+}
 
 const PropertyDetails: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const propertyDetails = useLoaderData() as PropertyDetailsType;
-  console.log(propertyDetails);
+  // console.log("===========>",propertyDetails._id);
   const {
     name,
     upazila,
@@ -40,9 +54,57 @@ const PropertyDetails: React.FC = () => {
     agent_name,
     agent_image,
     description,
+    agent_email,
+    _id
   } = propertyDetails || {};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {user}=useContext<any>(AuthContext);
 
-  const [open, setOpen] = useState<boolean>(false);
+// console.log(user)
+const [open, setOpen] = useState<boolean>(false);
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
+  const [dateTime, setDateTime] = useState(new Date());
+
+  // console.log('Date:', dateTime.toLocaleDateString());
+  // console.log('Time:', dateTime.toLocaleTimeString());
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+  
+  
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const allReviewData = {
+        review: data.description,
+        rating: data.rating,
+        reviewID: _id,
+        reviewDate: new Date().toLocaleDateString(),
+        reviewTime: new Date().toLocaleTimeString(),
+        userEmail: user?.email,
+        agent_email: agent_email,
+      };
+  
+      const res = await axios.post("http://localhost:4000/allRewiews", {
+        allReviewData,
+      });
+  
+      if (res.data.insertedId) {
+        alert("Your review added");
+      } else {
+        alert("Failed to add the review");
+      }
+    } catch (error) {
+      console.error("Error requesting added review:", error);
+      alert("Error adding review");
+    }
+  
+  };
+  
 
   return (
     <>
@@ -61,7 +123,7 @@ const PropertyDetails: React.FC = () => {
             <div className="w-4/6">
               <div
                 style={{ height: "560px" }}
-                className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                className="w-full bg-black border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
               >
                 <div>
                   <img
@@ -161,32 +223,42 @@ const PropertyDetails: React.FC = () => {
                   </button>
                   {/* <!-- Modal toggle --> */}
                   <Modal open={open} onClose={() => setOpen(false)}>
-                    <form className="p-4 md:p-5">
-                      <div className="grid gap-4 mb-4">
-                        <div className="h-auto w-96">
-                          <label
-                            htmlFor="description"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            write your review here{" "}
-                          </label>
-                          <textarea
-                            id="description"
-                            rows="4"
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Write your review here"
-                          ></textarea>
-                        </div>
-                      </div>
-                      <div className="flex justify-center">
-                        <button
-                          className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
-                          onClick={() => setOpen(false)}
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </form>
+                  <form className="p-4 md:p-5" onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid gap-4 mb-4">
+        <div className="h-auto w-96">
+          <label htmlFor="description" className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
+            Write your review here
+          </label>
+          <div className="text-center">
+            <div className="rating">
+              <input type="radio"  value="1" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+              <input type="radio"  value="2" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+              <input type="radio"  value="3" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+              <input type="radio"  value="4" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+              <input type="radio"  value="5" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+            </div>
+ 
+          </div>
+          <textarea
+            id="description"
+            rows={4}
+            {...register("description", { required: "Description is required" })}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Write your review here"
+          ></textarea>
+          {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
+          {errors.description && <span className="text-red-500">{errors.description.message}</span>}
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
                   </Modal>
                 </div>
                 <div>

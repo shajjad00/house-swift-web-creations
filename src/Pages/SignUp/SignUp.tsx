@@ -10,47 +10,88 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import useAxiosPublic from "../../hook/useAxiosPublic";
+import Swal from "sweetalert2";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 type FormData = {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-  photoURL: string;
-  phone: number;
+  image: string;
+  phoneNumber: number;
   termsAccepted: boolean;
-}
-
-// type AuthProps = {
-//   createUser : any;
-// }
+};
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  const { createUser }: any = useContext(AuthContext);
-
-
-  // const { createUser } = useContext(AuthContext)
+  const { createUser, handleUpdateProfile }: any = useContext(AuthContext);
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>()
+  } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("Form submitted:", data);
+    const imageFile = { image: data.image[0] };
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const email = data.email;
+    const phone = data.phoneNumber;
+    const image = res.data.data.display_url;
 
-    createUser(data.email, data.password).then((result: { user: any }) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-      navigate("/")
-    }).catch((err: any) => {
-      console.log(err)
-    })
-
+    if (res.data.success) {
+      createUser(data.email, data.password).then((result: { user: string }) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        handleUpdateProfile(
+          data.lastName,
+          res.data.data.display_url,
+          data.firstName
+        )
+          .then(() => {
+            // creat user entry in the database:
+            const usersInfo = {
+              firstName,
+              lastName,
+              email,
+              phone,
+              image,
+              role: "user",
+              status: "active",
+            };
+            console.log(usersInfo);
+            axiosPublic.post("/propertyUsers", usersInfo).then((res) => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "top",
+                  icon: "success",
+                  title: "user added successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            });
+            navigate("/");
+          })
+          .catch((error: string) => console.log(error));
+      });
+    }
   };
 
   return (
@@ -87,7 +128,17 @@ const SignUp = () => {
                   className="w-full text-[#060606] py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
                 />
               </div>
-              <div className="mt-5">
+              <div className="w-2/3">
+                <label className="label">
+                  <span className="label-text">Photo*</span>
+                </label>
+                <input
+                  {...register("image", { required: true })}
+                  type="file"
+                  className="file-input"
+                />
+              </div>
+              <div className="mt-1">
                 <input
                   type="email"
                   {...register("email", { required: "Email is required" })}
@@ -129,7 +180,7 @@ const SignUp = () => {
               <div className="mt-5">
                 <PhoneInput
                   country={"bangladesh"}
-                  {...register("phone")}
+                  {...register("phoneNumber")}
                   placeholder="Phone number"
                   value={phoneNumber}
                   onChange={(value) => setPhoneNumber(value)}
@@ -168,16 +219,21 @@ const SignUp = () => {
                 </span>
               </div>
               <div className="mt-5">
-                <button type="submit" className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
+                <button
+                  type="submit"
+                  className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center "
+                >
                   Register
                 </button>
               </div>
               <div className="mt-5">
                 <p className="py-1 px-2 w-full text-center">
                   Already have a account?
-                  <Link to="/login"><span className="font-semibold text-blue-500 underline underline-offset-2 cursor-pointer">
-                    &nbsp;Please Sign In
-                  </span></Link>
+                  <Link to="/login">
+                    <span className="font-semibold text-blue-500 underline underline-offset-2 cursor-pointer">
+                      &nbsp;Please Sign In
+                    </span>
+                  </Link>
                 </p>
               </div>
             </form>

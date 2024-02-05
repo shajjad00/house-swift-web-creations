@@ -9,7 +9,6 @@ import useAllPropertyPagination from "../../hook/useAllPropertyPagination";
 
 const Properties = () => {
   const [allProperty, refetch] = useAllProperty();
-  console.log(allProperty)
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedType, setSelectedType] = useState("");

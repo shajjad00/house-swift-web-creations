@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import TransitionEffect from "../../Component/TransitionEffect/TransitionEffect";
 
 const AboutUs = () => {
+    useEffect(() => { window.scrollTo(0,0)} , [])
   const sectionStyle = {
     backgroundImage: `url(https://d1pnnwteuly8z3.cloudfront.net/images/dafc1e05-b0e8-4c6d-b375-4a62333bbd5a/71fe09e2-9320-4f61-8eca-067243e2ef68.jpeg)`,
   };

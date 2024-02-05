@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-type PopularProps = {
-  popular: {
+type SearchgingProps = {
+  searching: {
     _id: string;
     name: string;
     upazila: string;
@@ -18,8 +18,7 @@ type PopularProps = {
     agent_image: string;
   };
 };
-
-const Popular = ({ popular }: PopularProps) => {
+const SearchingHouse = ({ searching }: SearchgingProps) => {
   const {
     _id,
     name,
@@ -34,10 +33,9 @@ const Popular = ({ popular }: PopularProps) => {
     available_date,
     agent_name,
     agent_image,
-  } = popular || {};
-
+  } = searching || {};
   return (
-    <>
+    <div className="">
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -114,7 +112,6 @@ const Popular = ({ popular }: PopularProps) => {
                 </div>
               </div>
               <Link to={`/details/${_id}`}>
-
                 <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
                   Details
                 </button>
@@ -123,8 +120,8 @@ const Popular = ({ popular }: PopularProps) => {
           </div>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 };
 
-export default Popular;
+export default SearchingHouse;

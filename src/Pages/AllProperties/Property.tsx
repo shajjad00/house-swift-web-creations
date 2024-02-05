@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+
 type PopularProps = {
-  popular: {
+  property: {
     _id: string;
     name: string;
     upazila: string;
@@ -19,7 +20,7 @@ type PopularProps = {
   };
 };
 
-const Popular = ({ popular }: PopularProps) => {
+const Property = ({ property }: PopularProps) => {
   const {
     _id,
     name,
@@ -34,7 +35,7 @@ const Popular = ({ popular }: PopularProps) => {
     available_date,
     agent_name,
     agent_image,
-  } = popular || {};
+  } = property || {};
 
   return (
     <>
@@ -113,12 +114,9 @@ const Popular = ({ popular }: PopularProps) => {
                   <p>-{agent_name}</p>
                 </div>
               </div>
-              <Link to={`/details/${_id}`}>
-
-                <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
-                  Details
-                </button>
-              </Link>
+            <Link to={`/details/${_id}`}>  <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300">
+                Details
+              </button></Link>
             </div>
           </div>
         </div>
@@ -127,4 +125,4 @@ const Popular = ({ popular }: PopularProps) => {
   );
 };
 
-export default Popular;
+export default Property;

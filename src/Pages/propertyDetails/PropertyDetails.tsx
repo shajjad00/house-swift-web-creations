@@ -8,6 +8,7 @@ import Modal from "./Modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import axios from "axios";
+import useAllReviews from "../../hook/useAllReviews";
 
 
 type PropertyDetailsType = {
@@ -29,6 +30,7 @@ type PropertyDetailsType = {
   agent_email:string
   
 };
+// declear the type of from data 
 type FormData = {
   description: string;
   rating: number;
@@ -60,10 +62,10 @@ const PropertyDetails: React.FC = () => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {user}=useContext<any>(AuthContext);
 
-// console.log(user)
 const [open, setOpen] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [dateTime, setDateTime] = useState(new Date());
 
   // console.log('Date:', dateTime.toLocaleDateString());
@@ -76,7 +78,7 @@ const [open, setOpen] = useState<boolean>(false);
     return () => clearInterval(intervalId);
   }, []);
   
-  
+  // submit the modal form data and post he data mongoDb
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const allReviewData = {
@@ -104,7 +106,44 @@ const [open, setOpen] = useState<boolean>(false);
     }
   
   };
-  
+  // use tanstack query for get the the all review data 
+const [allReviews,]=useAllReviews()
+// console.log("============>",allReviews)
+
+
+
+// const [filteredReviews, setFilteredReviews] = useState([]);
+const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
+
+// after getting the review dat declear the type of reveiew data 
+interface Review {
+  _id: string;
+  reviewData: {
+    review: string;
+    rating: string;
+    reviewID: string;
+    reviewDate: string;
+    reviewTime: string;
+    userEmail?: string;
+    agent_email?: string;
+  };
+}
+// filter the data using the _id=== reviewID 
+
+useEffect(() => {
+  const filteredData = allReviews.filter((review: { reviewData: { reviewID: string; }; }) => review?.reviewData?.reviewID === _id);
+
+  setFilteredReviews(filteredData);
+}, [allReviews, _id]);
+
+// console.log("=======> filter data ", filteredReviews);
+
+
+
+
+
+
+
 
   return (
     <>
@@ -214,7 +253,7 @@ const [open, setOpen] = useState<boolean>(false);
               </div>
               <div className="shadow rounded-lg w-full mt-8 p-4">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-bold">Reviews (9+)</h3>
+                  <h3 className="text-2xl font-bold">Reviews({filteredReviews.length} +)</h3>
                   <button
                     className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
                     onClick={() => setOpen(true)}
@@ -262,33 +301,49 @@ const [open, setOpen] = useState<boolean>(false);
                   </Modal>
                 </div>
                 <div>
-                  {/* each */}
-                  <div className="py-8 border-b-2 border-gray-400">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <img
-                          className="w-12 h-12 rounded-full"
-                          src={image}
-                          alt=""
-                        />
-                        <div>
-                          <h2 className="font-semibold">Soyeb Suvo</h2>
-                          <h3 className="text-sm text-gray-500">04/05/3009</h3>
-                        </div>
-                      </div>
-                      <div>ratings</div>
-                    </div>
-                    <div className="mt-4">
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Quas debitis natus repellendus consequuntur error
-                        veniam illum inventore commodi. Molestias, autem. Labore
-                        ducimus animi ipsam impedit praesentium quas eligendi
-                        quo vel, sunt ullam. Culpa quis odio pariatur, nobis
-                        veniam mollitia.
-                      </p>
-                    </div>
-                  </div>
+                  {/* maping the filter review data  */}
+                  <div>
+      {filteredReviews.map((review, index) => (
+        <div key={index} className="py-8 border-b-2 border-gray-400">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <img
+                className="w-12 h-12 rounded-full"
+                src={image}
+                alt=""
+              />
+              <div>
+                <h2 className="font-semibold">{review?.reviewData.userEmail}</h2>
+                <h3 className="text-sm text-gray-500">{review?.reviewData.reviewDate}</h3>
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+  <span className="text-gray-600 mb-1">Rating:</span>
+  <div className="flex items-center space-x-1 rtl:space-x-reverse">
+    {/*  use [...Array(5)] to create an array with 5 elements, as i want to display 5 stars. */}
+    {[...Array(5)].map((_, index) => (
+      <svg
+        key={index}
+        className={`w-4 h-4 ${parseInt(review?.reviewData.rating) > index ? 'text-yellow-300' : 'text-gray-200 dark:text-gray-600'}`}
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 22 20"
+      >
+        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+      </svg>
+    ))}
+  </div>
+</div>
+
+
+       </div>
+          <div className="mt-4">
+            <p>{review?.reviewData.review}</p>
+          </div>
+        </div>
+      ))}
+    </div>
                 </div>
               </div>
             </div>

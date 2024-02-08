@@ -77,7 +77,11 @@ const [open, setOpen] = useState<boolean>(false);
     }, 1000);
     return () => clearInterval(intervalId);
   }, []);
-  
+
+   // use tanstack query for get the the all review data 
+const [allReviews,refetch]=useAllReviews()
+// console.log("============>",allReviews)
+
   // submit the modal form data and post he data mongoDb
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -96,6 +100,7 @@ const [open, setOpen] = useState<boolean>(false);
       });
   
       if (res.data.insertedId) {
+        refetch()
         alert("Your review added");
       } else {
         alert("Failed to add the review");
@@ -106,9 +111,7 @@ const [open, setOpen] = useState<boolean>(false);
     }
   
   };
-  // use tanstack query for get the the all review data 
-const [allReviews,]=useAllReviews()
-// console.log("============>",allReviews)
+ 
 
 
 

@@ -14,6 +14,8 @@ import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 import PrivateRoute from "./PrivateRoute";
+import { Bookings } from "../Pages/Dashboard/UserRoute/Bookings";
+import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
@@ -51,7 +53,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
+            `http://localhost:4000/properties/${params.id}`
           ),
       },
       {
@@ -91,7 +93,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://house-swift-web-creations-server.vercel.app/blogsData/${params.id}`
+            `http://localhost:4000/blogsData/${params.id}`
           ),
       },
     ],
@@ -107,6 +109,14 @@ const MyRoute = createBrowserRouter([
       {
         index: true,
         element: <Profile></Profile>,
+      },
+      {
+        path : "bookings",
+        element: <Bookings/>,
+      },
+      {
+        path : "wishlist",
+        element: <Wishlist/>,
       },
     ],
   },

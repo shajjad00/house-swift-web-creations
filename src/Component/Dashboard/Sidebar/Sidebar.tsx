@@ -58,6 +58,8 @@ const Sidebar: React.FC = () => {
               <img className='w-44' src={logo} alt='' />
             </Link>
           </div>
+          <br />
+          <hr />
           <div className='flex flex-col justify-between flex-1'>
             {/* If a user is a host */}
             <nav>
@@ -95,13 +97,6 @@ const Sidebar: React.FC = () => {
                       />
                     </>
               }
-
-
-              {/* <MenuItem icon={CgProfile} label='Admin Profile' address='/dashboard' />
-              <MenuItem icon={BsHouseAddFill} label='Manage Properties' address='/dashboard/addProperty' />
-              <MenuItem icon={FaUsers} label='Manage Users' address='/dashboard/manageUsers' /> */}
-              {/* tour guide dashboard */}
-              {/* tourist dash board */}
             </nav>
           </div>
         </div>

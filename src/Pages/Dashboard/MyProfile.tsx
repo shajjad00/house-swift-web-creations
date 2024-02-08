@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { useContext } from "react";
+import Loading from "./Loading/Loading";
 // import useAuth from "../../../hook/useAuth";
 // import useAxiosSecure from "../../../hook/useAxiosSecure";
 // import { useQuery } from "@tanstack/react-query";
@@ -31,7 +32,7 @@ const Profile: React.FC = () => {
 
     if (!user) {
         // Handle the case when user is null or undefined
-        return <div>Loading...</div>;
+        return <div><Loading/></div>;
       }
 
     return (

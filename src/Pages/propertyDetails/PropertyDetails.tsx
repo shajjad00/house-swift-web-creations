@@ -1,10 +1,15 @@
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Button from "../../Component/Button/Button";
+import useAxiosPublic from "../../hook/useAxiosPublic";
+import Swal from "sweetalert2";
+import useAuth from "../../hook/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useWishlist from "../../hook/useWishlist";
 
 type PropertyDetailsType = {
+  _id: string;
   name: string;
   upazila: string;
   district: string;
@@ -17,6 +22,26 @@ type PropertyDetailsType = {
   agent_name: string;
   agent_image: string;
   description: string;
+  wishlistId: string;
+};
+
+interface User {
+  email: string;
+  role: string;
+  // Add other properties as needed
+}
+
+interface ButtonProps {
+  onClick: () => void;
+  children: ReactNode;
+  // Add other props as needed
+}
+const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
+  return (
+    <button onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 const PropertyDetails: React.FC = () => {
@@ -24,10 +49,21 @@ const PropertyDetails: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+
+
   const propertyDetails = useLoaderData() as PropertyDetailsType;
   console.log(propertyDetails);
+  const {user} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const[,refetch] = useWishlist();
+const userEmail = user?.email
+
+
 
   const {
+    _id,
     name,
     upazila,
     district,
@@ -44,6 +80,80 @@ const PropertyDetails: React.FC = () => {
     agent_image,
     description,
   } = propertyDetails || {};
+  
+  const axiosPublic = useAxiosPublic();
+  const { data: users = [] } = useQuery({
+      queryKey: ['users'],
+      queryFn: async () => {
+          const res = await axiosPublic.get("/propertyUsers");
+          return res.data;
+      }
+  })
+  const wishlistId = _id
+  const currentUser: User | undefined = users.find((cUser: User) => cUser?.email === user?.email);
+console.log(users, currentUser?.role);
+
+  // const currentUser = users.find((cUser : string) => cUser?.email === user?.email)
+  // console.log(users,currentUser?.role)
+
+  const handleAddWishlist = () => {
+    if(user && user.email){
+//TODO: send wish item to data base
+
+const propertyDetails  = {
+  wishlistId,
+  name,
+  // upazila,
+  // district,
+  image,
+  rent_price,
+
+  userEmail,
+  // available_quantity,
+  // bedroom,
+  // bathroom,
+  area,
+  // available_date,
+
+  agent_name,
+  agent_image,
+  // description,
+}
+
+axiosPublic.post("/wishlists", propertyDetails)
+.then(res => {
+  console.log(res.data)
+  if(res.data.insertedId){
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: `${name} Added to your wishlist`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    // refetch used for updated wishlist no reload
+    refetch()
+  }
+})
+    }
+    else{
+      Swal.fire({
+        title: "Ypu are not Logged In",
+        text: "Please Login add to the wishlist",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, LogIn!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login" , {state:{ from: location}})
+        }
+      });
+    }
+  }
+
+
 
   return (
     <>
@@ -147,7 +257,9 @@ const PropertyDetails: React.FC = () => {
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
-                    <Button>Add To Wishlist</Button>
+                    <p className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                    <Button  onClick={handleAddWishlist}>Add To Wishlist</Button>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -217,14 +329,14 @@ const PropertyDetails: React.FC = () => {
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 ${rent_price}
               </span>
-              <Button>Add To Wishlist</Button>
+              <button className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer" onClick={handleAddWishlist}>Add To Wishlist</button>
             </div>
           </div>
         </div>
         <div className="shadow rounded-lg w-full mt-8 p-4">
           <div className="flex justify-between items-center">
             <h3 className="text-2xl font-bold">Reviews (9+)</h3>
-            <Button>Review</Button>
+            <p>Review</p>
             {/* <!-- Modal toggle --> */}
           </div>
           <div>

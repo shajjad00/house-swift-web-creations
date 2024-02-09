@@ -1,30 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
 import Lottie from "lottie-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import { AuthContext } from "../../Providers/AuthProvider";
 import loginAnimation from "../../assets/animation/login-animation.json";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 const SignIn = () => {
-
-  const { googleLogin , login , facebookLogin} : any = useContext(AuthContext); // Non-Nullable Assertion
+  const { googleLogin, login, facebookLogin }: any = useContext(AuthContext); // Non-Nullable Assertion
   const navigate = useNavigate();
+  const location = useLocation();
+  const axiosPublic = useAxiosPublic();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleGoogleSignIn = async () => {
     try {
-      await googleLogin().then((result: { user: any; }) => {
-        console.log(result.user)
-        navigate("/");
-      })
-        .catch((err: any) => {
-          console.log(err)
+      await googleLogin()
+        .then((result: { user: any }) => {
+          console.log(result.user);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successfully LogIn By Google",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          const usersInfo = {
+            email: result?.user?.email,
+            name: result?.user?.displayName,
+            photo: result?.user?.photoURL,
+          };
+          axiosPublic.post("/propertyUsers", usersInfo);
+          navigate(location?.state ? location.state : "/");
         })
+        .catch((err: any) => {
+          console.log(err);
+        });
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
@@ -44,41 +61,61 @@ const SignIn = () => {
   // };
   const handleFacebookLogin = async () => {
     try {
-      await facebookLogin().then((result: { user: any; }) => {
-        console.log(result.user)
-        navigate("/");
-      })
-        .catch((err: any) => {
-          console.log(err)
+      await facebookLogin()
+        .then((result: { user: any }) => {
+          console.log(result.user);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successfully LogIn By Facebook",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          const usersInfo = {
+            email: result?.user?.email,
+            name: result?.user?.displayName,
+            photo: result?.user?.photoURL,
+          };
+          axiosPublic.post("/propertyUsers", usersInfo);
+          navigate(location?.state ? location.state : "/");
         })
+        .catch((err: any) => {
+          console.log(err);
+        });
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
   };
 
-  const handleLogin = (e: { preventDefault: () => void; }) => {
+  const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    login(email , password)
-    .then((result: { user: any; }) => {
-      console.log(result.user)
-      navigate('/')
-      setEmail("");
-      setPassword("");
-    }).catch((err: any) => {
-      console.log(err)
-    })
-  }
-
-  
-
+    login(email, password)
+      .then((result: { user: any }) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully LogIn By Email & Passaword",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(location?.state ? location.state : "/");
+        setEmail("");
+        setPassword("");
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
 
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center py-24">
       <div className="max-w-7xl mx-auto bg-gray-100 flex rounded-2xl shadow-lg p-5 gap-6">
         <div className="md:w-1/2">
-
           <h2 className="font-bold text-3xl text-center">Login</h2>
-          <p className="text-sm mt-2 mb-5 text-center">If you already a member, easily log in</p>
+          <p className="text-sm mt-2 mb-5 text-center">
+            If you already a member, easily log in
+          </p>
           {/* form start here */}
           <form>
             <input
@@ -113,35 +150,43 @@ const SignIn = () => {
             </div>
 
             {/* login btn  */}
-            <button onClick={handleLogin} className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center ">
+            <button
+              onClick={handleLogin}
+              className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center "
+            >
               Login
             </button>
             {/* divider  */}
-            <div className="divider">Or
-            </div>
+            <div className="divider">Or</div>
             {/* social login */}
-            <div onClick={handleGoogleSignIn} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
-              <FcGoogle className="h-6 mr-2" />
+            <div
+              onClick={handleGoogleSignIn}
+              className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
+            >
+              <FcGoogle className="h-6 mr-2 text-xl" />
               Sign In With Google
             </div>
-{/*            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
+            {/*            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
 
               <FaGithub className="h-6 mr-2" />
               Sign In With Github
             </div> */}
-            <div onClick={handleFacebookLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
-
-              <FaFacebook className="h-6 mr-2" />
-              Sign In With Github
+            <div
+              onClick={handleFacebookLogin}
+              className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
+            >
+              <FaFacebook className="h-6 mr-2  text-xl text-blue-700" />
+              Sign In With FaceBook
             </div>
             {/* exist account  */}
             <div className="w-full flex items-center justify-center my-4">
-
               <p className="text-[#060606] text-sm font-normal ">
                 Dont have any account ? &nbsp;
-                <Link to="/register"><span className="font-semibold text-blue-500 underline cursor-pointer">
-                  Sign Up
-                </span></Link>
+                <Link to="/register">
+                  <span className="font-semibold text-blue-500 underline cursor-pointer">
+                    Sign Up
+                  </span>
+                </Link>
               </p>
             </div>
           </form>

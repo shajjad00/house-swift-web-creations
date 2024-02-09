@@ -9,6 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import axios from "axios";
 import useAllReviews from "../../hook/useAllReviews";
+import Swal from "sweetalert2";
 
 
 type PropertyDetailsType = {
@@ -101,13 +102,27 @@ const [allReviews,refetch]=useAllReviews()
   
       if (res.data.insertedId) {
         refetch()
-        alert("Your review added");
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Your review added successfully",
+          showConfirmButton: false,
+          timer: 1000,
+        });
       } else {
-        alert("Failed to add the review");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "you alreay added your review!",
+        });
       }
     } catch (error) {
       console.error("Error requesting added review:", error);
-      alert("Error adding review");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "you alreay added your review!",
+      });
     }
   
   };

@@ -58,7 +58,7 @@ const PropertyDetails: React.FC = () => {
   const location = useLocation();
 
   const[,refetch] = useWishlist();
-const email = user?.email
+const userEmail = user?.email
 
 
 
@@ -69,6 +69,7 @@ const email = user?.email
     district,
     image,
     rent_price,
+
     // available_quantity,
     bedroom,
     bathroom,
@@ -107,7 +108,7 @@ const propertyDetails  = {
   image,
   rent_price,
 
-  email,
+  userEmail,
   // available_quantity,
   // bedroom,
   // bathroom,

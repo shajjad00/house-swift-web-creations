@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import MenuItem from "../MenuItem";
 
+
 import { GrLogout } from "react-icons/gr";
 import { FcHome } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
@@ -14,6 +15,11 @@ import { CgProfile } from "react-icons/cg";
 import { BsHouseAddFill, BsHouseAdd, BsFillHouseFill } from "react-icons/bs";
 import { GiHouseKeys } from "react-icons/gi";
 import { FaHouseCircleExclamation } from "react-icons/fa6";
+
+
+// Icons
+
+import { GiStarsStack } from "react-icons/gi";
 
 import logo from "../../../assets/images/logo-white.png";
 import { Link, useNavigate } from "react-router-dom";

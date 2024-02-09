@@ -14,8 +14,14 @@ import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 import PrivateRoute from "./PrivateRoute";
+
+import ManageProperties from "../Pages/Dashboard/AdminDashboard/ManageProperties/ManageProperties";
+import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers";
+import ManageReviews from "../Pages/Dashboard/AdminDashboard/ManageReviews/ManageReviews";
+
 import { Bookings } from "../Pages/Dashboard/UserRoute/Bookings";
 import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
+
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
@@ -111,12 +117,24 @@ const MyRoute = createBrowserRouter([
         element: <Profile></Profile>,
       },
       {
+        path: "manageProperties",
+        element: <ManageProperties />,
+      },
+      {
+        path: "manageUsers",
+        element: <ManageUsers />,
+      },
+      {
+        path: "manageReviews",
+        element: <ManageReviews />,
+
         path : "bookings",
         element: <Bookings/>,
       },
       {
         path : "wishlist",
         element: <Wishlist/>,
+
       },
     ],
   },

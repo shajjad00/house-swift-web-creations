@@ -14,6 +14,8 @@ import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 import PrivateRoute from "./PrivateRoute";
+import MyProperties from "../Pages/Dashboard/MyProperties/MyProperties";
+import AgentRentedProperties from "../Pages/Dashboard/AgentRentedProperties/AgentRentedProperties";
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
 const MyRoute = createBrowserRouter([
@@ -107,6 +109,30 @@ const MyRoute = createBrowserRouter([
       {
         index: true,
         element: <Profile></Profile>,
+      },
+      {
+        path: "property",
+        element: (
+          <PrivateRoute>
+            <MyProperties></MyProperties>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "addProperty",
+        element: (
+          <PrivateRoute>
+            <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "rentedProperty",
+        element: (
+          <PrivateRoute>
+            <AgentRentedProperties></AgentRentedProperties>
+          </PrivateRoute>
+        ),
       },
     ],
   },

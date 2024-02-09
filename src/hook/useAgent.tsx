@@ -8,9 +8,9 @@ const useAgent = () => {
     const {data: isAgent, isPending: isAgentLoading } = useQuery({
         queryKey: [user?.email, "isAgent"],
         queryFn: async() =>{
-            const res = await axiosSecure.get(`/users/Agent/${user.email}`);
-            console.log(res.data?.Agent)
-            return res.data?.Agent;
+            const res = await axiosSecure.get(`/propertyUsers/agent/${user.email}`);
+            console.log(res.data?.agent)
+            return res.data?.agent;
         }
     })
     return [isAgent, isAgentLoading]; 

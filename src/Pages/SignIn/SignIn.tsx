@@ -104,6 +104,13 @@ const SignIn = () => {
         setPassword("");
       })
       .catch((err: any) => {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: err.code,
+          showConfirmButton: false,
+          timer: 1500,
+        });
         console.log(err);
       });
   };
@@ -200,7 +207,10 @@ const SignIn = () => {
             src="https://i.ibb.co/5rmF67F/12469785-Wavy-REst-03-Single-01.jpg"
             alt="logo"
           /> */}
-          <Lottie animationData={loginAnimation} loop={true} />
+          <Lottie
+            animationData={loginAnimation}
+            loop={true}
+          />
         </div>
       </div>
     </section>

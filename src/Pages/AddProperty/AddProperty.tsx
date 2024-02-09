@@ -85,12 +85,14 @@ const AddProperty = () => {
         area,
         description,
         image,
-        verification_status: "pending",
+        verification_status: "verified",
         // verification_status: "verified",
-        role: "seller",
+        role: "agent",
       };
       console.log(addPropertyInfo);
-      axiosPublic.post("/addProperty", addPropertyInfo).then((res) => {
+      axiosPublic.post("/properties", addPropertyInfo).then((res) => {
+        console.log(res.data.insertedId);
+
         if (res.data.insertedId) {
           reset();
           Swal.fire({
@@ -128,10 +130,16 @@ const AddProperty = () => {
         <title>House Swift | Add Property</title>
       </Helmet>
       <div className="mb-6">
-        <SectionTitle first="Add" second="Property"></SectionTitle>
+        <SectionTitle
+          first="Add"
+          second="Property"
+        ></SectionTitle>
       </div>
 
-      <form onSubmit={handleSubmit(handleAddProperty)} className="mx-auto">
+      <form
+        onSubmit={handleSubmit(handleAddProperty)}
+        className="mx-auto"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -183,13 +191,19 @@ const AddProperty = () => {
               onChange={(e) => handleDistrictChange(e)}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
             >
-              <option disabled value="default">
+              <option
+                disabled
+                value="default"
+              >
                 select a district
               </option>
 
               {propertyDistrict.map(
                 (district: { _id: string; name: string }) => (
-                  <option key={district._id} value={district.name}>
+                  <option
+                    key={district._id}
+                    value={district.name}
+                  >
                     {district.name}
                   </option>
                 )
@@ -205,11 +219,17 @@ const AddProperty = () => {
               {...register("upazila", { required: true })}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
             >
-              <option disabled value="default">
+              <option
+                disabled
+                value="default"
+              >
                 select a upazila
               </option>
               {selectUpazila.map((upazila: { _id: string; name: string }) => (
-                <option key={upazila._id} value={upazila.name}>
+                <option
+                  key={upazila._id}
+                  value={upazila.name}
+                >
                   {upazila.name}
                 </option>
               ))}

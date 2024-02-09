@@ -1,20 +1,32 @@
 import React, { useContext, useState } from "react";
 import MenuItem from "../MenuItem";
 
+
+import { GrLogout } from "react-icons/gr";
+import { FcHome } from "react-icons/fc";
+import { AiOutlineBars } from "react-icons/ai";
+import {
+  FaBookmark,
+  FaRegHeart,
+  FaUsers,
+  FaRegWindowClose,
+} from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { BsHouseAddFill, BsHouseAdd, BsFillHouseFill } from "react-icons/bs";
+import { GiHouseKeys } from "react-icons/gi";
+import { FaHouseCircleExclamation } from "react-icons/fa6";
+
+
 // Icons
-import { FaRegWindowClose } from "react-icons/fa";
+
 import { GiStarsStack } from "react-icons/gi";
+
 import logo from "../../../assets/images/logo-white.png";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
-import { GrLogout } from 'react-icons/gr';
-import { FcHome } from 'react-icons/fc';
-import { AiOutlineBars } from 'react-icons/ai';
-import { FaBookmark, FaRegHeart, FaUsers } from 'react-icons/fa';
-import { CgProfile } from 'react-icons/cg';
-import { BsHouseAddFill } from 'react-icons/bs';
-import useAdmin from '../../../hook/useAdmin';
-import useAgent from '../../../hook/useAgent';
+import { GiStarsStack } from "react-icons/gi";
+import useAdmin from "../../../hook/useAdmin";
+import useAgent from "../../../hook/useAgent";
 
 
 const Sidebar: React.FC = () => {
@@ -52,12 +64,11 @@ const Sidebar: React.FC = () => {
           ) : (
             <FaRegWindowClose className="h-7 w-7" />
           )}
-
         </button>
       </div>
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b8a6] shadow-xl w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+        className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b7a5] shadow-xl w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive ? "-translate-x-full" : "md:translate-x-0"
         } transition duration-200 ease-in-out`}
 
@@ -65,7 +76,6 @@ const Sidebar: React.FC = () => {
         <div>
           {/* Nav Items */}
           <div>
-            <Link to="/">
               <img className="w-44" src={logo} alt="" />
             </Link>
           </div>
@@ -76,6 +86,13 @@ const Sidebar: React.FC = () => {
             {/* If a user is a host */}
             <nav>
               {/* admin dashboard */}
+
+
+              {/* <MenuItem icon={CgProfile} label='Admin Profile' address='/dashboard' />
+              <MenuItem icon={BsHouseAddFill} label='Manage Properties' address='/dashboard/addProperty' />
+              <MenuItem icon={FaUsers} label='Manage Users' address='/dashboard/manageUsers' /> */}
+              {/* tour guide dashboard */}
+              {/* tourist dash board */}
 
               {
                 isAdmin ? <>
@@ -100,13 +117,33 @@ const Sidebar: React.FC = () => {
                 address="/dashboard/manageReviews"
               />
                 </> :
-                  isAgent ? <>
-                    <MenuItem
-                      icon={CgProfile}
-                      label='My Profile'
-                      address='/dashboard'
-                    />
-                  </>
+                  isAgent ?  <>
+                  <MenuItem
+                    icon={CgProfile}
+                    label="My Profile"
+                    address="/dashboard"
+                  />
+                  <MenuItem
+                    icon={BsFillHouseFill}
+                    label="My Added Properties"
+                    address="/dashboard/property"
+                  />
+                  <MenuItem
+                    icon={BsHouseAdd}
+                    label="Add Properties"
+                    address="/dashboard/addProperty"
+                  />
+                  <MenuItem
+                    icon={GiHouseKeys}
+                    label="My Rented Properties"
+                    address="/dashboard/rentedProperty"
+                  />
+                  <MenuItem
+                    icon={FaHouseCircleExclamation}
+                    label="My Requested Properties"
+                    address="/dashboard/requestedProperty"
+                  />
+                </>
                     :
                     <>
                       <MenuItem
@@ -132,7 +169,11 @@ const Sidebar: React.FC = () => {
 
         <div>
           <hr />
-          <MenuItem icon={FcHome} label="Home" address="/" />
+          <MenuItem
+            icon={FcHome}
+            label="Home"
+            address="/"
+          />
           <button
             className="flex w-full items-center px-4 py-2 my-3 text-white hover:bg-gray-200 rounded hover:text-gray-700 transition-colors duration-300 transform"
             onClick={handleLogOut}

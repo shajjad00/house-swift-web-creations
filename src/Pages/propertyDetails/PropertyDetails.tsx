@@ -1,7 +1,10 @@
-import React, { ReactNode, useEffect } from "react";
+
+import React, { useContext, useEffect, useState } from "react";
+
 import { Helmet } from "react-helmet-async";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+
 import useAxiosPublic from "../../hook/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAuth from "../../hook/useAuth";
@@ -43,6 +46,13 @@ const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
     </button>
   );
 };
+// declear the type of from data 
+type FormData = {
+  description: string;
+  rating: number;
+  _id:string;
+
+}
 
 const PropertyDetails: React.FC = () => {
   useEffect(() => {
@@ -52,6 +62,7 @@ const PropertyDetails: React.FC = () => {
 
 
   const propertyDetails = useLoaderData() as PropertyDetailsType;
+
   console.log(propertyDetails);
   const {user} = useAuth();
   const navigate = useNavigate();
@@ -59,8 +70,6 @@ const PropertyDetails: React.FC = () => {
 
   const[,refetch] = useWishlist();
 const userEmail = user?.email
-
-
 
   const {
     _id,
@@ -70,17 +79,19 @@ const userEmail = user?.email
     image,
     rent_price,
 
+
     // available_quantity,
     bedroom,
     bathroom,
     area,
     // available_date,
-
     agent_name,
     agent_image,
     description,
+    agent_email,
+    _id
   } = propertyDetails || {};
-  
+
   const axiosPublic = useAxiosPublic();
   const { data: users = [] } = useQuery({
       queryKey: ['users'],
@@ -154,7 +165,6 @@ axiosPublic.post("/wishlists", propertyDetails)
   }
 
 
-
   return (
     <>
       <motion.div
@@ -172,8 +182,8 @@ axiosPublic.post("/wishlists", propertyDetails)
             <div className="w-4/6">
               <div
                 style={{ height: "560px" }}
-                className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-              >
+
+                className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div>
                   <img
                     className="p-5 rounded-t-lg w-full h-[400px]"
@@ -257,6 +267,7 @@ axiosPublic.post("/wishlists", propertyDetails)
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
+
                     <p className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
                     <Button  onClick={handleAddWishlist}>Add To Wishlist</Button>
                     </p>

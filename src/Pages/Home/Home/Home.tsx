@@ -37,8 +37,7 @@ const Home = () => {
         if (res.data.insertedId) {
           Swal.fire({
             position: "top",
-            icon: "success",
-            title: "you are allow the notification",
+            title: "Notification allow successfully",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -47,11 +46,11 @@ const Home = () => {
         //  then you added into firebase cloude messaging tools and send your message
       } else if (permission === "denied") {
         Swal.fire({
-          position: "top",
-          icon: "success",
-          title: "you are denied for the notification",
-          showConfirmButton: false,
-          timer: 1500,
+
+          icon: "error",
+          title: "Oops...",
+          text: "you denied the notification!",
+
         });
       }
     } catch (error) {

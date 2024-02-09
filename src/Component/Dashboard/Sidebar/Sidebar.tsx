@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import MenuItem from "../MenuItem";
 
-// Icons
 import { GrLogout } from "react-icons/gr";
 import { FcHome } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
@@ -19,8 +18,10 @@ import { FaHouseCircleExclamation } from "react-icons/fa6";
 import logo from "../../../assets/images/logo-white.png";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
+import { GiStarsStack } from "react-icons/gi";
 import useAdmin from "../../../hook/useAdmin";
 import useAgent from "../../../hook/useAgent";
+
 
 const Sidebar: React.FC = () => {
   const [isActive, setActive] = useState(!true);
@@ -64,43 +65,53 @@ const Sidebar: React.FC = () => {
         className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b7a5] shadow-xl w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive ? "-translate-x-full" : "md:translate-x-0"
         } transition duration-200 ease-in-out`}
+
       >
         <div>
           {/* Nav Items */}
           <div>
-            <Link to="/">
-              <img
-                className="w-44"
-                src={logo}
-                alt=""
-              />
+              <img className="w-44" src={logo} alt="" />
             </Link>
           </div>
-          <div className="flex flex-col justify-between flex-1">
+
+          <br />
+          <hr />
+          <div className='flex flex-col justify-between flex-1'>
             {/* If a user is a host */}
             <nav>
               {/* admin dashboard */}
 
-              {isAdmin ? (
-                <>
+
+              {/* <MenuItem icon={CgProfile} label='Admin Profile' address='/dashboard' />
+              <MenuItem icon={BsHouseAddFill} label='Manage Properties' address='/dashboard/addProperty' />
+              <MenuItem icon={FaUsers} label='Manage Users' address='/dashboard/manageUsers' /> */}
+              {/* tour guide dashboard */}
+              {/* tourist dash board */}
+
+              {
+                isAdmin ? <>
                   <MenuItem
-                    icon={CgProfile}
-                    label="Admin Profile"
-                    address="/dashboard"
-                  />
-                  <MenuItem
-                    icon={BsHouseAddFill}
-                    label="Manage Properties"
-                    address="/dashboard/addProperty"
-                  />
-                  <MenuItem
-                    icon={FaUsers}
-                    label="Manage Users"
-                    address="/dashboard/manageUsers"
-                  />
-                </>
-              ) : isAgent ? (
-                <>
+                icon={CgProfile}
+                label="Admin Profile"
+                address="/dashboard"
+              />
+              <MenuItem
+                icon={FaUsers}
+                label="Manage Users"
+                address="/dashboard/manageUsers"
+              />
+              <MenuItem
+                icon={BsHouseAddFill}
+                label="Manage Properties"
+                address="/dashboard/manageProperties"
+              />
+              <MenuItem
+                icon={GiStarsStack}
+                label="Reviews"
+                address="/dashboard/manageReviews"
+              />
+                </> :
+                  isAgent ?  <>
                   <MenuItem
                     icon={CgProfile}
                     label="My Profile"
@@ -127,31 +138,25 @@ const Sidebar: React.FC = () => {
                     address="/dashboard/requestedProperty"
                   />
                 </>
-              ) : (
-                <>
-                  <MenuItem
-                    icon={CgProfile}
-                    label="My Profile"
-                    address="/dashboard"
-                  />
-                  <MenuItem
-                    icon={FaBookmark}
-                    label="My Bookings"
-                    address="/dashboard/bookings"
-                  />
-                  <MenuItem
-                    icon={FaRegHeart}
-                    label="My Wishlist"
-                    address="/dashboard/wishlist"
-                  />
-                </>
-              )}
-
-              {/* <MenuItem icon={CgProfile} label='Admin Profile' address='/dashboard' />
-              <MenuItem icon={BsHouseAddFill} label='Manage Properties' address='/dashboard/addProperty' />
-              <MenuItem icon={FaUsers} label='Manage Users' address='/dashboard/manageUsers' /> */}
-              {/* tour guide dashboard */}
-              {/* tourist dash board */}
+                    :
+                    <>
+                      <MenuItem
+                        icon={CgProfile}
+                        label='My Profile'
+                        address='/dashboard'
+                      />
+                      <MenuItem
+                        icon={FaBookmark}
+                        label='My Bookings'
+                        address='/dashboard/bookings'
+                      />
+                      <MenuItem
+                        icon={FaRegHeart}
+                        label='My Wishlist'
+                        address='/dashboard/wishlist'
+                      />
+                    </>
+              }
             </nav>
           </div>
         </div>

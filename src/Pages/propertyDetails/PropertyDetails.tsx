@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
-import Button from "../../Component/Button/Button";
-import Modal from "./Modal";
-import { useForm, SubmitHandler } from "react-hook-form";
-// import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
-import axios from "axios";
-import useAllReviews from "../../hook/useAllReviews";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAuth from "../../hook/useAuth";
+import { useQuery } from "@tanstack/react-query";
 import useWishlist from "../../hook/useWishlist";
 
-
 type PropertyDetailsType = {
+  _id: string;
   name: string;
   upazila: string;
   district: string;
@@ -27,38 +22,48 @@ type PropertyDetailsType = {
   agent_name: string;
   agent_image: string;
   description: string;
-  rating: number;
-  available_quantity: string;
-  _id: string;
-  agent_email: string
-
+  wishlistId: string;
 };
-// declear the type of from data 
-type FormData = {
-  description: string;
-  rating: number;
-  _id: string;
 
+interface User {
+  email: string;
+  role: string;
+  // Add other properties as needed
 }
+
+interface ButtonProps {
+  onClick: () => void;
+  children: ReactNode;
+  // Add other props as needed
+}
+const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
+  return (
+    <button onClick={onClick}>
+      {children}
+    </button>
+  );
+};
 
 const PropertyDetails: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+
+
   const propertyDetails = useLoaderData() as PropertyDetailsType;
-  
   console.log(propertyDetails);
-  const { user } = useAuth();
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  const [, refetch] = useWishlist();
+  const {user} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // const email = user?.email
-
+  const[,refetch] = useWishlist();
+const email = user?.email
 
 
 
   const {
+    _id,
     name,
     upazila,
     district,
@@ -68,114 +73,84 @@ const PropertyDetails: React.FC = () => {
     bedroom,
     bathroom,
     area,
+    // available_date,
+
     agent_name,
     agent_image,
     description,
-    agent_email,
-    _id
   } = propertyDetails || {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const { user } = useContext<any>(AuthContext);
+  
+  const axiosPublic = useAxiosPublic();
+  const { data: users = [] } = useQuery({
+      queryKey: ['users'],
+      queryFn: async () => {
+          const res = await axiosPublic.get("/propertyUsers");
+          return res.data;
+      }
+  })
+  const wishlistId = _id
+  const currentUser: User | undefined = users.find((cUser: User) => cUser?.email === user?.email);
+console.log(users, currentUser?.role);
 
-  const [open, setOpen] = useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  // const currentUser = users.find((cUser : string) => cUser?.email === user?.email)
+  // console.log(users,currentUser?.role)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [dateTime, setDateTime] = useState(new Date());
-  // email,
-    // available_quantity,
-    // bedroom,
-    // bathroom,
-    // area,
+  const handleAddWishlist = () => {
+    if(user && user.email){
+//TODO: send wish item to data base
+
+const propertyDetails  = {
+  wishlistId,
+  name,
+  // upazila,
+  // district,
+  image,
+  rent_price,
+
+  email,
+  // available_quantity,
+  // bedroom,
+  // bathroom,
+  area,
   // available_date,
 
+  agent_name,
+  agent_image,
+  // description,
+}
 
-
-   // use tanstack query for get the the all review data 
-const [allReviews] = useAllReviews()
-  // console.log("============>",allReviews)
-
-  // submit the modal form data and post he data mongoDb
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      console.log(user?.displayURL)
-      const allReviewData = {
-        review: data.description,
-        rating: data.rating,
-        reviewID: _id,
-        reviewDate: new Date().toLocaleDateString(),
-        reviewTime: new Date().toLocaleTimeString(),
-        userEmail: user?.email,
-        agent_email: agent_email,
-        userImage: user?.photoURL
-      };
-
-      const res = await axios.post("http://localhost:4000/allRewiews", {
-        allReviewData,
-      });
-
-      if (res.data.insertedId) {
-        refetch()
-        Swal.fire({
-          position: "top",
-          icon: "success",
-          title: "Your review added successfully",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "you alreay added your review!",
-        });
-      }
-    } catch (error) {
-      console.error("Error requesting added review:", error);
+axiosPublic.post("/wishlists", propertyDetails)
+.then(res => {
+  console.log(res.data)
+  if(res.data.insertedId){
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: `${name} Added to your wishlist`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    // refetch used for updated wishlist no reload
+    refetch()
+  }
+})
+    }
+    else{
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "you alreay added your review!",
+        title: "Ypu are not Logged In",
+        text: "Please Login add to the wishlist",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, LogIn!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login" , {state:{ from: location}})
+        }
       });
     }
-
-  };
-
-
-
-
-  // const [filteredReviews, setFilteredReviews] = useState([]);
-  const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
-
-  // after getting the review dat declear the type of reveiew data 
-  interface Review {
-    _id: string;
-    reviewData: {
-      _id: string;
-      review: string;
-      rating: string;
-      reviewID: string;
-      reviewDate: string;
-      reviewTime: string;
-      userEmail?: string;
-      agent_email?: string;
-      userImage: string;
-    };
   }
-  // filter the data using the _id=== reviewID 
-
-  useEffect(() => {
-    const filteredData = allReviews.filter((review: { reviewData: { reviewID: string; }; }) => review?.reviewData?.reviewID === _id);
-
-    setFilteredReviews(filteredData);
-  }, [allReviews, _id]);
-
-  // console.log("=======> filter data ", filteredReviews);
-
-
-
-
-
 
 
 
@@ -281,137 +256,137 @@ const [allReviews] = useAllReviews()
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
-                    <Button>Add To Wishlist</Button>
+                    <p className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                    <Button  onClick={handleAddWishlist}>Add To Wishlist</Button>
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="shadow rounded-lg w-full mt-8 p-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-bold">Reviews({filteredReviews.length} +)</h3>
-                  <button
-                    className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
-                    onClick={() => setOpen(true)}
-                  >
-                    Review
-                  </button>
-                  {/* <!-- Modal toggle --> */}
-                  <Modal open={open} onClose={() => setOpen(false)}>
-                    <form className="p-4 md:p-5" onSubmit={handleSubmit(onSubmit)}>
-                      <div className="grid gap-4 mb-4">
-                        <div className="h-auto w-96">
-                          <label htmlFor="description" className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
-                            Write your review here
-                          </label>
-                          <div className="text-center">
-                            <div className="rating">
-                              <input type="radio" value="1" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="2" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="3" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="4" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="5" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                            </div>
-
-                          </div>
-                          <textarea
-                            id="description"
-                            rows={4}
-                            {...register("description", { required: "Description is required" })}
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Write your review here"
-                          ></textarea>
-                          {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
-                          {errors.description && <span className="text-red-500">{errors.description.message}</span>}
-                        </div>
-                      </div>
-                      <div className="flex justify-center">
-                        <button
-                          type="submit"
-                          className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </Modal>
-                </div>
-                <div>
-                  {/* maping the filter review data  */}
+              <h3 className="font-semibold text-gray-500">
+                Bedroom - {bedroom}
+              </h3>
+              <h3 className="font-semibold text-gray-500">
+                Bathroom - {bathroom}
+              </h3>
+              <h3 className="font-semibold text-gray-500">
+                Area - {area} sq/ft
+              </h3>
+            </div>
+            <div className="flex items-center mt-2.5 mb-5">
+              <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                <svg
+                  className="w-4 h-4 text-yellow-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                <svg
+                  className="w-4 h-4 text-yellow-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                <svg
+                  className="w-4 h-4 text-yellow-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                <svg
+                  className="w-4 h-4 text-yellow-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                <svg
+                  className="w-4 h-4 text-gray-200 dark:text-gray-600"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+              </div>
+              <span className="bg-blue-100 text-[#EB6753] text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-[#EB6753] ms-3">
+                5.0
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                ${rent_price}
+              </span>
+              <button className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer" onClick={handleAddWishlist}>Add To Wishlist</button>
+            </div>
+          </div>
+        </div>
+        <div className="shadow rounded-lg w-full mt-8 p-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-2xl font-bold">Reviews (9+)</h3>
+            <p>Review</p>
+            {/* <!-- Modal toggle --> */}
+          </div>
+          <div>
+            {/* each */}
+            <div className="py-8 border-b-2 border-gray-400">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <img className="w-12 h-12 rounded-full" src={image} alt="" />
                   <div>
-                    {filteredReviews.map((review) => (
-                      <>
-                        <div key={review?.reviewData?._id} className="py-8 border-b-2 border-gray-400">
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                              <img
-                                className="w-12 h-12 rounded-full"
-                                src={review?.reviewData?.userImage}
-                                alt=""
-                              />
-                              <div>
-                                <h2 className="font-semibold">{review?.reviewData.userEmail}</h2>
-                                <h3 className="text-sm text-gray-500">{review?.reviewData.reviewDate}</h3>
-                              </div>
-                            </div>
-                            <div className="flex flex-col items-center">
-                              <span className="text-gray-600 mb-1">Rating:</span>
-                              <div className="flex items-center space-x-1 rtl:space-x-reverse">
-                                {/*  use [...Array(5)] to create an array with 5 elements, as i want to display 5 stars. */}
-                                {[...Array(5)].map((_, index) => (
-                                  <svg
-                                    key={index}
-                                    className={`w-4 h-4 ${parseInt(review?.reviewData.rating) > index ? 'text-yellow-300' : 'text-gray-200 dark:text-gray-600'}`}
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                  >
-                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                  </svg>
-                                ))}
-                              </div>
-                            </div>
-
-                          </div>
-                          <div className="mt-4">
-                            <p>{review?.reviewData.review}</p>
-                          </div>
-                        </div>
-                      </>
-
-
-                    ))}
+                    <h2 className="font-semibold">Soyeb Suvo</h2>
+                    <h3 className="text-sm text-gray-500">04/05/3009</h3>
                   </div>
                 </div>
+                <div>ratings</div>
+              </div>
+              <div className="mt-4">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas
+                  debitis natus repellendus consequuntur error veniam illum
+                  inventore commodi. Molestias, autem. Labore ducimus animi
+                  ipsam impedit praesentium quas eligendi quo vel, sunt ullam.
+                  Culpa quis odio pariatur, nobis veniam mollitia.
+                </p>
               </div>
             </div>
-            {/* Right Side Menu */}
-            <div className="w-2/6">
-              <div className="bg-white shadow px-4 py-5 rounded-lg">
-                <h2 className="text-2xl font-bold pb-4">
-                  Get More Information
-                </h2>
-                <div className="flex items-center gap-5 mb-4">
-                  <img
-                    className="w-14 h-14 rounded-full"
-                    src={agent_image}
-                    alt=""
-                  />
-                  <div>
-                    <h3 className="font-bold">{agent_name}</h3>
-                    <p>+88909***876</p>
-                  </div>
-                </div>
-                <div>
-                  <button className="uppercase w-full border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Contact Agent
-                  </button>
-                </div>
-              </div>
-              <div className="p-4 shadow rounded-lg mt-5">
-                <h3 className="text-xl font-bold py-3">Property Description</h3>
-                <p className="text-sm text-gray-600">{description}</p>
+          </div>
+        </div>
+        {/* Right Side Menu */}
+        <div className="w-2/6">
+          <div className="bg-white shadow px-4 py-5 rounded-lg">
+            <h2 className="text-2xl font-bold pb-4">Get More Information</h2>
+            <div className="flex items-center gap-5 mb-4">
+              <img
+                className="w-14 h-14 rounded-full"
+                src={agent_image}
+                alt=""
+              />
+              <div>
+                <h3 className="font-bold">{agent_name}</h3>
+                <p>+88909***876</p>
               </div>
             </div>
+            <div>
+              <button className="uppercase w-full border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                Contact Agent
+              </button>
+            </div>
+          </div>
+          <div className="p-4 shadow rounded-lg mt-5">
+            <h3 className="text-xl font-bold py-3">Property Description</h3>
+            <p className="text-sm text-gray-600">{description}</p>
           </div>
         </div>
       </motion.div>

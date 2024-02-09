@@ -59,7 +59,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `http://localhost:4000/properties/${params.id}`
+            `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
           ),
       },
       {
@@ -99,7 +99,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `http://localhost:4000/blogsData/${params.id}`
+            `https://house-swift-web-creations-server.vercel.app/blogsData/${params.id}`
           ),
       },
     ],

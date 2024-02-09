@@ -110,7 +110,7 @@ const [allReviews] = useAllReviews()
         userImage: user?.photoURL
       };
 
-      const res = await axios.post("http://localhost:4000/allRewiews", {
+      const res = await axios.post("https://house-swift-web-creations-server.vercel.app/allRewiews", {
         allReviewData,
       });
 

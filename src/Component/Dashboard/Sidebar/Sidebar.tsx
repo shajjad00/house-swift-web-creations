@@ -13,7 +13,7 @@ import { AiOutlineBars } from 'react-icons/ai';
 import { FaBookmark, FaRegHeart, FaUsers } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BsHouseAddFill } from 'react-icons/bs';
-import useAdmin from '../../../hook/useAdmin';
+// import useAdmin from '../../../hook/useAdmin';
 import useAgent from '../../../hook/useAgent';
 
 
@@ -21,7 +21,8 @@ const Sidebar: React.FC = () => {
   const [isActive, setActive] = useState(!true);
   const { logOut }: { logOut: () => Promise<void> } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isAdmin] = useAdmin();
+  // const [isAdmin] = useAdmin();
+  const isAdmin = true
   const [isAgent] = useAgent();
 
   // logOut from page

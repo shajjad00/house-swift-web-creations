@@ -97,7 +97,7 @@ const Property = ({ property }: PopularProps) => {
                 <span className="text-sm">
                   <span className="font-semibold">Price:</span>
                 </span>{" "}
-                {rent_price}/day
+                {rent_price}/day 
               </h2>
             </div>
             <hr />

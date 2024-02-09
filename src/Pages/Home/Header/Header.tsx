@@ -63,7 +63,7 @@ const Header = () => {
         logOut().then(()=>{navigate("/")}).catch((err: any) => console.log(err))
     }
     const isHome = location.pathname === "/" || location.pathname === "/about";
-    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/") || location.pathname === "/addProperty"
+    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/") || location.pathname === "/addProperty"|| location.pathname.includes("/blogDetail")
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
             <div className={color ? "bg-white shadow-xl" : "bg-transparent"}>

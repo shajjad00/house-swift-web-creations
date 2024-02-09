@@ -175,6 +175,7 @@ const SignIn = () => {
               onClick={handleFacebookLogin}
               className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
             >
+
               <FaFacebook className="h-6 mr-2  text-xl text-blue-700" />
               Sign In With FaceBook
             </div>

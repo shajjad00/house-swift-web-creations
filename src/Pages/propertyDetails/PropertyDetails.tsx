@@ -69,7 +69,6 @@ const email = user?.email
     district,
     image,
     rent_price,
-
     // available_quantity,
     bedroom,
     bathroom,

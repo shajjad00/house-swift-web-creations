@@ -44,7 +44,18 @@ const PropertyDetails: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   const propertyDetails = useLoaderData() as PropertyDetailsType;
-  // console.log("===========>",propertyDetails._id);
+
+  console.log(propertyDetails);
+  const {user} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const[,refetch] = useWishlist();
+const email = user?.email
+
+
+
+
   const {
     name,
     upazila,
@@ -68,16 +79,14 @@ const [open, setOpen] = useState<boolean>(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [dateTime, setDateTime] = useState(new Date());
+  email,
+  // available_quantity,
+  // bedroom,
+  // bathroom,
+  area,
+  // available_date,
 
-  // console.log('Date:', dateTime.toLocaleDateString());
-  // console.log('Time:', dateTime.toLocaleTimeString());
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDateTime(new Date());
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
+
 
    // use tanstack query for get the the all review data 
 const [allReviews,refetch]=useAllReviews()

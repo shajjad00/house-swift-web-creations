@@ -163,7 +163,7 @@ const SignIn = () => {
               onClick={handleGoogleSignIn}
               className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
             >
-              <FcGoogle className="h-6 mr-2" />
+              <FcGoogle className="h-6 mr-2 text-xl" />
               Sign In With Google
             </div>
             {/*            <div onClick={handleGithubLogin} className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer">
@@ -175,8 +175,9 @@ const SignIn = () => {
               onClick={handleFacebookLogin}
               className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
             >
-              <FaFacebook className="h-6 mr-2" />
-              Sign In With Facebook
+
+              <FaFacebook className="h-6 mr-2  text-xl text-blue-700" />
+              Sign In With FaceBook
             </div>
             {/* exist account  */}
             <div className="w-full flex items-center justify-center my-4">

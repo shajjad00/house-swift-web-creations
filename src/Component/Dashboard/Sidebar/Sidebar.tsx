@@ -2,23 +2,28 @@ import React, { useContext, useState } from "react";
 import MenuItem from "../MenuItem";
 
 // Icons
-import { GrLogout } from "react-icons/gr";
-import { FcHome } from "react-icons/fc";
-import { AiOutlineBars } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
-import { BsHouseAddFill } from "react-icons/bs";
 import { FaRegWindowClose } from "react-icons/fa";
 import { GiStarsStack } from "react-icons/gi";
-
 import logo from "../../../assets/images/logo-white.png";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
+import { GrLogout } from 'react-icons/gr';
+import { FcHome } from 'react-icons/fc';
+import { AiOutlineBars } from 'react-icons/ai';
+import { FaBookmark, FaRegHeart, FaUsers } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
+import { BsHouseAddFill } from 'react-icons/bs';
+import useAdmin from '../../../hook/useAdmin';
+import useAgent from '../../../hook/useAgent';
+
 
 const Sidebar: React.FC = () => {
   const [isActive, setActive] = useState(!true);
   const { logOut }: { logOut: () => Promise<void> } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isAdmin] = useAdmin();
+  const [isAgent] = useAgent();
 
   // logOut from page
   const handleLogOut = async () => {
@@ -48,6 +53,7 @@ const Sidebar: React.FC = () => {
           ) : (
             <FaRegWindowClose className="h-7 w-7" />
           )}
+
         </button>
       </div>
       {/* Sidebar */}
@@ -55,6 +61,7 @@ const Sidebar: React.FC = () => {
         className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b8a6] shadow-xl w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive ? "-translate-x-full" : "md:translate-x-0"
         } transition duration-200 ease-in-out`}
+
       >
         <div>
           {/* Nav Items */}
@@ -63,11 +70,17 @@ const Sidebar: React.FC = () => {
               <img className="w-44" src={logo} alt="" />
             </Link>
           </div>
-          <div className="flex flex-col justify-between flex-1">
+
+          <br />
+          <hr />
+          <div className='flex flex-col justify-between flex-1'>
             {/* If a user is a host */}
             <nav>
               {/* admin dashboard */}
-              <MenuItem
+
+              {
+                isAdmin ? <>
+                  <MenuItem
                 icon={CgProfile}
                 label="Admin Profile"
                 address="/dashboard"
@@ -87,9 +100,33 @@ const Sidebar: React.FC = () => {
                 label="Reviews"
                 address="/dashboard/manageReviews"
               />
-
-              {/* tour guide dashboard */}
-              {/* tourist dash board */}
+                </> :
+                  isAgent ? <>
+                    <MenuItem
+                      icon={CgProfile}
+                      label='My Profile'
+                      address='/dashboard'
+                    />
+                  </>
+                    :
+                    <>
+                      <MenuItem
+                        icon={CgProfile}
+                        label='My Profile'
+                        address='/dashboard'
+                      />
+                      <MenuItem
+                        icon={FaBookmark}
+                        label='My Bookings'
+                        address='/dashboard/bookings'
+                      />
+                      <MenuItem
+                        icon={FaRegHeart}
+                        label='My Wishlist'
+                        address='/dashboard/wishlist'
+                      />
+                    </>
+              }
             </nav>
           </div>
         </div>

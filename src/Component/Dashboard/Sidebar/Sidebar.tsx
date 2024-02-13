@@ -13,17 +13,14 @@ import { AiOutlineBars } from 'react-icons/ai';
 import { FaBookmark, FaRegHeart, FaUsers } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BsHouseAddFill } from 'react-icons/bs';
-// import useAdmin from '../../../hook/useAdmin';
-import useAgent from '../../../hook/useAgent';
+import useCheckRole from "../../../hook/useCheckRole";
 
 
 const Sidebar: React.FC = () => {
   const [isActive, setActive] = useState(!true);
   const { logOut }: { logOut: () => Promise<void> } = useContext(AuthContext);
   const navigate = useNavigate();
-  // const [isAdmin] = useAdmin();
-  const isAdmin = true
-  const [isAgent] = useAgent();
+  const [role] = useCheckRole();
 
   // logOut from page
   const handleLogOut = async () => {
@@ -58,9 +55,8 @@ const Sidebar: React.FC = () => {
       </div>
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b8a6] shadow-xl w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive ? "-translate-x-full" : "md:translate-x-0"
-        } transition duration-200 ease-in-out`}
+        className={`z-10 md:fixed flex flex-col justify-between min-h-screen overflow-x-hidden bg-[#14b8a6] shadow-xl w-80 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive ? "-translate-x-full" : "md:translate-x-0"
+          } transition duration-200 ease-in-out`}
 
       >
         <div>
@@ -79,53 +75,78 @@ const Sidebar: React.FC = () => {
               {/* admin dashboard */}
 
               {
-                isAdmin ? <>
+                role === "admin" && <>
                   <MenuItem
-                icon={CgProfile}
-                label="Admin Profile"
-                address="/dashboard"
-              />
-              <MenuItem
-                icon={FaUsers}
-                label="Manage Users"
-                address="/dashboard/manageUsers"
-              />
-              <MenuItem
-                icon={BsHouseAddFill}
-                label="Manage Properties"
-                address="/dashboard/manageProperties"
-              />
-              <MenuItem
-                icon={GiStarsStack}
-                label="Reviews"
-                address="/dashboard/manageReviews"
-              />
-                </> :
-                  isAgent ? <>
-                    <MenuItem
-                      icon={CgProfile}
-                      label='My Profile'
-                      address='/dashboard'
-                    />
-                  </>
-                    :
-                    <>
-                      <MenuItem
-                        icon={CgProfile}
-                        label='My Profile'
-                        address='/dashboard'
-                      />
-                      <MenuItem
-                        icon={FaBookmark}
-                        label='My Bookings'
-                        address='/dashboard/bookings'
-                      />
-                      <MenuItem
-                        icon={FaRegHeart}
-                        label='My Wishlist'
-                        address='/dashboard/wishlist'
-                      />
-                    </>
+                    icon={CgProfile}
+                    label="My Profile"
+                    address="/dashboard"
+                  />
+                  <MenuItem
+                    icon={FaUsers}
+                    label="Manage Users"
+                    address="/dashboard/manageUsers"
+                  />
+                  <MenuItem
+                    icon={BsHouseAddFill}
+                    label="Manage Properties"
+                    address="/dashboard/manageProperties"
+                  />
+                  <MenuItem
+                    icon={GiStarsStack}
+                    label="Manage Reviews"
+                    address="/dashboard/manageReviews"
+                  />
+                </>} {
+                role === "agent" && <>
+                  <MenuItem
+                    icon={CgProfile}
+                    label='My Profile'
+                    address='/dashboard'
+                  />
+                  <MenuItem
+                    icon={CgProfile}
+                    label='Add Property'
+                    address='/dashboard/addProperty'
+                  />
+                  <MenuItem
+                    icon={CgProfile}
+                    label='My Added Properties'
+                    address='/dashboard/myAddedProperties'
+                  />
+                  <MenuItem
+                    icon={CgProfile}
+                    label='My Rented Properties'
+                    address='/dashboard/myRentedProperties'
+                  />
+                  <MenuItem
+                    icon={CgProfile}
+                    label='Requested Properties'
+                    address='/dashboard/requestedProperties'
+                  />
+                </>}
+              {role === "user" &&
+                <>
+                  <MenuItem
+                    icon={CgProfile}
+                    label='My Profile'
+                    address='/dashboard'
+                  />
+                  <MenuItem
+                    icon={FaBookmark}
+                    label='Wishlist'
+                    address='/dashboard/wishlist'
+                  />
+                  <MenuItem
+                    icon={FaRegHeart}
+                    label='My Bookings'
+                    address='/dashboard/bookings'
+                  />
+                  <MenuItem
+                    icon={FaRegHeart}
+                    label='My Reviews'
+                    address='/dashboard/myReviews'
+                  />
+                </>
               }
             </nav>
           </div>

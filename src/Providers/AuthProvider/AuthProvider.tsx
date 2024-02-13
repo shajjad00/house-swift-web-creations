@@ -57,11 +57,11 @@ export default function AuthProvider({ children }: AuthProps) {
     return signInWithPopup(auth, facebookProvider);
   };
   // Update Profile:
-  const handleUpdateProfile = (lastName: string, image: string) => {
+  const handleUpdateProfile = (lastName: string, image: string , firstName : string) => {
     const currentUser = auth.currentUser;
     if (currentUser !== null) {
       return updateProfile(currentUser!, {
-        displayName: lastName,
+        displayName:firstName+" "+lastName,
         photoURL: image,
       });
     } else {

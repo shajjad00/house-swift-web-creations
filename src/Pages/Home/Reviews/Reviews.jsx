@@ -8,7 +8,7 @@ import SingleReviews from "./SingleReviews";
 export default function Reviews() {
     const [allReviews, setAllReview] = useState([]);
     useEffect(() => {
-        fetch("https://house-swift-web-creations-server.vercel.app/allRewiews")
+        fetch("http://localhost:4000/allRewiews")
             .then(res => res.json())
             .then(data => setAllReview(data));
     }, [])

@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
-
 import Button from "../../Component/Button/Button";
 import Modal from "./Modal";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import axios from "axios";
 import useAllReviews from "../../hook/useAllReviews";
 import Swal from "sweetalert2";
 import useAuth from "../../hook/useAuth";
-import useWishlist from "../../hook/useWishlist";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 
 
 type PropertyDetailsType = {
@@ -46,17 +44,9 @@ const PropertyDetails: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   const propertyDetails = useLoaderData() as PropertyDetailsType;
-  
+  const axiosPublic = useAxiosPublic();
   console.log(propertyDetails);
   const { user } = useAuth();
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  const [, refetch] = useWishlist();
-
-  // const email = user?.email
-
-
-
 
   const {
     name,
@@ -64,7 +54,7 @@ const PropertyDetails: React.FC = () => {
     district,
     image,
     rent_price,
-    // available_quantity,
+    available_quantity,
     bedroom,
     bathroom,
     area,
@@ -74,25 +64,14 @@ const PropertyDetails: React.FC = () => {
     agent_email,
     _id
   } = propertyDetails || {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const { user } = useContext<any>(AuthContext);
 
   const [open, setOpen] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [dateTime, setDateTime] = useState(new Date());
-  // email,
-    // available_quantity,
-    // bedroom,
-    // bathroom,
-    // area,
-  // available_date,
 
 
-
-   // use tanstack query for get the the all review data 
-const [allReviews] = useAllReviews()
+  // use tanstack query for get the the all review data 
+  const [allReviews, reReviewFetch] = useAllReviews()
   // console.log("============>",allReviews)
 
   // submit the modal form data and post he data mongoDb
@@ -110,12 +89,13 @@ const [allReviews] = useAllReviews()
         userImage: user?.photoURL
       };
 
-      const res = await axios.post("https://house-swift-web-creations-server.vercel.app/allRewiews", {
+      const res = await axios.post("http://localhost:4000/allRewiews", {
         allReviewData,
       });
 
       if (res.data.insertedId) {
-        refetch()
+        reReviewFetch()
+        setOpen(false)
         Swal.fire({
           position: "top",
           icon: "success",
@@ -142,8 +122,6 @@ const [allReviews] = useAllReviews()
   };
 
 
-
-
   // const [filteredReviews, setFilteredReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
 
@@ -166,12 +144,40 @@ const [allReviews] = useAllReviews()
 
   useEffect(() => {
     const filteredData = allReviews.filter((review: { reviewData: { reviewID: string; }; }) => review?.reviewData?.reviewID === _id);
-
     setFilteredReviews(filteredData);
   }, [allReviews, _id]);
 
   // console.log("=======> filter data ", filteredReviews);
-
+  const handleAddToWishlist = async () => {
+    const wishlistProperty = {
+      name,
+      upazila,
+      district,
+      image,
+      rent_price,
+      available_quantity,
+      bedroom,
+      bathroom,
+      area,
+      agent_name,
+      agent_image,
+      description,
+      agent_email,
+      wishlistId : _id,
+      userEmail : user?.email
+    }
+    const res = await axiosPublic.post("/wishlists" , wishlistProperty);
+    console.log(res.data)
+    if(res.data.insertedId){
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Added to Wishlist",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  }
 
 
 
@@ -281,7 +287,7 @@ const [allReviews] = useAllReviews()
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
-                    <Button>Add To Wishlist</Button>
+                    <span onClick={handleAddToWishlist}><Button>Add To Wishlist</Button></span>
                   </div>
                 </div>
               </div>

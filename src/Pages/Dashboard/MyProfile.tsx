@@ -1,69 +1,92 @@
-import { Helmet } from "react-helmet-async";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { useContext } from "react";
-import Loading from "./Loading/Loading";
-// import useAuth from "../../../hook/useAuth";
-// import useAxiosSecure from "../../../hook/useAxiosSecure";
-// import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
-interface UserType {
-    displayName: string | null;
-    email: string | null;
-    photoURL: string | null;
-    // Add any other properties you may have in your user object
-}
+import { FaLuggageCart, FaUsers } from "react-icons/fa";
+// import Loader from "../../Components/Loader";
+// import useWishlist from "../../Hooks/useWishlist";
+// import useAllProperties from "../../Hooks/useAllProperties";
+import { TiBusinessCard } from "react-icons/ti";
+// import useCheckRole from "../../Hooks/useCheckRole";
+// import useRequestedProperty from "../../Hooks/useRequestedProperty";
+// import useUsers from "../../Hooks/useUsers";
+import { Helmet } from "react-helmet-async";
+import useWishlist from "../../hook/useWishlist";
+import useUsersInfo from "../../hook/useUsersInfo";
+import useCheckRole from "../../hook/useCheckRole";
+import useAllProperty from "../../hook/useAllProperty";
+import Loader from "../../Component/Loader/Loader";
 
-const Profile: React.FC = () => {
-    const { user } = useContext(AuthContext) as { user: UserType };
-    console.log(user)
-
-    // const axiosSecure = useAxiosSecure();
-    // const { data: users = [] } = useQuery({
-    //     queryKey: ['users'],
-    //     queryFn: async () => {
-    //         const res = await axiosSecure.get("/users");
-    //         return res.data;
-    //     }
-    // })
-
-
-    // const currentUser = users.find((cUser) => cUser?.email === user?.email)
-    // console.log(users,currentUser?.role)
-
-    if (!user) {
-        // Handle the case when user is null or undefined
-        return <div><Loading/></div>;
-      }
-
+export default function MyProfile() {
+    // const [requestedProperties] = useRequestedProperty();
+    const [role] = useCheckRole();
+    const { user } = useContext(AuthContext);
+    const [wishlist, ,isPending] = useWishlist();
+    const [allProperty, , loading] = useAllProperty();
+    const [users] = useUsersInfo();
+    if (isPending || loading) {
+        return <Loader></Loader>
+    }
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="md:px-8">
             <Helmet>
-                <title>DashBoard | Profile</title>
+                <title>Homez | Dashboard - Profile</title>
             </Helmet>
-            <h1 className="text-2xl font-extrabold mb-5">
-                <span className="text-[#16CAC9]">Welcome Back !!!</span>
-                {/* Update this line when you have the currentUser data */}
-                {/* <span className="text-[#F99615]">{currentUser?.role}</span> */}
-            </h1>
-            <div className="card w-96 justify-center card-side bg-base-100 shadow-xl flex flex-col">
+            <div className="mb-5 flex gap-3 items-center mt-4">
                 <div>
-                    <figure>
-                        <img src={user.photoURL || ''} alt={user.displayName || 'User Image'} />
-                        {/* Use an empty string as fallback for photoURL, and 'User Image' as fallback for displayName */}
-                    </figure>
+                    <img className="w-12 h-12 rounded-full" src={user?.photoURL} alt="Profile" />
                 </div>
-                <div className="card-body">
-                    <h2 className="card-title">
-                        <span className="text-xl text-black font-extrabold"> Name:</span>{' '}
-                        <span className="text-blue-400">{user.displayName}</span>
-                    </h2>
-                    <p className="font-bold text-base w-full mr-5 text-blue-400">
-                        <span className="text-xl text-black font-extrabold"> Email:</span> {user.email}
-                    </p>
+                <div>
+                    <h2 className="text-2xl font-bold text-left">Hi, {user?.displayName}</h2>
+                    <p className="text-sm text-gray-600 mt-1">We are glad to see you again!</p>
                 </div>
             </div>
-        </div>
-    );
-};
+            <div className="mb-4">
+                {role && <p className="text-2xl text-gray-500">You are an {role}</p>}
+            </div>
+            <div className="grid grid-cols-4 gap-3">
 
-export default Profile;
+                {!role && <div className="shadow p-6 flex justify-between items-center">
+                    <div>
+                        <p className="text-sm text-center text-gray-600">Wishlist</p>
+                        <h3 className="text-3xl font-bold text-center">{wishlist?.length}</h3>
+                    </div>
+                    <div>
+                        <FaLuggageCart className="text-3xl"></FaLuggageCart>
+                    </div>
+                </div>}
+                {role === 'agent' && <div className="shadow p-6 flex justify-between items-center">
+                    <div>
+                        <p className="text-sm text-center text-gray-600">Added Properties</p>
+                        <h3 className="text-3xl font-bold text-center">{allProperty?.length}</h3>
+                    </div>
+                    <div>
+                        <TiBusinessCard className="text-3xl" />
+                    </div>
+                </div>}
+                {role === 'agent' &&
+                    <div className="shadow p-6 flex justify-between items-center">
+                        <div>
+                            <p className="text-sm text-center text-gray-600">Requested Properties</p>
+                            <h3 className="text-3xl font-bold text-center">{allProperty?.length}</h3>
+                        </div>
+                        <div>
+                            <TiBusinessCard className="text-3xl" />
+                        </div>
+                    </div>
+                }
+                {role === 'admin' &&
+                    <div className="shadow p-6 flex justify-between items-center">
+                        <div>
+                            <p className="text-sm text-center text-gray-600">Users</p>
+                            <h3 className="text-3xl font-bold text-center">{users?.length}</h3>
+                        </div>
+                        <div>
+                            <FaUsers className="text-3xl" />
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    )
+}

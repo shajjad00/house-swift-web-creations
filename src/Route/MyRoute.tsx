@@ -59,7 +59,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://house-swift-web-creations-server.vercel.app/properties/${params.id}`
+            `http://localhost:4000/properties/${params.id}`
           ),
       },
       {
@@ -69,14 +69,6 @@ const MyRoute = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp></SignUp>,
-      },
-      {
-        path: "/addProperty",
-        element: (
-          <PrivateRoute>
-            <AddProperty></AddProperty>
-          </PrivateRoute>
-        ),
       },
       {
         path: "/searchingProperty",
@@ -99,7 +91,7 @@ const MyRoute = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://house-swift-web-creations-server.vercel.app/blogsData/${params.id}`
+            `http://localhost:4000/blogsData/${params.id}`
           ),
       },
     ],
@@ -127,7 +119,7 @@ const MyRoute = createBrowserRouter([
       {
         path: "manageReviews",
         element: <ManageReviews />,
-
+      },{
         path : "bookings",
         element: <Bookings/>,
       },
@@ -136,6 +128,14 @@ const MyRoute = createBrowserRouter([
         element: <Wishlist/>,
 
       },
+      {
+        path: "addProperty",
+        element: (
+          <PrivateRoute>
+            <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
+      }
     ],
   },
 ]);

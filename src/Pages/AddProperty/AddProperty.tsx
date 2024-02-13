@@ -44,7 +44,7 @@ const AddProperty = () => {
   // const agent_email = user?.email;
   const agent_image = user?.photoURL;
 
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
   const handleAddProperty: SubmitHandler<Inputs> = async (data) => {
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -85,14 +85,15 @@ const AddProperty = () => {
         area,
         description,
         image,
-        verification_status: "pending",
-        // verification_status: "verified",
+        // verification_status: "pending",
+        verification_status: "verified",
         role: "seller",
       };
       console.log(addPropertyInfo);
-      axiosPublic.post("/addProperty", addPropertyInfo).then((res) => {
+      const res = await axiosPublic.post("/properties", addPropertyInfo);
+      // .then((res) => {
         if (res.data.insertedId) {
-          reset();
+          // reset();
           Swal.fire({
             position: "top",
             icon: "success",
@@ -101,7 +102,7 @@ const AddProperty = () => {
             timer: 1500,
           });
         }
-      });
+      // });
     }
     console.log(data);
   };
@@ -123,7 +124,7 @@ const AddProperty = () => {
     // You can perform actions based on the selected district here
   };
   return (
-    <div className="py-8 md:px-20 mt-24">
+    <div className="py-8 md:px-20 mt-0">
       <Helmet>
         <title>House Swift | Add Property</title>
       </Helmet>

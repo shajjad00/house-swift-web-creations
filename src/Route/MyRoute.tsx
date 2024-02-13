@@ -13,7 +13,10 @@ import Dashboard from "../Layout/Dashboard";
 import Profile from "../Pages/Dashboard/MyProfile";
 import PropertyDetails from "../Pages/propertyDetails/PropertyDetails";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
-import PrivateRoute from "./PrivateRoute";
+
+import MyProperties from "../Pages/Dashboard/MyProperties/MyProperties";
+import AgentRentedProperties from "../Pages/Dashboard/AgentRentedProperties/AgentRentedProperties";
+
 
 import ManageProperties from "../Pages/Dashboard/AdminDashboard/ManageProperties/ManageProperties";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers";
@@ -21,6 +24,7 @@ import ManageReviews from "../Pages/Dashboard/AdminDashboard/ManageReviews/Manag
 
 import { Bookings } from "../Pages/Dashboard/UserRoute/Bookings";
 import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
+import PrivateRoute from "./PrivateRoute";
 
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
@@ -109,6 +113,30 @@ const MyRoute = createBrowserRouter([
         element: <Profile></Profile>,
       },
       {
+        path: "property",
+        element: (
+          <PrivateRoute>
+            <MyProperties></MyProperties>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "addProperty",
+        element: (
+          <PrivateRoute>
+            <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "rentedProperty",
+        element: (
+          <PrivateRoute>
+            <AgentRentedProperties></AgentRentedProperties>
+          </PrivateRoute>
+        ),
+      }, 
+      {
         path: "manageProperties",
         element: <ManageProperties />,
       },
@@ -119,13 +147,13 @@ const MyRoute = createBrowserRouter([
       {
         path: "manageReviews",
         element: <ManageReviews />,
-      },{
-        path : "bookings",
-        element: <Bookings/>,
+      }, {
+        path: "bookings",
+        element: <Bookings />,
       },
       {
-        path : "wishlist",
-        element: <Wishlist/>,
+        path: "wishlist",
+        element: <Wishlist />,
 
       },
       {

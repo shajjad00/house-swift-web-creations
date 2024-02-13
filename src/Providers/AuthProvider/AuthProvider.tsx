@@ -22,6 +22,8 @@ type AuthProps = {
 export default function AuthProvider({ children }: AuthProps) {
   // const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState<any>(null);
+  const [searchText, setSearchText] = useState("");
+  const [showText, setShowText] = useState(true);
   const [loading, setLoading] = useState<boolean>(true);
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
@@ -96,6 +98,10 @@ export default function AuthProvider({ children }: AuthProps) {
     githubLogin,
     facebookLogin,
     handleUpdateProfile,
+    searchText,
+    setSearchText,
+    setShowText,
+    showText,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

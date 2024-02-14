@@ -22,7 +22,6 @@ const ManageUsers: React.FC = () => {
   // user make admin
   const handleMakeUserToAdmin = (user: UserInfo) => {
     axiosPublic.patch(`/propertyUsers/admin/${user._id}`).then((res) => {
-      console.log(res.data);
       if (res.data.modifiedCount > 0) {
         refetch();
         Swal.fire({
@@ -38,7 +37,6 @@ const ManageUsers: React.FC = () => {
   // user make admin
   const handleMakeUserToAgent = (user: UserInfo) => {
     axiosPublic.patch(`/propertyUsers/agent/${user._id}`).then((res) => {
-      console.log(res.data);
       if (res.data.modifiedCount > 0) {
         refetch();
         Swal.fire({

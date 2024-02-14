@@ -23,7 +23,7 @@ const SignIn = () => {
     try {
       await googleLogin()
         .then((result: { user: any }) => {
-          console.log(result.user);
+          // console.log(result.user);
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -63,7 +63,7 @@ const SignIn = () => {
     try {
       await facebookLogin()
         .then((result: { user: any }) => {
-          console.log(result.user);
+          // console.log(result.user);
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -90,8 +90,7 @@ const SignIn = () => {
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     login(email, password)
-      .then((result: { user: any }) => {
-        console.log(result.user);
+      .then(() => {
         Swal.fire({
           position: "top-end",
           icon: "success",

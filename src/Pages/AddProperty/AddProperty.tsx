@@ -89,7 +89,6 @@ const AddProperty = () => {
         verification_status: "verified",
         role: "seller",
       };
-      console.log(addPropertyInfo);
       const res = await axiosPublic.post("/properties", addPropertyInfo);
       // .then((res) => {
         if (res.data.insertedId) {
@@ -104,18 +103,16 @@ const AddProperty = () => {
         }
       // });
     }
-    console.log(data);
+    // console.log(data);
   };
   const handleDistrictChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedDistrictName = event.target.value;
-    console.log(`${selectedDistrictName}`);
     const selectedDistrict = propertyDistrict.find(
       (district: { _id: string; name: string }) =>
         district.name === selectedDistrictName
     );
-    console.log(selectedDistrict);
     const selectedUpazila = propertyUpazila.filter(
       (upaZila: { district_id: number }) =>
         upaZila.district_id == selectedDistrict.id

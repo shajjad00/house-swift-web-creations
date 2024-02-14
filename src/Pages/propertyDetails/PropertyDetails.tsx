@@ -45,7 +45,6 @@ const PropertyDetails: React.FC = () => {
   }, []);
   const propertyDetails = useLoaderData() as PropertyDetailsType;
   const axiosPublic = useAxiosPublic();
-  console.log(propertyDetails);
   const { user } = useAuth();
 
   const {

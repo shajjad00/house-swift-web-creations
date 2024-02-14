@@ -19,7 +19,6 @@ const ManageProperties: FC = () => {
   const [allProperty, refetch] = useAllProperty();
 
   const axiosPublic = useAxiosPublic();
-  console.log(allProperty);
 
   // deleted users
   const handleDeleteProperty =

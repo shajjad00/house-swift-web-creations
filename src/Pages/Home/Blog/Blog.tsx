@@ -5,7 +5,6 @@ import useBlogsDtata from "../../../hook/useBlogsDtata";
 
 const Blog = () => {
   const [blogsData] = useBlogsDtata();
-  console.log(blogsData);
   return (
     <div className="max-w-7xl mx-auto px-4 mt-8 md:px-20">
       <div>

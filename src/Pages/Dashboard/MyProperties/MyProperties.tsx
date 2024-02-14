@@ -5,7 +5,6 @@ import Property from "../../AllProperties/Property";
 
 const MyProperties = () => {
   const { user } = useAuth();
-  console.log(user?.email);
   const axiosPublic = useAxiosPublic();
   const { data, isLoading } = useQuery({
     queryKey: ["agent Property"],
@@ -14,7 +13,7 @@ const MyProperties = () => {
       return res?.data;
     },
   });
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
     return <p>loading...</p>;

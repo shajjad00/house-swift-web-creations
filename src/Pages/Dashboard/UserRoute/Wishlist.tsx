@@ -40,7 +40,6 @@ export const Wishlist: React.FC = () => {
   const axiosPublic = useAxiosPublic();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  console.log(wishlist)
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);

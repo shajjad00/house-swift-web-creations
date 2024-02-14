@@ -30,7 +30,7 @@ const Properties = () => {
     setShowText(true);
     if (selectedValue.length > 0) {
       axios
-        .get(`http://localhost:4000/recommendation?searchData=${selectedValue}`)
+        .get(`https://house-swift-web-creations-server-sandy.vercel.app/recommendation?searchData=${selectedValue}`)
         .then((res) => {
           setRecommendationText(res.data);
         });

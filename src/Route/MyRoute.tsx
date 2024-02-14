@@ -25,6 +25,7 @@ import ManageReviews from "../Pages/Dashboard/AdminDashboard/ManageReviews/Manag
 import { Bookings } from "../Pages/Dashboard/UserRoute/Bookings";
 import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
 import PrivateRoute from "./PrivateRoute";
+import AgentAddedProperty from "../Pages/Dashboard/AgentRentedProperties/AgentAddedProperty";
 
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
@@ -163,6 +164,10 @@ const MyRoute = createBrowserRouter([
             <AddProperty></AddProperty>
           </PrivateRoute>
         ),
+      },
+      {
+        path : "myAddedProperties",
+        element : <AgentAddedProperty></AgentAddedProperty>
       }
     ],
   },

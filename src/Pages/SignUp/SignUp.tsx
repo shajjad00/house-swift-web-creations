@@ -71,7 +71,9 @@ const SignUp = () => {
               email,
               phone,
               image,
-              role: "user",
+              // role: "user",
+              // role: "user",
+              role: "admin",
               status: "active",
             };
             console.log(usersInfo);

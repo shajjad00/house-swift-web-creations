@@ -58,9 +58,7 @@ const MyRoute = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `http://localhost:4000/properties/${params.id}`
-          ),
+          fetch(`http://localhost:4000/properties/${params.id}`),
       },
       {
         path: "/login",
@@ -98,9 +96,7 @@ const MyRoute = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `http://localhost:4000/blogsData/${params.id}`
-          ),
+          fetch(`http://localhost:4000/blogsData/${params.id}`),
       },
     ],
   },
@@ -127,14 +123,14 @@ const MyRoute = createBrowserRouter([
       {
         path: "manageReviews",
         element: <ManageReviews />,
-
-        path : "bookings",
-        element: <Bookings/>,
       },
       {
-        path : "wishlist",
-        element: <Wishlist/>,
-
+        path: "bookings",
+        element: <Bookings />,
+      },
+      {
+        path: "wishlist",
+        element: <Wishlist />,
       },
     ],
   },

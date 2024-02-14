@@ -85,9 +85,10 @@ const AddProperty = () => {
         area,
         description,
         image,
-        verification_status: "pending",
-        // verification_status: "verified",
-        role: "seller",
+        // verification_status: "pending",
+        verification_status: "verified",
+        // role: "seller",
+        role: "agent",
       };
       console.log(addPropertyInfo);
       axiosPublic.post("/addProperty", addPropertyInfo).then((res) => {

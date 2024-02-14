@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import MenuItem from "../MenuItem";
 
 // Icons
-import { FaUsers } from "react-icons/fa";
+
 import { FaRegWindowClose } from "react-icons/fa";
 import { GiStarsStack } from "react-icons/gi";
 import logo from "../../../assets/images/logo-white.png";

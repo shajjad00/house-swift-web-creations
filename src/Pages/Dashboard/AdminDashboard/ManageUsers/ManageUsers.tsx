@@ -1,11 +1,17 @@
-import React from "react";
-import { FaTrash, FaUsers } from "react-icons/fa";
-import useUsersInfo from "../../../../hook/useUsersInfo";
-import Swal from "sweetalert2";
-import { FaUserEdit } from "react-icons/fa";
-
+import React, { useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { TablePagination } from "@mui/material";
+import { TiDocumentDelete } from "react-icons/ti";
 import useAxiosPublic from "../../../../hook/useAxiosPublic";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useUsersInfo from "../../../../hook/useUsersInfo";
+import { FaUsers } from "react-icons/fa";
 
 interface UserInfo {
   name: string;
@@ -18,6 +24,19 @@ interface UserInfo {
 const ManageUsers: React.FC = () => {
   const [usersInfo, refetch] = useUsersInfo();
   const axiosPublic = useAxiosPublic();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   // user make admin
   const handleMakeUserToAdmin = (user: UserInfo) => {
@@ -79,86 +98,101 @@ const ManageUsers: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-evenly items-center my-4 border-b-2 pb-5">
-        <h2
-          className="text-3xl border px-12 py-2 
-         hover:border-red-400 text-blue-500 font-bold"
-        >
-          All Users
-        </h2>
-        <h2
-          className="text-3xl border px-12 py-2 
-         hover:border-red-400 font-bold text-blue-500"
-        >
-          Total Users: {usersInfo.length}
-        </h2>
-        <h2
-          className="text-3xl  px-12 py-2 
-         hover:border-red-400 text-blue-500 font-bold"
-        >
-          Add User
-        </h2>
-        <Link to="/signUp">
-          <FaUserEdit className="text-3xl hover:text-5xl" />
-        </Link>
+    <>
+      <div className="border p-2 text-2xl font-bold shadow-xl rounded-lg">
+        Total User: {usersInfo.length}
       </div>
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usersInfo.map((user: UserInfo, index: number) => (
-              <tr key={user._id}>
-                <th>{index + 1}</th>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  {user.role === "admin" ? (
-                    "Admin"
-                  ) : (
-                    <button
-                      onClick={() => handleMakeUserToAdmin(user)}
-                      className="btn btn-lg text-2xl  hover:bg-green-500 text-white"
-                    >
-                      <FaUsers></FaUsers>
-                    </button>
-                  )}
-                  {user.role === "agent" ? (
-                    "Agent"
-                  ) : (
-                    <button
-                      onClick={() => handleMakeUserToAgent(user)}
-                      className="btn btn-lg text-2xl  hover:bg-green-500 text-white"
-                    >
-                      <FaUsers></FaUsers>
-                    </button>
-                  )}
-                </td>
-                <td>
-                  {" "}
-                  <button
-                    onClick={() => handleDeleteUser(user)}
-                    className="btn btn-ghost btn-lg hover:bg-red-500 text-white"
+        <TableContainer className="mt-10" component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <span className="text-xl font-semibold text-black">ID</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-xl font-semibold text-black">Name</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="text-xl font-semibold text-black">
+                    Email
+                  </span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="text-xl font-semibold text-black">Role</span>
+                </TableCell>
+
+                <TableCell align="left">
+                  <span className="text-xl font-semibold text-black">
+                    Delete
+                  </span>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {usersInfo
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user: UserInfo, index: number) => (
+                  <TableRow
+                    key={user._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <FaTrash></FaTrash>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {user.name}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      <span>{user.email}</span>
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {user.role === "admin" ? (
+                        "Admin"
+                      ) : (
+                        <button
+                          onClick={() => handleMakeUserToAdmin(user)}
+                          className="btn btn-lg text-2xl  hover:bg-green-500 text-white"
+                        >
+                          <FaUsers></FaUsers>
+                        </button>
+                      )}
+                      {user.role === "agent" ? (
+                        "Agent"
+                      ) : (
+                        <button
+                          onClick={() => handleMakeUserToAgent(user)}
+                          className="btn btn-lg text-2xl  hover:bg-green-500 text-white ml-4"
+                        >
+                          <FaUsers></FaUsers>
+                        </button>
+                      )}
+                    </TableCell>
+
+                    <TableCell component="th" scope="row">
+                      <button
+                        onClick={() => handleDeleteUser(user)}
+                        className="btn btn-lg text-2xl hover:bg-red-500 text-white"
+                      >
+                        <TiDocumentDelete />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={usersInfo.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
       </div>
-      <div></div>
-    </div>
+    </>
   );
 };
 

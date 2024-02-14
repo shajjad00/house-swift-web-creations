@@ -28,7 +28,7 @@ const BlogDetails: React.FC = () => {
         return;
       }
 
-      const response = await fetch("https://task-management-serverside-ten.vercel.app/alltask");
+      const response = await fetch("./blogs.json");
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

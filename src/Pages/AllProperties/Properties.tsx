@@ -30,7 +30,9 @@ const Properties = () => {
     setShowText(true);
     if (selectedValue.length > 0) {
       axios
-        .get(`http://localhost:4000/recommendation?searchData=${selectedValue}`)
+        .get(
+          `https://house-swift-web-creations-server-sandy.vercel.app/recommendation?searchData=${selectedValue}`
+        )
         .then((res) => {
           setRecommendationText(res.data);
         });
@@ -68,10 +70,7 @@ const Properties = () => {
     <>
       <div className="py-24">
         <div>
-          <SectionTitle
-            first="All"
-            second="Properties"
-          ></SectionTitle>
+          <SectionTitle first="All" second="Properties"></SectionTitle>
           <TransitionEffect></TransitionEffect>
           <div className="md:px-20  py-3 flex flex-col justify-end items-center max-w-7xl mx-auto">
             <div className="flex justify-end relative items-center">
@@ -123,10 +122,7 @@ const Properties = () => {
                 },
                 idx: Key | null | undefined
               ) => (
-                <Property
-                  key={idx}
-                  property={property}
-                ></Property>
+                <Property key={idx} property={property}></Property>
               )
             )}
           </div>

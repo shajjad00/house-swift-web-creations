@@ -140,7 +140,7 @@ const Sidebar: React.FC = () => {
                   <MenuItem
                     icon={FaRegHeart}
                     label='My Bookings'
-                    address='/dashboard/bookings'
+                    address='/dashboard/Mybookings'
                   />
                   <MenuItem
                     icon={FaRegHeart}

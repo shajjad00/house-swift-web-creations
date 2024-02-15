@@ -25,6 +25,7 @@ import { Bookings } from "../Pages/Dashboard/UserRoute/Bookings";
 import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
 import PrivateRoute from "./PrivateRoute";
 import AgentAddedProperty from "../Pages/Dashboard/AgentRentedProperties/AgentAddedProperty";
+import Mybooking from "../Pages/Dashboard/Mybooking/Mybooking";
 
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
@@ -157,8 +158,8 @@ const MyRoute = createBrowserRouter([
         element: <ManageReviews />,
       },
       {
-        path: "bookings",
-        element: <Bookings />,
+        path: "Mybookings",
+        element: <Mybooking></Mybooking>,
       },
       {
         path: "wishlist",

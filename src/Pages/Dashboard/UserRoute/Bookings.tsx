@@ -29,7 +29,7 @@ type Inputs = {
 
 export const Bookings = () => {
   // const axiosPublic = useAxiosPublic();
-  const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   // console.log(user?.email)
   const { register, handleSubmit } = useForm<Inputs>();
   const bookingData = useLoaderData();
@@ -54,7 +54,7 @@ export const Bookings = () => {
   const addBooking: SubmitHandler<Inputs> = async (data) => {
     const Chack_In_Date = data.Chack_In_Date;
     const Chack_out_Date = data.Chack_out_Date;
-  const userEmail=user.email;
+    const userEmail = user.email;
     const mybooking = {
       agent_email,
       agent_name,
@@ -70,14 +70,17 @@ export const Bookings = () => {
       area,
       image,
       agent_image,
-      userEmail
+      userEmail,
     };
     console.log(mybooking);
-  
+
     try {
       // Replace the axiosPublic.post with axios.post
-      const res = await axios.post("http://localhost:4000/mybooking", mybooking);
-  
+      const res = await axios.post(
+        "http://localhost:4000/mybooking",
+        mybooking
+      );
+
       if (res.data.insertedId) {
         console.log("Booking submitted successfully!");
       }
@@ -179,8 +182,8 @@ export const Bookings = () => {
               name="rent_price"
               id="rent_price"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-         value={rent_price}
-         readOnly
+              value={rent_price}
+              readOnly
             />
             <label
               htmlFor="rent_price"
@@ -198,8 +201,8 @@ export const Bookings = () => {
               name="available_quantity"
               id="available_quantity"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-             readOnly
-             value={available_quantity}
+              readOnly
+              value={available_quantity}
             />
             <label
               htmlFor="floating_phone"
@@ -238,8 +241,8 @@ export const Bookings = () => {
               name="bathroom"
               id="bathroom"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-            readOnly
-            value={bathroom}
+              readOnly
+              value={bathroom}
             />
             <label
               htmlFor="bathroom"
@@ -298,13 +301,13 @@ export const Bookings = () => {
               name="Chack_In_Date"
               id="Chack_In_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-            required
+              required
             />
             <label
               htmlFor="available_date"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-             ChackIn Date
+              ChackIn Date
             </label>
           </div>
 
@@ -315,17 +318,16 @@ export const Bookings = () => {
               name="Chack_out_Date"
               id="Chack_out_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-            required
+              required
             />
             <label
               htmlFor="Chack_out_Date"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-             ChackOut Date
+              ChackOut Date
             </label>
           </div>
         </div>
-
 
         <div className="mt-6">
           <button

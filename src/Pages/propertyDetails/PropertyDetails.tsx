@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "../../Component/Button/Button";
 import Modal from "./Modal";
@@ -283,9 +283,14 @@ const PropertyDetails: React.FC = () => {
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
+                    <div className="flex gap-2">
                     <span onClick={handleAddToWishlist}>
-                      <Button>Add To Wishlist</Button>
+                      <Button>Wishlist</Button>
                     </span>
+                    <span>
+                     <Link to={`/booking/${_id}`}><Button>Book</Button></Link>
+                    </span>
+                    </div>
                   </div>
                 </div>
               </div>

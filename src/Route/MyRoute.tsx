@@ -67,6 +67,14 @@ const MyRoute = createBrowserRouter([
           ),
       },
       {
+        path: "/booking/:id",
+        element: <Bookings></Bookings>,
+        loader: ({ params }) =>
+          fetch(
+            `https://house-swift-web-creations-server-sandy.vercel.app/properties/${params.id}`
+          ),
+      },
+      {
         path: "/login",
         element: <SignIn></SignIn>,
       },

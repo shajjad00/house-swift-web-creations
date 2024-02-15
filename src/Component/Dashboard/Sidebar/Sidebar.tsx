@@ -21,6 +21,7 @@ const Sidebar: React.FC = () => {
   const { logOut }: { logOut: () => Promise<void> } = useContext(AuthContext);
   const navigate = useNavigate();
   const [role] = useCheckRole();
+  console.log(role);
 
   // logOut from page
   const handleLogOut = async () => {

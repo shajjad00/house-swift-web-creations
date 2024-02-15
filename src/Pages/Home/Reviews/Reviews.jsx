@@ -2,7 +2,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import Slider from "react-slick";
 import Slider from "react-slick";
-import SectionTitle from "../../../Component/SectionTitle/SectionTitle"
+import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import { useEffect, useState } from "react";
 import SingleReviews from "./SingleReviews";
 export default function Reviews() {
@@ -31,6 +31,6 @@ export default function Reviews() {
                     allReviews?.slice(0,6)?.map((review) => <SingleReviews key={review._id} review={review}></SingleReviews>)
                 }
             </Slider>
-        </div>
-    )
+        </div>     
+  );
 }

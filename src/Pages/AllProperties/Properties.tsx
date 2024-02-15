@@ -68,10 +68,7 @@ const Properties = () => {
     <>
       <div className="py-24">
         <div>
-          <SectionTitle
-            first="All"
-            second="Properties"
-          ></SectionTitle>
+          <SectionTitle first="All" second="Properties"></SectionTitle>
           <TransitionEffect></TransitionEffect>
           <div className="md:px-20  py-3 flex flex-col justify-end items-center max-w-7xl mx-auto">
             <div className="flex justify-end relative items-center">
@@ -123,10 +120,7 @@ const Properties = () => {
                 },
                 idx: Key | null | undefined
               ) => (
-                <Property
-                  key={idx}
-                  property={property}
-                ></Property>
+                <Property key={idx} property={property}></Property>
               )
             )}
           </div>

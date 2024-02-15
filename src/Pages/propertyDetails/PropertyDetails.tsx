@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import useAuth from "../../hook/useAuth";
 import useAxiosPublic from "../../hook/useAxiosPublic";
 
-
 type PropertyDetailsType = {
   name: string;
   upazila: string;
@@ -28,16 +27,14 @@ type PropertyDetailsType = {
   rating: number;
   available_quantity: string;
   _id: string;
-  agent_email: string
-
+  agent_email: string;
 };
-// declear the type of from data 
+// declear the type of from data
 type FormData = {
   description: string;
   rating: number;
   _id: string;
-
-}
+};
 
 const PropertyDetails: React.FC = () => {
   useEffect(() => {
@@ -61,22 +58,24 @@ const PropertyDetails: React.FC = () => {
     agent_image,
     description,
     agent_email,
-    _id
+    _id,
   } = propertyDetails || {};
 
   const [open, setOpen] = useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
-
-
-  // use tanstack query for get the the all review data 
-  const [allReviews, reReviewFetch] = useAllReviews()
+  // use tanstack query for get the the all review data
+  const [allReviews, reReviewFetch] = useAllReviews();
   // console.log("============>",allReviews)
 
   // submit the modal form data and post he data mongoDb
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      console.log(user?.displayURL)
+      console.log(user?.displayURL);
       const allReviewData = {
         review: data.description,
         rating: data.rating,
@@ -85,7 +84,7 @@ const PropertyDetails: React.FC = () => {
         reviewTime: new Date().toLocaleTimeString(),
         userEmail: user?.email,
         agent_email: agent_email,
-        userImage: user?.photoURL
+        userImage: user?.photoURL,
       };
 
       const res = await axios.post("https://house-swift-web-creations-server-sandy.vercel.app/allRewiews", {
@@ -93,8 +92,8 @@ const PropertyDetails: React.FC = () => {
       });
 
       if (res.data.insertedId) {
-        reReviewFetch()
-        setOpen(false)
+        reReviewFetch();
+        setOpen(false);
         Swal.fire({
           position: "top",
           icon: "success",
@@ -117,14 +116,12 @@ const PropertyDetails: React.FC = () => {
         text: "you alreay added your review!",
       });
     }
-
   };
-
 
   // const [filteredReviews, setFilteredReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
 
-  // after getting the review dat declear the type of reveiew data 
+  // after getting the review dat declear the type of reveiew data
   interface Review {
     _id: string;
     reviewData: {
@@ -139,10 +136,13 @@ const PropertyDetails: React.FC = () => {
       userImage: string;
     };
   }
-  // filter the data using the _id=== reviewID 
+  // filter the data using the _id=== reviewID
 
   useEffect(() => {
-    const filteredData = allReviews.filter((review: { reviewData: { reviewID: string; }; }) => review?.reviewData?.reviewID === _id);
+    const filteredData = allReviews.filter(
+      (review: { reviewData: { reviewID: string } }) =>
+        review?.reviewData?.reviewID === _id
+    );
     setFilteredReviews(filteredData);
   }, [allReviews, _id]);
 
@@ -162,12 +162,12 @@ const PropertyDetails: React.FC = () => {
       agent_image,
       description,
       agent_email,
-      wishlistId : _id,
-      userEmail : user?.email
-    }
-    const res = await axiosPublic.post("/wishlists" , wishlistProperty);
-    console.log(res.data)
-    if(res.data.insertedId){
+      wishlistId: _id,
+      userEmail: user?.email,
+    };
+    const res = await axiosPublic.post("/wishlists", wishlistProperty);
+    console.log(res.data);
+    if (res.data.insertedId) {
       Swal.fire({
         position: "top",
         icon: "success",
@@ -176,13 +176,7 @@ const PropertyDetails: React.FC = () => {
         timer: 2000,
       });
     }
-  }
-
-
-
-
-
-
+  };
 
   return (
     <>
@@ -286,13 +280,17 @@ const PropertyDetails: React.FC = () => {
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       ${rent_price}
                     </span>
-                    <span onClick={handleAddToWishlist}><Button>Add To Wishlist</Button></span>
+                    <span onClick={handleAddToWishlist}>
+                      <Button>Add To Wishlist</Button>
+                    </span>
                   </div>
                 </div>
               </div>
               <div className="shadow rounded-lg w-full mt-8 p-4">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-bold">Reviews({filteredReviews.length} +)</h3>
+                  <h3 className="text-2xl font-bold">
+                    Reviews({filteredReviews.length} +)
+                  </h3>
                   <button
                     className="uppercase w-fit border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
                     onClick={() => setOpen(true)}
@@ -301,31 +299,81 @@ const PropertyDetails: React.FC = () => {
                   </button>
                   {/* <!-- Modal toggle --> */}
                   <Modal open={open} onClose={() => setOpen(false)}>
-                    <form className="p-4 md:p-5" onSubmit={handleSubmit(onSubmit)}>
+                    <form
+                      className="p-4 md:p-5"
+                      onSubmit={handleSubmit(onSubmit)}
+                    >
                       <div className="grid gap-4 mb-4">
                         <div className="h-auto w-96">
-                          <label htmlFor="description" className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
+                          <label
+                            htmlFor="description"
+                            className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white"
+                          >
                             Write your review here
                           </label>
                           <div className="text-center">
                             <div className="rating">
-                              <input type="radio" value="1" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="2" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="3" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="4" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
-                              <input type="radio" value="5" className="mask mask-star-2 bg-orange-400" {...register("rating", { required: "Rating is required" })} />
+                              <input
+                                type="radio"
+                                value="1"
+                                className="mask mask-star-2 bg-orange-400"
+                                {...register("rating", {
+                                  required: "Rating is required",
+                                })}
+                              />
+                              <input
+                                type="radio"
+                                value="2"
+                                className="mask mask-star-2 bg-orange-400"
+                                {...register("rating", {
+                                  required: "Rating is required",
+                                })}
+                              />
+                              <input
+                                type="radio"
+                                value="3"
+                                className="mask mask-star-2 bg-orange-400"
+                                {...register("rating", {
+                                  required: "Rating is required",
+                                })}
+                              />
+                              <input
+                                type="radio"
+                                value="4"
+                                className="mask mask-star-2 bg-orange-400"
+                                {...register("rating", {
+                                  required: "Rating is required",
+                                })}
+                              />
+                              <input
+                                type="radio"
+                                value="5"
+                                className="mask mask-star-2 bg-orange-400"
+                                {...register("rating", {
+                                  required: "Rating is required",
+                                })}
+                              />
                             </div>
-
                           </div>
                           <textarea
                             id="description"
                             rows={4}
-                            {...register("description", { required: "Description is required" })}
+                            {...register("description", {
+                              required: "Description is required",
+                            })}
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Write your review here"
                           ></textarea>
-                          {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
-                          {errors.description && <span className="text-red-500">{errors.description.message}</span>}
+                          {errors.rating && (
+                            <span className="text-red-500">
+                              {errors.rating.message}
+                            </span>
+                          )}
+                          {errors.description && (
+                            <span className="text-red-500">
+                              {errors.description.message}
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="flex justify-center">
@@ -344,7 +392,10 @@ const PropertyDetails: React.FC = () => {
                   <div>
                     {filteredReviews.map((review) => (
                       <>
-                        <div key={review?.reviewData?._id} className="py-8 border-b-2 border-gray-400">
+                        <div
+                          key={review?.reviewData?._id}
+                          className="py-8 border-b-2 border-gray-400"
+                        >
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                               <img
@@ -353,18 +404,29 @@ const PropertyDetails: React.FC = () => {
                                 alt=""
                               />
                               <div>
-                                <h2 className="font-semibold">{review?.reviewData.userEmail}</h2>
-                                <h3 className="text-sm text-gray-500">{review?.reviewData.reviewDate}</h3>
+                                <h2 className="font-semibold">
+                                  {review?.reviewData.userEmail}
+                                </h2>
+                                <h3 className="text-sm text-gray-500">
+                                  {review?.reviewData.reviewDate}
+                                </h3>
                               </div>
                             </div>
                             <div className="flex flex-col items-center">
-                              <span className="text-gray-600 mb-1">Rating:</span>
+                              <span className="text-gray-600 mb-1">
+                                Rating:
+                              </span>
                               <div className="flex items-center space-x-1 rtl:space-x-reverse">
                                 {/*  use [...Array(5)] to create an array with 5 elements, as i want to display 5 stars. */}
                                 {[...Array(5)].map((_, index) => (
                                   <svg
                                     key={index}
-                                    className={`w-4 h-4 ${parseInt(review?.reviewData.rating) > index ? 'text-yellow-300' : 'text-gray-200 dark:text-gray-600'}`}
+                                    className={`w-4 h-4 ${
+                                      parseInt(review?.reviewData.rating) >
+                                      index
+                                        ? "text-yellow-300"
+                                        : "text-gray-200 dark:text-gray-600"
+                                    }`}
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
@@ -375,15 +437,12 @@ const PropertyDetails: React.FC = () => {
                                 ))}
                               </div>
                             </div>
-
                           </div>
                           <div className="mt-4">
                             <p>{review?.reviewData.review}</p>
                           </div>
                         </div>
                       </>
-
-
                     ))}
                   </div>
                 </div>

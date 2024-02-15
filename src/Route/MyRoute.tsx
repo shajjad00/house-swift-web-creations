@@ -17,7 +17,6 @@ import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 import MyProperties from "../Pages/Dashboard/MyProperties/MyProperties";
 import AgentRentedProperties from "../Pages/Dashboard/AgentRentedProperties/AgentRentedProperties";
 
-
 import ManageProperties from "../Pages/Dashboard/AdminDashboard/ManageProperties/ManageProperties";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers";
 import ManageReviews from "../Pages/Dashboard/AdminDashboard/ManageReviews/ManageReviews";
@@ -136,7 +135,7 @@ const MyRoute = createBrowserRouter([
             <AgentRentedProperties></AgentRentedProperties>
           </PrivateRoute>
         ),
-      }, 
+      },
       {
         path: "manageProperties",
         element: <ManageProperties />,
@@ -148,14 +147,14 @@ const MyRoute = createBrowserRouter([
       {
         path: "manageReviews",
         element: <ManageReviews />,
-      }, {
+      },
+      {
         path: "bookings",
         element: <Bookings />,
       },
       {
         path: "wishlist",
         element: <Wishlist />,
-
       },
       {
         path: "addProperty",
@@ -166,9 +165,9 @@ const MyRoute = createBrowserRouter([
         ),
       },
       {
-        path : "myAddedProperties",
-        element : <AgentAddedProperty></AgentAddedProperty>
-      }
+        path: "myAddedProperties",
+        element: <AgentAddedProperty></AgentAddedProperty>,
+      },
     ],
   },
 ]);

@@ -83,7 +83,7 @@ const Updatebooking = () => {
             mybooking
           );
     
-          if (res.data.insertedId) {
+          if (res.data.modifiedCount) {
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -315,7 +315,7 @@ const Updatebooking = () => {
               id="Chack_In_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               required
-            //   value={Chack_In_Date}
+              defaultValue={Chack_In_Date}
             />
             <label
               htmlFor="available_date"
@@ -332,7 +332,7 @@ const Updatebooking = () => {
               name="Chack_out_Date"
               id="Chack_out_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              value={Chack_out_Date}
+              defaultValue={Chack_out_Date}
             />
             <label
               htmlFor="Chack_out_Date"

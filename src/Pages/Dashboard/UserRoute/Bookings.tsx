@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Navigate, useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hook/useAxiosPublic";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
@@ -6,6 +6,7 @@ import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 type Inputs = {
   Chack_In_Date: number;
@@ -34,7 +35,7 @@ export const Bookings = () => {
   const { register, handleSubmit } = useForm<Inputs>();
   const bookingData = useLoaderData();
   // console.log(bookingData);
-
+  const navigate= useNavigate();
   const {
     name,
     upazila,
@@ -82,11 +83,21 @@ export const Bookings = () => {
       );
 
       if (res.data.insertedId) {
-        console.log("Booking submitted successfully!");
-      }
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        }); 
+        navigate( "/dashboard/Mybookings");    }
     } catch (error) {
-      console.error("Error submitting booking:", error);
-    }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<a href="#">Why do I have this issue?</a>'
+      });    }
   };
 
   return (

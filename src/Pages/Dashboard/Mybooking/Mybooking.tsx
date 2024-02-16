@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 import axios from "axios";
 import Mybookingcard from "./Mybookingcard";
+import Swal from "sweetalert2";
 
 const Mybooking = () => {
 
@@ -24,6 +25,51 @@ console.log(bookings)
 
 
 
+const handelCencel = (id: any) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, cancel it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`http://localhost:4000/mybooking/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          if (data.deletedCount > 0) {
+            Swal.fire(
+              "Deleted!",
+              "Your booking has been canceled.",
+              "success"
+            );
+            const remaining =bookings.filter(booking=>booking._id==id);
+            setBookings(remaining)
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          Swal.fire(
+            "Error",
+            "An error occurred while canceling the booking.",
+            "error"
+          );
+        });
+    }
+  });
+};
+
+
 
 
 
@@ -40,6 +86,7 @@ console.log(bookings)
         <Mybookingcard
           key={bookings._id}
           singelbooking={singelbooking}
+          handelCencel={handelCencel}
         ></Mybookingcard>
       ))}
     </div>

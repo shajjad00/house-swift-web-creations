@@ -26,6 +26,7 @@ import { Wishlist } from "../Pages/Dashboard/UserRoute/Wishlist";
 import PrivateRoute from "./PrivateRoute";
 import AgentAddedProperty from "../Pages/Dashboard/AgentRentedProperties/AgentAddedProperty";
 import Mybooking from "../Pages/Dashboard/Mybooking/Mybooking";
+import Updatebooking from "../Pages/Dashboard/Mybooking/Updatebooking";
 
 // import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 
@@ -74,6 +75,11 @@ const MyRoute = createBrowserRouter([
           fetch(
             `https://house-swift-web-creations-server-sandy.vercel.app/properties/${params.id}`
           ),
+      },
+      {
+        path:'/updatebooking/:id',
+        element:<Updatebooking></Updatebooking>,
+        loader:({params})=>fetch(`http://localhost:4000/mybooking/${params.id}`)
       },
       {
         path: "/login",

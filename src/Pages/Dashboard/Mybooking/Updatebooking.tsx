@@ -1,5 +1,4 @@
-import { Navigate, useLoaderData, useNavigate } from "react-router-dom";
-import useAxiosPublic from "../../../hook/useAxiosPublic";
+import {  useLoaderData, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
@@ -7,109 +6,112 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
-
 type Inputs = {
-  Chack_In_Date: number;
-  Chack_out_Date: number;
-  name: string;
-  upazila: string;
-  district: string;
-  rent_price: number;
-  image: string;
-  propertyRent: number;
-  description: string;
-  agent_email: string;
-  agent_name: string;
-  available_date: string;
-  Closing_date: string;
-  available_quantity: number;
-  bedroom: number;
-  bathroom: number;
-  area: number;
-};
-
-export const Bookings = () => {
-  // const axiosPublic = useAxiosPublic();
-  const { user } = useContext(AuthContext);
-  // console.log(user?.email)
-  const { register, handleSubmit } = useForm<Inputs>();
-  const bookingData = useLoaderData();
-  // console.log(bookingData);
-  const navigate= useNavigate();
-  const {
-    name,
-    upazila,
-    area,
-    district,
-    rent_price,
-    propertyRent,
-    agent_email,
-    agent_name,
-    available_quantity,
-    bedroom,
-    bathroom,
-    image,
-    agent_image,
-  } = bookingData;
-
-  const addBooking: SubmitHandler<Inputs> = async (data) => {
-    const Chack_In_Date = data.Chack_In_Date;
-    const Chack_out_Date = data.Chack_out_Date;
-    const userEmail = user.email;
-    const mybooking = {
-      agent_email,
-      agent_name,
-      name,
-      upazila,
-      district,
-      rent_price,
-      available_quantity,
-      bedroom,
-      bathroom,
-      Chack_In_Date,
-      Chack_out_Date,
-      area,
-      image,
-      agent_image,
-      userEmail,
-    };
-    console.log(mybooking);
-
-    try {
-      // Replace the axiosPublic.post with axios.post
-      const res = await axios.post(
-        "http://localhost:4000/mybooking",
-        mybooking
-      );
-
-      if (res.data.insertedId) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500
-        }); 
-        navigate( "/dashboard/Mybookings");    }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });    }
+    Chack_In_Date: number;
+    Chack_out_Date: number;
+    name: string;
+    upazila: string;
+    district: string;
+    rent_price: number;
+    image: string;
+    propertyRent: number;
+    description: string;
+    agent_email: string;
+    agent_name: string;
+    available_date: string;
+    Closing_date: string;
+    available_quantity: number;
+    bedroom: number;
+    bathroom: number;
+    area: number;
   };
 
-  return (
-    <div className="py-40 md:px-20 mt-0">
+const Updatebooking = () => {
+
+    const { user } = useContext(AuthContext);
+    // console.log(user?.email)
+    const { register, handleSubmit } = useForm<Inputs>();
+    const updatebookingdata = useLoaderData();
+    console.log(updatebookingdata);
+    const navigate= useNavigate();
+
+    const {
+        name,
+        upazila,
+        area,
+        district,
+        rent_price,
+        propertyRent,
+        agent_email,
+        agent_name,
+        available_quantity,
+        bedroom,
+        bathroom,
+        image,
+        agent_image,
+        Chack_In_Date,
+        Chack_out_Date,
+        _id
+      } = updatebookingdata;
+      const updateBooking: SubmitHandler<Inputs> = async (data) => {
+        const Chack_In_Date = data.Chack_In_Date;
+        const Chack_out_Date = data.Chack_out_Date;
+        const userEmail = user.email;
+        const mybooking = {
+          agent_email,
+          agent_name,
+          name,
+          upazila,
+          district,
+          rent_price,
+          available_quantity,
+          bedroom,
+          bathroom,
+          Chack_In_Date,
+          Chack_out_Date,
+          area,
+          image,
+          agent_image,
+          userEmail
+        };
+        console.log(mybooking);
+    
+        try {
+          // Replace the axiosPublic.post with axios.post
+          const res = await axios.patch(
+            `http://localhost:4000/mybooking/${_id}`,
+            mybooking
+          );
+    
+          if (res.data.modifiedCount) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500
+            }); 
+            navigate( "/dashboard/Mybookings");    }
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });    }
+      };
+
+
+    return (
+        <div className="py-40 md:px-20 mt-0">
       <Helmet>
         <title>House Swift | Add Property</title>
       </Helmet>
       <div className="mb-6">
-        <SectionTitle first="confirm" second="booking"></SectionTitle>
+        <SectionTitle first="Update" second="booking"></SectionTitle>
       </div>
 
-      <form onSubmit={handleSubmit(addBooking)} className="mx-auto">
+      <form onSubmit={handleSubmit(updateBooking)} className="mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -313,6 +315,7 @@ export const Bookings = () => {
               id="Chack_In_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               required
+              defaultValue={Chack_In_Date}
             />
             <label
               htmlFor="available_date"
@@ -329,7 +332,7 @@ export const Bookings = () => {
               name="Chack_out_Date"
               id="Chack_out_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              required
+              defaultValue={Chack_out_Date}
             />
             <label
               htmlFor="Chack_out_Date"
@@ -350,7 +353,7 @@ export const Bookings = () => {
         </div>
       </form>
     </div>
-  );
+    );
 };
 
-export default Bookings;
+export default Updatebooking;

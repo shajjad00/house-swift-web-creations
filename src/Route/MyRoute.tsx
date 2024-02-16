@@ -79,7 +79,7 @@ const MyRoute = createBrowserRouter([
       {
         path:'/updatebooking/:id',
         element:<Updatebooking></Updatebooking>,
-        loader:({params})=>fetch(`http://localhost:4000/mybooking/${params.id}`)
+        loader:({params})=>fetch(`https://house-swift-web-creations-server-sandy.vercel.app/mybooking/${params.id}`)
       },
       {
         path: "/login",

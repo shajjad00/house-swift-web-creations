@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 import axios from "axios";
@@ -8,7 +9,7 @@ const Mybooking = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
 
-  const url = `http://localhost:4000/mybooking?email=${user.email}`;
+  const url = `https://house-swift-web-creations-server-sandy.vercel.app/mybooking?email=${user.email}`;
 
   useEffect(() => {
     axios.get(url).then((res) => {
@@ -17,12 +18,12 @@ const Mybooking = () => {
   }, [url, user]);
 
   const calculateTotalAmount = () => {
-    return bookings.reduce((total, booking) => {
-      return total + parseInt(booking.rent_price);
+    return bookings.reduce((total, booking : { rent_price : string}) => {
+      return total + parseInt(booking?.rent_price);
     }, 0);
   };
 
-  const handelCencel = (id) => {
+  const handelCencel = (id: any) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -33,7 +34,7 @@ const Mybooking = () => {
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:4000/mybooking/${id}`, {
+        fetch(`https://house-swift-web-creations-server-sandy.vercel.app/mybooking/${id}`, {
           method: "DELETE",
         })
           .then((res) => {
@@ -51,7 +52,7 @@ const Mybooking = () => {
                 "success"
               );
               const remaining = bookings.filter(
-                (booking) => booking._id !== id
+                (booking : { _id : any}) => booking._id !== id
               );
               setBookings(remaining);
             }
@@ -73,7 +74,7 @@ const Mybooking = () => {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-        {bookings.map((singelbooking) => (
+        {bookings.map((singelbooking : { _id : any}) => (
           <Mybookingcard
             key={singelbooking._id}
             singelbooking={singelbooking}

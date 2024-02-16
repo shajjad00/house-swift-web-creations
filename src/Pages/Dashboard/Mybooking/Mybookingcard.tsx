@@ -1,23 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate } from "react-router-dom";
 
-const Mybookingcard = ({ singelbooking,handelCencel }) => {
+const Mybookingcard = ({ singelbooking,handelCencel } : any) => {
     const {
-        agent_email,
-        agent_name,
         name,
         upazila,
         district,
         rent_price,
-        available_quantity,
         bedroom,
         bathroom,
         Chack_In_Date,
         Chack_out_Date,
-        area,
         image,
-        agent_image,
-        userEmail,
         _id
     } = singelbooking;
 
@@ -43,14 +38,14 @@ const Mybookingcard = ({ singelbooking,handelCencel }) => {
                             className="w-16 h-16 object-cover rounded-full"
                         />
                     </div>
-                    <div className="mt-4 md:mt-0 md:ml-6">
+                    <div className="mt-4 md:mt-0 md:ml-6 space-y-2">
                         <h2 className="text-lg font-bold">{name}</h2><span>({bedroom} bedroom, {bathroom} bathroom)</span>
-                        <h3>{district},{upazila}</h3>
+                        <h3 className="text-sm">{district},{upazila}</h3>
                         <p></p>
-                        <div className="flex items-center">
+                        <div className="flex items-center text-sm">
                             <span className=" mr-1 ml-1 font-bold">Price:</span>${rent_price}
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center text-sm">
         <span className=" mr-1 ml-1 font-bold">Booking Date:</span>
         {Chack_In_Date} <span className=" mr-1 ml-1 font-bold">to </span> {Chack_out_Date}
       </div>

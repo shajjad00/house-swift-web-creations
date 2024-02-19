@@ -8,9 +8,8 @@ const Mybooking = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
 
-  const url = `http://localhost:4000/mybooking?email=${user.email}`;
-
-  useEffect(() => {
+  const url = `http://localhost:4000/mybookings?email=${user.email}`;  
+    useEffect(() => {
     axios.get(url).then((res) => {
       setBookings(res.data);
     });

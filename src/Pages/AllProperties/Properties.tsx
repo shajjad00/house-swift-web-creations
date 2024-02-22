@@ -1,4 +1,5 @@
-import { Key, useContext, useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChangeEvent, JSXElementConstructor, Key, ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import { motion } from "framer-motion";
 import { GrFormSearch } from "react-icons/gr";
@@ -10,6 +11,9 @@ import useAllPropertyPagination from "../../hook/useAllPropertyPagination";
 import Recommendation from "./Recommendation";
 import axios from "axios";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import Propertyfilter from "./Propertyfilter";
+// import { dividerClasses } from "@mui/material";
+// import _default from "@emotion/styled";
 
 const Properties = () => {
   const [allProperty, refetch] = useAllProperty();
@@ -22,6 +26,36 @@ const Properties = () => {
     itemsPerPage,
     selectedType
   );
+
+
+// const [allproduct,setAllproduct]=useState([]);
+
+// useEffect(()=>{
+//   axios.get("http://localhost:4000/properties").then((res) => {
+//     setAllproduct(res.data);
+//   });
+
+
+// },[])
+
+
+// console.log(allproduct)
+const [selected,setSelected]=useState<string[]>([])
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+const handelChange = (e: ChangeEvent<HTMLInputElement>, index: any) => {
+  const activeData = e.target.checked;
+  console.log(activeData, "activedata");
+
+  if (activeData === true) {
+    setSelected(oldData => [...oldData, e.target.value]);
+  } else {
+    setSelected(selected.filter(values=>values!==e.target.value)); // Remove item at the specified index
+  }
+}
+
+
+
+
   const { searchText, showText, setShowText } = useContext(AuthContext);
 
   const handleSearch = (event: { target: { value: string } }) => {
@@ -70,6 +104,10 @@ const Properties = () => {
     <>
       <div className="py-24">
         <div>
+
+
+
+
           <SectionTitle first="All" second="Properties"></SectionTitle>
           <TransitionEffect></TransitionEffect>
           <div className="md:px-20  py-3 flex flex-col justify-end items-center max-w-7xl mx-auto">
@@ -87,6 +125,26 @@ const Properties = () => {
                 <GrFormSearch className="text-black text-3xl"></GrFormSearch>
               </span>
             </div>
+<div className="py-8">
+{/* <Propertyfilter></Propertyfilter> */}
+
+{allProperty.length > 0 && allProperty.map((singleProperty: { rent_price: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; }, index: Key | null | undefined) => (
+  <div key={index}>
+    <input 
+      type="checkbox" 
+      value={singleProperty.rent_price ?? ''} 
+      onChange={(e) => handelChange(e, index)}
+    />
+    <span>{singleProperty.rent_price}</span>
+  </div>
+))}
+<br /> <hr />
+{selected.map((chekbotdata,_id)=><div key={_id}>   {chekbotdata}</div>)}
+
+
+
+</div>
+
             {selectedType && showText && (
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}

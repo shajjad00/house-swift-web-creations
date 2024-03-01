@@ -346,7 +346,7 @@ const Updatebooking = () => {
         <div className="mt-6">
           <button
             type="submit"
-            className="inline-block w-full px-4 py-2 leading-5 text-white transition-colors duration-150 bg-[#09BE51] border border-transparent rounded-md active:bg-[#08AD47] focus:outline-none focus:shadow-outline-[#09BE51]"
+            className="uppercase w-full border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-1 text-lg px-6 md:ml-8 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer"
           >
             Submit
           </button>

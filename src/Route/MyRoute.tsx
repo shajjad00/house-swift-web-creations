@@ -102,7 +102,7 @@ const MyRoute = createBrowserRouter([
         element: <SignUp></SignUp>,
       },
       {
-        path: "/blogDetails/:id",
+        path: "/blogsData/:id",
         element: (
           <PrivateRoute>
             <BlogDetails></BlogDetails>

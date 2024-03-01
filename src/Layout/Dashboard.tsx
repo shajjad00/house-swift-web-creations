@@ -7,8 +7,10 @@ const Dashboard = () => {
     return (
         <div className='relative max-h-screen md:flex'>
         {/* Sidebar Component */}
+        <div className="">
         <Sidebar></Sidebar>
-        <div className='flex-1  md:ml-64'>
+        </div>
+        <div className='flex-1  md:ml-72'>
           <div className='p-5'>
             {/* Outlet for dynamic contents */}
             <Outlet></Outlet>

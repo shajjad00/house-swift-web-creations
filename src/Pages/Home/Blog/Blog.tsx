@@ -5,7 +5,6 @@ import useBlogsDtata from "../../../hook/useBlogsDtata";
 
 const Blog = () => {
   const [blogsData] = useBlogsDtata();
-  console.log(blogsData);
   return (
     <div className="max-w-7xl mx-auto px-4 mt-8 md:px-20">
       <div>
@@ -36,7 +35,7 @@ const Blog = () => {
 
                 <p className="text-sm">{post.description.slice(0 - 350)}...</p>
                 <div className="card-actions justify-end">
-                  <Link to={`blogDetails/${post._id}`}>
+                  <Link to={`blogsData/${post._id}`}>
                     {" "}
                     <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-md px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
                       Read More

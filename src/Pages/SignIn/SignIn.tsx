@@ -23,7 +23,7 @@ const SignIn = () => {
     try {
       await googleLogin()
         .then((result: { user: any }) => {
-          console.log(result.user);
+          // console.log(result.user);
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -63,7 +63,7 @@ const SignIn = () => {
     try {
       await facebookLogin()
         .then((result: { user: any }) => {
-          console.log(result.user);
+          // console.log(result.user);
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -90,8 +90,7 @@ const SignIn = () => {
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     login(email, password)
-      .then((result: { user: any }) => {
-        console.log(result.user);
+      .then(() => {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -104,6 +103,13 @@ const SignIn = () => {
         setPassword("");
       })
       .catch((err: any) => {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: err.code,
+          showConfirmButton: false,
+          timer: 1500,
+        });
         console.log(err);
       });
   };
@@ -175,6 +181,7 @@ const SignIn = () => {
               onClick={handleFacebookLogin}
               className="w-full font-semibold text-[#060606] my-2 bg-white border border-black/40  p-2 text-center flex items-center justify-center cursor-pointer"
             >
+
               <FaFacebook className="h-6 mr-2  text-xl text-blue-700" />
               Sign In With FaceBook
             </div>
@@ -199,7 +206,10 @@ const SignIn = () => {
             src="https://i.ibb.co/5rmF67F/12469785-Wavy-REst-03-Single-01.jpg"
             alt="logo"
           /> */}
-          <Lottie animationData={loginAnimation} loop={true} />
+          <Lottie
+            animationData={loginAnimation}
+            loop={true}
+          />
         </div>
       </div>
     </section>

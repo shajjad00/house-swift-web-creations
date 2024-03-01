@@ -23,7 +23,7 @@ const SearchingHouses = () => {
         .includes(lastSearchingProperty?.upazila?.toLowerCase()) &&
       availableProperty?.bedroom == lastSearchingProperty?.bedroom
   );
-  console.log(searchingAvailableProperty);
+  // console.log(searchingAvailableProperty);
   return (
     <>
       <div>

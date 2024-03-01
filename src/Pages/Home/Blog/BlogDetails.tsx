@@ -1,41 +1,32 @@
-import { useLoaderData } from "react-router-dom";
+import React, { FC } from "react";
+import { Link, useLoaderData } from "react-router-dom";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import SubscribeUs from "./SubscribeUs";
 
-type BlogsDetailsType = {
-  blog_category: string;
-  title: string;
-  image: string;
-  date: string;
-  description: string;
-  writer_name: string;
-  writer_title: string;
-  writer_image: string;
-};
+interface BlogDetailsProps {}
 
-const BlogDetails: React.FC = () => {
-  const blogDetails = useLoaderData() as BlogsDetailsType;
+const BlogDetails: FC<BlogDetailsProps> = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const blogDetails: any = useLoaderData();
+  console.log(blogDetails);
+
   const {
-    // blog_category,
-    title,
-    image,
-    // date,
+    date,
     description,
+    image,
+    title,
     writer_name,
-    writer_title,
     writer_image,
+    writer_title,
   } = blogDetails || {};
 
   return (
-    <div className="max-w-7xl mx-auto px-4 my-8 py-8 md:px-20">
-      {/* Display the details of the blog post */}
+    <div className="max-w-7xl mx-auto px-4 mt-24 md:px-20">
       <div>
         <SectionTitle first="House" second="Swift Blog"></SectionTitle>
       </div>
-      <div
-        className="max-w-7xl mx-auto px-4 mt-8 
-      border-b-2 ml-4"
-      >
+      <div className="max-w-7xl mx-auto px-4 mt-8 border-b-2 ml-4">
+        <p className="pb-4">{date}</p>
         <div className="space-y-2">
           <img
             className="w-12 h-12 rounded-full"
@@ -55,9 +46,11 @@ const BlogDetails: React.FC = () => {
             <p className="text-2xl font-bold mb-6">{title}</p>
             <p className="text-sm">{description}</p>
             <div className="card-actions justify-end">
-              <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300 mt-4">
-                Back
-              </button>
+              <Link to="/">
+                <button className="px-5 py-1 border border-[#09BE51] text-[#09BE51] hover:bg-[#09BE51] hover:text-white duration-300 mt-4">
+                  Back
+                </button>
+              </Link>
             </div>
           </div>
         </div>

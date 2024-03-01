@@ -41,7 +41,7 @@ const SignUp = () => {
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form submitted:", data);
+    // console.log("Form submitted:", data);
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
@@ -55,9 +55,9 @@ const SignUp = () => {
     const image = res.data.data.display_url;
 
     if (res.data.success) {
-      createUser(data.email, data.password).then((result: { user: string }) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+      createUser(data.email, data.password).then(() => {
+        // const loggedUser = result.user;
+        // console.log(loggedUser);
         handleUpdateProfile(
           data.lastName,
           res.data.data.display_url,
@@ -74,7 +74,7 @@ const SignUp = () => {
               role: "user",
               status: "active",
             };
-            console.log(usersInfo);
+            // console.log(usersInfo);
             axiosPublic.post("/propertyUsers", usersInfo).then((res) => {
               if (res.data.insertedId) {
                 reset();

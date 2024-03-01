@@ -8,6 +8,7 @@ import { Search } from "../../Search/Search";
 import axios from "axios";
 import { messaging } from "../../../firebase/firebase.config";
 import { getToken } from "firebase/messaging";
+import Swal from "sweetalert2";
 
 const Home = () => {
   useEffect(() => {
@@ -34,12 +35,23 @@ const Home = () => {
         );
 
         if (res.data.insertedId) {
-          alert("you are allow the notification");
+          Swal.fire({
+            position: "top",
+            title: "Notification allow successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
         // in this token storage in DB using post method
         //  then you added into firebase cloude messaging tools and send your message
       } else if (permission === "denied") {
-        alert("you are denied for the notification");
+        Swal.fire({
+
+          icon: "error",
+          title: "Oops...",
+          text: "you denied the notification!",
+
+        });
       }
     } catch (error) {
       console.error("Error requesting permission or sending token:", error);

@@ -20,7 +20,7 @@ export const Search = () => {
   const [propertyDistrict] = useDistrict();
   const [propertyUpazila] = useUpazila();
   const [selectUpazila, setSelectUpazila] = useState(propertyUpazila);
-  console.log(allProperty);
+  // console.log(allProperty);
   const [searching, setSearching] = useState([]);
   const naviGtae = useNavigate();
   const axiosPublic = useAxiosPublic();
@@ -28,7 +28,7 @@ export const Search = () => {
   console.log(searching);
 
   const onSubmit = (data: allData) => {
-    console.log(data);
+    // console.log(data);
     const filterDistrict = allProperty?.filter((item: { district: string }) =>
       item?.district?.toLowerCase().includes(data?.district.toLowerCase())
     );
@@ -36,11 +36,11 @@ export const Search = () => {
       toast("No room available in this District");
       return;
     }
-    console.log(filterDistrict);
+    // console.log(filterDistrict);
     const filterUpazila = filterDistrict?.filter((item: { upazila: string }) =>
       item?.upazila?.toLowerCase().includes(data?.upazila.toLowerCase())
     );
-    console.log(filterUpazila);
+    // console.log(filterUpazila);
     if (filterUpazila?.length <= 0) {
       toast("No room available in this upazila");
       return;
@@ -65,7 +65,7 @@ export const Search = () => {
       district,
       upazila,
     };
-    console.log(addAvailableProperty);
+    // console.log(addAvailableProperty);
     axiosPublic.post("/availableProperty", addAvailableProperty).then((res) => {
       // if (res.data.insertedId) {
       //   Swal.fire({
@@ -84,12 +84,12 @@ export const Search = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedDistrictName = event.target.value;
-    console.log(`${selectedDistrictName}`);
+    // console.log(`${selectedDistrictName}`);
     const selectedDistrict = propertyDistrict.find(
       (district: { _id: string; name: string }) =>
         district.name === selectedDistrictName
     );
-    console.log(selectedDistrict);
+    // console.log(selectedDistrict);
     const selectedUpazila = propertyUpazila.filter(
       (upaZila: { district_id: number }) =>
         upaZila.district_id == selectedDistrict.id

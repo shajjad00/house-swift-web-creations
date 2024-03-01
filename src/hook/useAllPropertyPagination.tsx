@@ -7,7 +7,6 @@ const useAllPropertyPagination = (
   selectedType: string
 ) => {
   const axiosPublic = useAxiosPublic();
-  console.log(currentPage);
   const {
     refetch,
     data: propertyPerPage = [],

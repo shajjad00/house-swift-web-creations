@@ -1,141 +1,117 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Swal from "sweetalert2";
+import {  useLoaderData, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
-import SectionTitle from "../../Component/SectionTitle/SectionTitle.js";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider.js";
-import useAxiosPublic from "../../hook/useAxiosPublic.js";
-import useDistrict from "../../hook/useDistrict.js";
-import useUpazila from "../../hook/useUpazila.js";
-// import useAxiosSecure from "../../hook/useAxiosSecure.js";
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
+import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
+import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 type Inputs = {
-  name: string;
-  upazila: string;
-  district: string;
-  rent_price: number;
-  image: string;
-  propertyRent: number;
-  // availableQuantity: number;
-  description: string;
-  agent_email: string;
-  agent_name: string;
-  available_date: string;
-  Closing_date: string;
-  available_quantity: number;
-  bedroom: number;
-  bathroom: number;
-  area: number;
-};
+    Chack_In_Date: number;
+    Chack_out_Date: number;
+    name: string;
+    upazila: string;
+    district: string;
+    rent_price: number;
+    image: string;
+    propertyRent: number;
+    description: string;
+    agent_email: string;
+    agent_name: string;
+    available_date: string;
+    Closing_date: string;
+    available_quantity: number;
+    bedroom: number;
+    bathroom: number;
+    area: number;
+  };
 
-const AddProperty = () => {
-  const axiosPublic = useAxiosPublic();
-  const [propertyDistrict] = useDistrict();
-  const [propertyUpazila] = useUpazila();
-  const [selectUpazila, setSelectUpazila] = useState(propertyUpazila);
-  const { user }: any = useContext(AuthContext);
+const Updatebooking = () => {
 
-  //   const axiosSecure = useAxiosSecure();
-  // const agent_name = user?.displayName;
-  // const agent_email = user?.email;
-  const agent_image = user?.photoURL;
+    const { user } = useContext(AuthContext);
+    // console.log(user?.email)
+    const { register, handleSubmit } = useForm<Inputs>();
+    const updatebookingdata = useLoaderData();
+    console.log(updatebookingdata);
+    const navigate= useNavigate();
 
-  const { register, handleSubmit } = useForm<Inputs>();
-  const handleAddProperty: SubmitHandler<Inputs> = async (data) => {
-    const imageFile = { image: data.image[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    const name = data.name;
-    const upazila = data.upazila;
-    const district = data.district;
-    const rent_price = data.rent_price;
-    const available_quantity = data.available_quantity;
-    const bedroom = data.bedroom;
-    const bathroom = data.bathroom;
-    const available_date = data.available_date;
-    const Closing_date = data.Closing_date;
-    const agent_email = data.agent_email;
-    const agent_name = data.agent_name;
-    const area = data.area;
-    const description = data.description;
-    const image = res.data.data.display_url;
-
-    if (res.data.success) {
-      // creat user entry in the database:
-      const addPropertyInfo = {
-        agent_email,
-        agent_name,
-        agent_image,
+    const {
         name,
         upazila,
+        area,
         district,
         rent_price,
+        agent_email,
+        agent_name,
         available_quantity,
         bedroom,
         bathroom,
-        available_date,
-        Closing_date,
-        area,
-        description,
         image,
-        // verification_status: "pending",
-        verification_status: "verified",
-        role: "seller",
-      };
-      const res = await axiosPublic.post("/properties", addPropertyInfo);
-      // .then((res) => {
-        if (res.data.insertedId) {
-          // reset();
+        agent_image,
+        Chack_In_Date,
+        Chack_out_Date,
+        _id
+      } : any = updatebookingdata;
+      const updateBooking: SubmitHandler<Inputs> = async (data) => {
+        const Chack_In_Date = data.Chack_In_Date;
+        const Chack_out_Date = data.Chack_out_Date;
+        const userEmail = user.email;
+        const mybooking = {
+          agent_email,
+          agent_name,
+          name,
+          upazila,
+          district,
+          rent_price,
+          available_quantity,
+          bedroom,
+          bathroom,
+          Chack_In_Date,
+          Chack_out_Date,
+          area,
+          image,
+          agent_image,
+          userEmail
+        };
+        console.log(mybooking);
+    
+        try {
+          // Replace the axiosPublic.post with axios.post
+          const res = await axios.patch(
+            `https://house-swift-web-creations-server-sandy.vercel.app/mybooking/${_id}`,
+            mybooking
+          );
+    
+          if (res.data.modifiedCount) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500
+            }); 
+            navigate( "/dashboard/Mybookings");    }
+        } catch (error) {
           Swal.fire({
-            position: "top",
-            icon: "success",
-            title: "Property added successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      // });
-    }
-    // console.log(data);
-  };
-  const handleDistrictChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedDistrictName = event.target.value;
-    const selectedDistrict = propertyDistrict.find(
-      (district: { _id: string; name: string }) =>
-        district.name === selectedDistrictName
-    );
-    const selectedUpazila = propertyUpazila.filter(
-      (upaZila: { district_id: number }) =>
-        upaZila.district_id == selectedDistrict.id
-    );
-    setSelectUpazila(selectedUpazila);
-    // You can perform actions based on the selected district here
-  };
-  return (
-    <div className="py-8 md:px-20 mt-0">
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });    }
+      };
+
+
+    return (
+        <div className="py-40 md:px-20 mt-0">
       <Helmet>
         <title>House Swift | Add Property</title>
       </Helmet>
       <div className="mb-6">
-        <SectionTitle
-          first="Add"
-          second="Property"
-        ></SectionTitle>
+        <SectionTitle first="Update" second="booking"></SectionTitle>
       </div>
 
-      <form
-        onSubmit={handleSubmit(handleAddProperty)}
-        className="mx-auto"
-      >
+      <form onSubmit={handleSubmit(updateBooking)} className="mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -145,7 +121,8 @@ const AddProperty = () => {
               id="title"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               placeholder=" "
-              required
+              value={name}
+              readOnly
             />
             <label
               htmlFor="Property Title"
@@ -154,84 +131,61 @@ const AddProperty = () => {
               Property Name
             </label>
           </div>
-          <div className="grid md:grid-cols-1 md:gap-6">
-            <div className="relative z-0 w-full mb-5 group">
-              <input
-                {...register("area")}
-                type="number"
-                name="area"
-                id="floating_first_name"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-                placeholder=" "
-                defaultValue=" "
-              />
-              <label
-                htmlFor="agent_email"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Area ( Squre Feet )
-              </label>
-            </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              {...register("area")}
+              type="number"
+              name="area"
+              id="floating_first_name"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+              value={area}
+              readOnly
+            />
+            <label
+              htmlFor="agent_email"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Area ( Square Feet )
+            </label>
           </div>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative z-0 w-full mb-5 group">
-            {/* <label className="label">
-              <span className="label-text">District*</span>
-            </label> */}
-            <select
-              defaultValue="default"
-              {...register("district", { required: true })}
-              name="district"
-              id="district"
-              onChange={(e) => handleDistrictChange(e)}
+            <input
+              {...register("upazila")}
+              type="text"
+              name="upazila"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+              value={upazila}
+              readOnly
+            />
+            <label
+              htmlFor="upazila"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              <option
-                disabled
-                value="default"
-              >
-                select a district
-              </option>
-
-              {propertyDistrict.map(
-                (district: { _id: string; name: string }) => (
-                  <option
-                    key={district._id}
-                    value={district.name}
-                  >
-                    {district.name}
-                  </option>
-                )
-              )}
-            </select>
+              Upazila
+            </label>
           </div>
+
           <div className="relative z-0 w-full mb-5 group">
-            {/* <label className="label">
-              <span className="label-text"> Upazila*</span>
-            </label> */}
-            <select
-              defaultValue="default"
-              {...register("upazila", { required: true })}
+            <input
+              {...register("district")}
+              type="text"
+              name="district"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+              value={district}
+              readOnly
+            />
+            <label
+              htmlFor="district"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              <option
-                disabled
-                value="default"
-              >
-                select a upazila
-              </option>
-              {selectUpazila.map((upazila: { _id: string; name: string }) => (
-                <option
-                  key={upazila._id}
-                  value={upazila.name}
-                >
-                  {upazila.name}
-                </option>
-              ))}
-            </select>
+              district
+            </label>
           </div>
         </div>
+
         <div className="flex flex-col md:flex-row gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -241,16 +195,17 @@ const AddProperty = () => {
               name="rent_price"
               id="rent_price"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
+              value={rent_price}
+              readOnly
             />
             <label
-              htmlFor="floating_phone"
+              htmlFor="rent_price"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Rent - Price
             </label>
           </div>
+
           <div className="relative z-0 w-full mb-5 group">
             <input
               {...register("available_quantity")}
@@ -259,8 +214,8 @@ const AddProperty = () => {
               name="available_quantity"
               id="available_quantity"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
+              readOnly
+              value={available_quantity}
             />
             <label
               htmlFor="floating_phone"
@@ -270,6 +225,7 @@ const AddProperty = () => {
             </label>
           </div>
         </div>
+
         <div className="flex flex-col md:flex-row gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -279,16 +235,17 @@ const AddProperty = () => {
               name="bedroom"
               id="bedroom"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
+              value={bedroom}
+              readOnly
             />
             <label
-              htmlFor="floating_phone"
+              htmlFor="bedroom"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Bedrooms
             </label>
           </div>
+
           <div className="relative z-0 w-full mb-5 group">
             <input
               {...register("bathroom")}
@@ -297,27 +254,28 @@ const AddProperty = () => {
               name="bathroom"
               id="bathroom"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
-              required
+              readOnly
+              value={bathroom}
             />
             <label
-              htmlFor="floating_phone"
+              htmlFor="bathroom"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Bathrooms
             </label>
           </div>
         </div>
+
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
               {...register("agent_email")}
               type="email"
               name="agent_email"
-              id="floating_first_name"
+              id="agent_email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               placeholder=" "
-              defaultValue={user?.email}
+              value={agent_email}
               readOnly
             />
             <label
@@ -327,6 +285,7 @@ const AddProperty = () => {
               Agent Email
             </label>
           </div>
+
           <div className="relative z-0 w-full mb-5 group">
             <input
               {...register("agent_name")}
@@ -335,78 +294,66 @@ const AddProperty = () => {
               id="floating_last_name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
               placeholder=" "
-              defaultValue={user?.displayName}
+              value={agent_name}
               readOnly
             />
             <label
               htmlFor="agent_name"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Agent name
+              Agent Name
             </label>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full mb-5 group">
             <input
-              {...register("available_date")}
-              name="available_date"
+              {...register("Chack_In_Date")}
               type="date"
-              id="floating_first_name"
+              name="Chack_In_Date"
+              id="Chack_In_Date"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-              placeholder=" "
               required
+              defaultValue={Chack_In_Date}
             />
             <label
-              htmlFor="agent_email"
+              htmlFor="available_date"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Available From
+              ChackIn Date
             </label>
           </div>
-          <div>
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="property_Image"
-            >
-              Property Image
-            </label>
+
+          <div className="relative z-0 w-full mb-5 group">
             <input
-              {...register("image")}
-              name="image"
-              className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              id="default_size"
-              type="file"
+              {...register("Chack_out_Date")}
+              type="date"
+              name="Chack_out_Date"
+              id="Chack_out_Date"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
+              defaultValue={Chack_out_Date}
             />
+            <label
+              htmlFor="Chack_out_Date"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              ChackOut Date
+            </label>
           </div>
         </div>
 
-        <div className="relative z-0 w-full mb-5 group">
-          <textarea
-            {...register("description")}
-            name="description"
-            id="floating_first_name"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#09BE51] focus:outline-none focus:ring-0 focus:border-[#09BE51] peer"
-            placeholder=" "
-            required
-          />
-          <label
-            htmlFor="agent_name"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#09BE51] peer-focus:dark:text-[#09BE51] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        <div className="mt-6">
+          <button
+            type="submit"
+            className="inline-block w-full px-4 py-2 leading-5 text-white transition-colors duration-150 bg-[#09BE51] border border-transparent rounded-md active:bg-[#08AD47] focus:outline-none focus:shadow-outline-[#09BE51]"
           >
-            Description
-          </label>
+            Submit
+          </button>
         </div>
-        <button
-          type="submit"
-          className="w-full font-semibold border bg-[#09BE51] hover:border hover:border-[#09BE51] hover:bg-transparent duration-300 hover:text-[#09BE51] text-white my-2 p-2 text-center "
-        >
-          Add Property
-        </button>
       </form>
-      <p>{}</p>
     </div>
-  );
+    );
 };
 
-export default AddProperty;
+export default Updatebooking;

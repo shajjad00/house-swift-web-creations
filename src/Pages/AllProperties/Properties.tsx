@@ -87,9 +87,7 @@ useEffect(()=>{
     setShowText(true);
     if (selectedValue.length > 0) {
       axios
-        .get(
-          `https://house-swift-web-creations-server-sandy.vercel.app/recommendation?searchData=${selectedValue}`
-        )
+        .get(`https://house-swift-web-creations-server-sandy.vercel.app/recommendation?searchData=${selectedValue}`)
         .then((res) => {
           setRecommendationText(res.data);
         });

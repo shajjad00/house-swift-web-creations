@@ -7,4 +7,3 @@ const useAxiosPublic = () => {
 };
 export default useAxiosPublic;
 
-//https://house-swift-web-creations-server.vercel.app

@@ -1,9 +1,10 @@
-import { Navigate, useLoaderData, useNavigate } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {  useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hook/useAxiosPublic";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
-import axios from "axios";
+// import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
@@ -29,7 +30,7 @@ type Inputs = {
 };
 
 export const Bookings = () => {
-  // const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
   const { user } = useContext(AuthContext);
   // console.log(user?.email)
   const { register, handleSubmit } = useForm<Inputs>();
@@ -42,7 +43,7 @@ export const Bookings = () => {
     area,
     district,
     rent_price,
-    propertyRent,
+    
     agent_email,
     agent_name,
     available_quantity,
@@ -50,7 +51,7 @@ export const Bookings = () => {
     bathroom,
     image,
     agent_image,
-  } = bookingData;
+  } : any = bookingData;
 
   const addBooking: SubmitHandler<Inputs> = async (data) => {
     const Chack_In_Date = data.Chack_In_Date;
@@ -77,8 +78,8 @@ export const Bookings = () => {
 
     try {
       // Replace the axiosPublic.post with axios.post
-      const res = await axios.post(
-        "http://localhost:4000/mybooking",
+      const res = await axiosPublic.post(
+        "/mybooking",
         mybooking
       );
 

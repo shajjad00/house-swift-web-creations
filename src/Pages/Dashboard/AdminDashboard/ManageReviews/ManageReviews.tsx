@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useAllReviews from "../../../../hook/useAllReviews";
 import { Rating } from "@mui/material";
 import { GrDocumentUpdate } from "react-icons/gr";
@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
+// import { TablePagination } from "@mui/material";
 import { TiDocumentDelete } from "react-icons/ti";
 import useAxiosPublic from "../../../../hook/useAxiosPublic";
 import Swal from "sweetalert2";
@@ -26,19 +26,19 @@ interface Review {
 const ManageReviews: React.FC = () => {
   const [allReviews, refetch] = useAllReviews();
   const axiosPublic = useAxiosPublic();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  // const [page, setPage] = useState(0);
+  // const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+  // const handleChangePage = (newPage: number) => {
+  //   setPage(newPage);
+  // };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
   const handleDeleteReview = (reviews: Review) => {
     Swal.fire({
@@ -107,9 +107,7 @@ const ManageReviews: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {allReviews
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((reviews: Review, index: number) => (
+              {allReviews.map((reviews: Review, index: number) => (
                   <TableRow
                     key={reviews._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -149,15 +147,7 @@ const ManageReviews: React.FC = () => {
                 ))}
             </TableBody>
           </Table>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={allReviews.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          
         </TableContainer>
       </div>
     </>

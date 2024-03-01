@@ -4,6 +4,7 @@ import img3 from "../../../assets/images/slide3.jpg";
 import img4 from "../../../assets/images/slide4.jpg";
 
 import banner from "../../../assets/images/banner.jpg";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -30,9 +31,11 @@ const Banner = () => {
                   will always be beautiful!
                 </p>
                 <div className="flex items-center">
-                  <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Special Offer
-                  </button>
+                  <Link to="/allProperties">
+                    <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                      Special Offer
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -75,9 +78,11 @@ const Banner = () => {
                   enigmas and intrigue.
                 </p>
                 <div className="flex items-center">
-                  <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Special Offer
-                  </button>
+                  <Link to="/allProperties">
+                    <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                      Special Offer
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -119,9 +124,11 @@ const Banner = () => {
                   leaving them spellbound
                 </p>
                 <div className="flex items-center">
-                  <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Special Offer
-                  </button>
+                  <Link to="/allProperties">
+                    <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                      Special Offer
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -164,9 +171,11 @@ const Banner = () => {
                   connections
                 </p>
                 <div className="flex items-center">
-                  <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Special Offer
-                  </button>
+                  <Link to="/allProperties">
+                    <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                      Special Offer
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -209,9 +218,11 @@ const Banner = () => {
                   revealing the depths of the human spirit.
                 </p>
                 <div className="flex items-center">
-                  <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
-                    Special Offer
-                  </button>
+                  <Link to="/allProperties">
+                    <button className="uppercase border border-[#09BE51] bg-[#09BE51] hover:bg-transparent text-white py-2 text-lg px-6 hover:border hover:border-[#09BE51] hover:text-[#09BE51] duration-300 cursor-pointer">
+                      Special Offer
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

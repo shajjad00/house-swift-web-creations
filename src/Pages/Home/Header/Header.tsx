@@ -26,7 +26,6 @@ const Header = () => {
         { name: "HOME", link: "/" },
         { name: "ALL PROPERTIES", link: "/allProperties" },
         { name: "ABOUT", link: "/about" },
-        { name: "SERVICES", link: "/services" },
         { name: "CONTACT", link: "/contact" },
     ];
 
@@ -63,7 +62,7 @@ const Header = () => {
         logOut().then(()=>{navigate("/")}).catch((err: any) => console.log(err))
     }
     const isHome = location.pathname === "/" || location.pathname === "/about";
-    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/") || location.pathname === "/addProperty"|| location.pathname.includes("/blogDetail")|| location.pathname.includes("/details/")
+    const forName = location.pathname === "/contact" || location.pathname === "/allProperties" || location.pathname.includes("/property/") || location.pathname === "/addProperty"|| location.pathname.includes("/blogDetail")|| location.pathname.includes("/details/") || location.pathname.includes("/blogsData/") || location.pathname.includes("/booking/")
     return (
         <div className={'w-full fixed z-30 h-20 top-0 left-0 right-0'}>
             <div className={color ? "bg-white shadow-xl" : "bg-transparent"}>
@@ -127,9 +126,9 @@ const Header = () => {
                                 <Link to="/dashboard"><MenuItem onClick={handleCloseUserMenu}>
                                     <Typography textAlign="center">Dashboard</Typography>
                                 </MenuItem></Link>
-                                <Link to="/addProperty"><MenuItem onClick={handleCloseUserMenu}>
+                                {/* <Link to="/addProperty"><MenuItem onClick={handleCloseUserMenu}>
                                     <Typography textAlign="center">Add Property</Typography>
-                                </MenuItem></Link>
+                                </MenuItem></Link> */}
                                 <MenuItem onClick={handleCloseUserMenu}>
                                     <Typography onClick={handleLogout} textAlign="center">Logout</Typography>
                                 </MenuItem>

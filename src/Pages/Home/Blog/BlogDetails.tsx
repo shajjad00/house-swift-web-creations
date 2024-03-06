@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import SubscribeUs from "./SubscribeUs";

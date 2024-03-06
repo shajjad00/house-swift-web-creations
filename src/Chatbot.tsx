@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import  { useEffect } from 'react'
- 
+
 const Chatbot = () => {
   useEffect(() => {
     const script = document.createElement('script')
@@ -8,7 +9,7 @@ const Chatbot = () => {
     document.body.appendChild(script)
  
     script.onload = () => {
-      window.botpressWebChat.init({
+      (window as any).botpressWebChat.init({
         botId: '14363d2e-b71b-4bda-a9b3-c5350e930e67',
         hostUrl: 'https://cdn.botpress.cloud/webchat/v1',
         messagingUrl: 'https://messaging.botpress.cloud',

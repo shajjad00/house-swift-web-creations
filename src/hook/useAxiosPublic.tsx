@@ -1,6 +1,7 @@
 import axios from "axios";
 const axiosPublic = axios.create({
   baseURL: "https://house-swift-web-creations-server-sandy.vercel.app",
+  withCredentials : true
 });
 const useAxiosPublic = () => {
   return axiosPublic;
